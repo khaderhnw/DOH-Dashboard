@@ -264,4 +264,409 @@
         background: #f8fafc;
         border-radius: 12px;
         padding: 8px 10px;
-        border: 1
+        border: 1px solid #e2e8f0;
+      }
+
+      .summary-card-title {
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .status-pill {
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-size: 10px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        color: var(--text-muted);
+      }
+
+      .progress-bar {
+        margin-top: 6px;
+        width: 100%;
+        height: 6px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        overflow: hidden;
+      }
+
+      .progress-bar-inner {
+        height: 100%;
+        background: #0f172a;
+        width: 60%;
+      }
+
+      .summary-card small {
+        display: block;
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .risk-card {
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        padding: 6px 8px;
+        background: #ffffff;
+        font-size: 11px;
+      }
+
+      .risk-card strong {
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .right-column {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .timeline-item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .timeline-marker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 26px;
+      }
+
+      .timeline-circle {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+      }
+
+      .timeline-line {
+        flex: 1;
+        width: 2px;
+        background: #e2e8f0;
+        margin-top: 2px;
+      }
+
+      .timeline-content {
+        flex: 1;
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 8px 10px;
+      }
+
+      .timeline-content h3 {
+        margin: 0 0 2px;
+        font-size: 13px;
+      }
+
+      .timeline-badge {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        font-size: 10px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .timeline-content ul {
+        margin: 0;
+        padding-left: 18px;
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .note-text {
+        font-size: 12px;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      .footer-note {
+        margin-top: 10px;
+        padding: 10px 12px;
+        font-size: 11px;
+        border-radius: 16px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Top chip -->
+      <div class="chip">
+        <span>✨</span>
+        <span>DOH · Aya newborn life journey concept · December 2025</span>
+      </div>
+
+      <!-- Header -->
+      <div class="header-row">
+        <header>
+          <h1>Aya – newborn life journey dashboard</h1>
+          <p>
+            A simple visual that shows how Aya’s first days in Abu Dhabi connect
+            across identity, health, home, and future – in one place.
+          </p>
+        </header>
+        <div class="header-right">
+          <div class="location">
+            <span>📍 Abu Dhabi, UAE</span>
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="(Prototype) search within Aya’s journey"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-column layout -->
+      <div class="layout">
+        <!-- LEFT SIDE -->
+        <div>
+          <!-- Family card -->
+          <div class="card">
+            <div class="family-row">
+              <div class="family-main">
+                <div class="avatar-circle">FM</div>
+                <div class="family-text">
+                  <small>Family</small>
+                  <p><strong>Fatima &amp; Omar Al Mansoori</strong></p>
+                  <p style="font-size: 12px; color: #64748b;">
+                    Emirati family · 1 newborn child (Aya)
+                  </p>
+                </div>
+              </div>
+              <div class="pills">
+                <div class="pill">
+                  👨‍👩‍👧 <strong>3 household members</strong>
+                </div>
+                <div class="pill">
+                  🏠 Khalifa City A · Abu Dhabi
+                </div>
+              </div>
+            </div>
+
+            <!-- Aya -->
+            <div class="child-section">
+              <div class="child-header-row">
+                <div class="child-info">
+                  <div class="child-avatar">A</div>
+                  <div class="child-text">
+                    <h2>Baby Aya</h2>
+                    <span>Newborn (3 days) · Newborn daughter</span>
+                    <div class="stage-chip">
+                      🌱 Newborn journey
+                    </div>
+                  </div>
+                </div>
+                <div class="summary-numbers">
+                  <small>Simple outcome view</small>
+                  <strong>~55% identity · ~70% health foundations</strong>
+                  <small>early estimate for discussion</small>
+                </div>
+              </div>
+
+              <!-- Mini summary cards -->
+              <div class="summary-grid">
+                <div class="summary-card">
+                  <div class="summary-card-title">
+                    <span>Identity journey</span>
+                    <span class="status-pill">In progress</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-bar-inner" style="width: 55%;"></div>
+                  </div>
+                  <small>Birth notification done · birth certificate in progress · Emirates ID not started.</small>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-card-title">
+                    <span>Health foundations</span>
+                    <span class="status-pill">Ongoing</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-bar-inner" style="width: 70%;"></div>
+                  </div>
+                  <small>Newborn screening done · 1st pediatric visit booked · vaccines schedule starting.</small>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-card-title">
+                    <span>Health coverage</span>
+                    <span class="status-pill">Covered</span>
+                  </div>
+                  <small>
+                    Aya is covered under mother’s corporate plan. Digital card to be issued and surfaced in TAMM.
+                  </small>
+                </div>
+                <div class="summary-card">
+                  <div class="summary-card-title">
+                    <span>Risk signals</span>
+                    <span class="status-pill">Attention</span>
+                  </div>
+                  <small>
+                    Birth certificate and Emirates ID still incomplete. Immunisation schedule depends on parents
+                    returning in time.
+                  </small>
+                </div>
+              </div>
+
+              <!-- Risk summary -->
+              <div class="risk-grid">
+                <div class="risk-card">
+                  <strong>Identity delay</strong>
+                  Regulatory risk if certificate or ID are late. TAMM could nudge parents gently with SMS / app
+                  reminders.
+                </div>
+                <div class="risk-card">
+                  <strong>Health follow-up</strong>
+                  Ensure first well-baby visit and vaccines aren’t missed when parents are tired or overwhelmed.
+                </div>
+                <div class="risk-card">
+                  <strong>Fragmented story</strong>
+                  Today, hospital, DOH and identity flows can feel separate. This view imagines them stitched together.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div class="right-column">
+          <!-- Timeline card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Aya’s first 90 days – simple story view</div>
+              <div class="card-subtitle">
+                From the moment of birth to being “fully set up” as a child in Abu Dhabi.
+              </div>
+            </div>
+            <div style="margin-top: 8px;">
+              <!-- Timeline item 1 -->
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <div class="timeline-circle">1</div>
+                  <div class="timeline-line"></div>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-badge">Before birth</div>
+                  <h3>Expectations &amp; setup</h3>
+                  <ul>
+                    <li>Fatima and Omar learn that TAMM will help with Aya’s birth paperwork.</li>
+                    <li>Hospital captures basic details so the digital journey can start smoothly.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Timeline item 2 -->
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <div class="timeline-circle">2</div>
+                  <div class="timeline-line"></div>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-badge">Day 0–2</div>
+                  <h3>Birth at maternity hospital</h3>
+                  <ul>
+                    <li>Aya is born, screening tests are completed.</li>
+                    <li>Birth notification is created and sent to government systems.</li>
+                    <li>
+                      Parents are told “you can finish everything in one place through TAMM when you get home”.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Timeline item 3 -->
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <div class="timeline-circle">3</div>
+                  <div class="timeline-line"></div>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-badge">First week</div>
+                  <h3>Identity &amp; first health steps</h3>
+                  <ul>
+                    <li>Parents see Aya’s profile in TAMM with pre-filled data.</li>
+                    <li>Birth certificate is confirmed and Emirates ID is triggered.</li>
+                    <li>First pediatric appointment and basic vaccinations are booked.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Timeline item 4 -->
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <div class="timeline-circle">4</div>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-badge">First 90 days</div>
+                  <h3>Stability &amp; reassurance</h3>
+                  <ul>
+                    <li>Parents can see what is done and what is left, in plain language.</li>
+                    <li>
+                      Gentle notifications flag anything urgent (documents expiring, missed vaccine, no ID yet, etc.).
+                    </li>
+                    <li>
+                      This same view could adapt for other journeys: resident families, children of determination, or
+                      foster care.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Narrative card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">How to use this visual</div>
+              <div class="card-subtitle">
+                This is not a full product design – it is a simple “storyboard” view for leadership and teams.
+              </div>
+            </div>
+            <div class="note-text">
+              <p>
+                You can walk through the page as if you are Fatima or Omar: starting from the simple family summary on
+                the left, then following the right-hand timeline. At each step, ask:
+              </p>
+              <ul>
+                <li>Where does DOH need to be involved directly?</li>
+                <li>What should be automatic behind the scenes?</li>
+                <li>Where do we want to reduce anxiety for parents the most?</li>
+              </ul>
+              <p>
+                Later, this static page could be turned into an interactive prototype. For now, it simply makes Aya’s
+                journey visible, end-to-end, in a URL you can share.
+              </p>
+            </div>
+          </div>
+
+          <div class="footer-note">
+            This one-page site is a lightweight visualisation of Aya’s newborn journey. It can be hosted directly from
+            GitHub Pages and used in presentations, workshops, or leadership conversations without any special tools.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
