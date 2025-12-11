@@ -1,995 +1,810 @@
-<!DOCTYPE html> 
-
-<html lang="en"> 
-
-<head> 
-
-    <meta charset="UTF-8"> 
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-
-    <title>TAMM Family Space Dashboard</title> 
-
-     
-
-    <script src="https://cdn.tailwindcss.com"></script> 
-
-     
-
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script> 
-
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script> 
-
-     
-
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
-
- 
-
-    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script> 
-
- 
-
-    <style> 
-
-        /* Custom scrollbar to make it look cleaner */ 
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; } 
-
-        ::-webkit-scrollbar-track { background: transparent; } 
-
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; } 
-
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; } 
-
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; } 
-
-    </style> 
-
-</head> 
-
-<body class="bg-slate-50 text-slate-900"> 
-
- 
-
-    <div id="root"></div> 
-
- 
-
-    <script type="text/babel"> 
-
-        // --- 1. SETUP LIBRARIES --- 
-
-        const { useState, useMemo } = React; 
-
-         
-
-        // Destructure Icons from the global lucideReact object 
-
-        const { 
-
-            Baby, HeartPulse, ShieldCheck, School, Building2, Globe2, HandHeart, 
-
-            Stethoscope, ClipboardCheck, FileText, Sparkles, UserRound, CalendarCheck, 
-
-            AlertTriangle, CheckCircle2, Activity, Users, Briefcase, Home, BookOpen, 
-
-            ChevronRight, Search, Bell, ClipboardList, MapPin 
-
-        } = lucideReact; 
-
- 
-
-        // --- 2. UI COMPONENTS (Mocking shadcn/ui with Tailwind) --- 
-
-         
-
-        const Card = ({ className, children }) => ( 
-
-            <div className={`rounded-xl border bg-white text-slate-950 shadow-sm ${className || ''}`}>{children}</div> 
-
-        ); 
-
-        const CardHeader = ({ className, children }) => ( 
-
-            <div className={`flex flex-col space-y-1.5 p-6 ${className || ''}`}>{children}</div> 
-
-        ); 
-
-        const CardTitle = ({ className, children }) => ( 
-
-            <h3 className={`text-2xl font-semibold leading-none tracking-tight ${className || ''}`}>{children}</h3> 
-
-        ); 
-
-        const CardDescription = ({ className, children }) => ( 
-
-            <p className={`text-sm text-slate-500 ${className || ''}`}>{children}</p> 
-
-        ); 
-
-        const CardContent = ({ className, children }) => ( 
-
-            <div className={`p-6 pt-0 ${className || ''}`}>{children}</div> 
-
-        ); 
-
- 
-
-        const Button = ({ className, variant = "default", size = "default", children, ...props }) => { 
-
-            const variants = { 
-
-                default: "bg-slate-900 text-slate-50 hover:bg-slate-900/90", 
-
-                outline: "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900", 
-
-                secondary: "bg-slate-100 text-slate-900 hover:bg-slate-100/80", 
-
-                ghost: "hover:bg-slate-100 hover:text-slate-900", 
-
-            }; 
-
-            const sizes = { 
-
-                default: "h-10 px-4 py-2", 
-
-                sm: "h-9 rounded-md px-3", 
-
-                icon: "h-10 w-10", 
-
-            }; 
-
-            return ( 
-
-                <button  
-
-                    className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className || ''}`} 
-
-                    {...props} 
-
-                > 
-
-                    {children} 
-
-                </button> 
-
-            ); 
-
-        }; 
-
- 
-
-        const Badge = ({ className, variant = "default", children }) => { 
-
-            const variants = { 
-
-                default: "border-transparent bg-slate-900 text-slate-50 hover:bg-slate-900/80", 
-
-                secondary: "border-transparent bg-slate-100 text-slate-900 hover:bg-slate-100/80", 
-
-                outline: "text-slate-950", 
-
-            }; 
-
-            return ( 
-
-                <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 ${variants[variant]} ${className || ''}`}> 
-
-                    {children} 
-
-                </div> 
-
-            ); 
-
-        }; 
-
- 
-
-        const Input = ({ className, ...props }) => ( 
-
-            <input 
-
-                className={`flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className || ''}`} 
-
-                {...props} 
-
-            /> 
-
-        ); 
-
- 
-
-        const Progress = ({ value, className }) => ( 
-
-            <div className={`relative h-4 w-full overflow-hidden rounded-full bg-slate-100 ${className || ''}`}> 
-
-                <div 
-
-                    className="h-full w-full flex-1 bg-slate-900 transition-all" 
-
-                    style={{ transform: `translateX(-${100 - (value || 0)}%)` }} 
-
-                /> 
-
-            </div> 
-
-        ); 
-
- 
-
-        const Tabs = ({ value, onValueChange, children }) => { 
-
-            return ( 
-
-                <div className="w-full" onClick={(e) => { 
-
-                    const trigger = e.target.closest('[data-tab-value]'); 
-
-                    if (trigger && onValueChange) { 
-
-                        onValueChange(trigger.dataset.tabValue); 
-
-                    } 
-
-                }}> 
-
-                    {children} 
-
-                </div> 
-
-            ); 
-
-        }; 
-
-        const TabsList = ({ className, children }) => ( 
-
-            <div className={`inline-flex h-10 items-center justify-center rounded-md bg-slate-100 p-1 text-slate-500 ${className || ''}`}> 
-
-                {children} 
-
-            </div> 
-
-        ); 
-
-        const TabsTrigger = ({ value, className, children }) => { 
-
-            // Note: Visual active state logic is simplified here for the CDN version 
-
-            return ( 
-
-                <button 
-
-                    data-tab-value={value} 
-
-                    className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-white/50 ${className || ''}`} 
-
-                > 
-
-                    {children} 
-
-                </button> 
-
-            ); 
-
-        }; 
-
- 
-
-        // --- 3. DATA & CONFIGURATION --- 
-
- 
-
-        const PROFILES = [ 
-
-            { id: "citizen", label: "Emirati Citizen", name: "Aisha & Omar", subtitle: "Family Space profile", tone: "citizen" }, 
-
-            { id: "resident", label: "Resident Family", name: "Mariam & Daniel", subtitle: "Family Space profile", tone: "resident" }, 
-
-        ]; 
-
- 
-
-        const LIFE_ARC = [ 
-
-            { id: "premarital", label: "Premarital", icon: ClipboardCheck }, 
-
-            { id: "marriage", label: "Marriage", icon: Users }, 
-
-            { id: "preconception", label: "Preconception", icon: HeartPulse }, 
-
-            { id: "maternity", label: "Maternity", icon: Stethoscope }, 
-
-            { id: "birth", label: "Birth & Certificate", icon: Baby }, 
-
-            { id: "mabrouk", label: "Mabrouk Ma Yak", icon: ShieldCheck }, 
-
-            { id: "newborn", label: "Newborn Care", icon: Activity }, 
-
-            { id: "vaccination", label: "Vaccination", icon: HeartPulse }, 
-
-            { id: "wellchild", label: "Well-Child", icon: ClipboardList }, 
-
-            { id: "school", label: "School & Development", icon: School }, 
-
-            { id: "adolescent", label: "Adolescent Health", icon: BookOpen }, 
-
-            { id: "adult", label: "Adult Prevention", icon: Briefcase }, 
-
-            { id: "elderly", label: "Elderly Care", icon: HandHeart }, 
-
-            { id: "sanadkom", label: "Sanadkom", icon: FileText }, 
-
-        ]; 
-
- 
-
-        const STATUS = { 
-
-            done: { label: "Completed", tone: "bg-emerald-50 text-emerald-700 border-emerald-200" }, 
-
-            active: { label: "In progress", tone: "bg-blue-50 text-blue-700 border-blue-200" }, 
-
-            next: { label: "Next", tone: "bg-amber-50 text-amber-700 border-amber-200" }, 
-
-            future: { label: "Later", tone: "bg-slate-50 text-slate-700 border-slate-200" }, 
-
-            optional: { label: "Optional", tone: "bg-purple-50 text-purple-700 border-purple-200" }, 
-
-            needsAttention: { label: "Needs attention", tone: "bg-rose-50 text-rose-700 border-rose-200" }, 
-
-        }; 
-
- 
-
-        const makeJourneys = (profileId) => { 
-
-            const isCitizen = profileId === "citizen"; 
-
-             
-
-            // ... (Journey Data - Same as before) ... 
-
-            const premarital = { 
-
-                id: "premarital", title: "Premarital Screening", subtitle: "Health readiness and required checks before marriage", 
-
-                ownerEntities: "Department of Health, partner hospitals and labs", 
-
-                documents: ["Premarital screening certificate"], 
-
-                enhancements: ["One checklist for required tests", "Clear validity period shown in your timeline", "Reminders before the certificate expires"], 
-
-                ai: ["Explains your results in plain language", "Suggests next steps and education tailored to your needs"], 
-
-                integrationsText: "Your results are shared with the marriage authority as a simple completion status so you won’t need to re-submit documents.", 
-
-                touchpoints: [ 
-
-                    { label: "Review screening requirements", status: "done" }, 
-
-                    { label: "Choose a facility and book an appointment", status: "done" }, 
-
-                    { label: "Complete lab tests", status: "done" }, 
-
-                    { label: isCitizen ? "Confirm genome-related consent (if applicable)" : "Confirm any additional required checks", status: "active" }, 
-
-                    { label: "Receive your digital screening certificate", status: "next" }, 
-
-                    { label: "Share screening status for marriage application", status: "future" }, 
-
-                ], 
-
-            }; 
-
-            const marriage = { 
-
-                id: "marriage", title: "Marriage", subtitle: "Apply, verify eligibility, and issue the marriage contract", 
-
-                ownerEntities: "ADJD and related federal identity services", 
-
-                documents: ["Marriage contract"], 
-
-                enhancements: ["Single application that adapts to your status", "Auto-fill of identities and screening status", "Smart appointment and document readiness checks"], 
-
-                ai: ["Detects missing documents early", "Explains the contract in simple terms", "Answers questions about timelines and responsibilities"], 
-
-                integrationsText: "Marriage status updates automatically unlock the next family services without repeated paperwork.", 
-
-                touchpoints: [ 
-
-                    { label: "Confirm personal details", status: "done" }, 
-
-                    { label: "Check eligibility and required documents", status: "done" }, 
-
-                    { label: "Submit marriage application", status: "active" }, 
-
-                    { label: "Schedule court or authorized ceremony appointment", status: "active" }, 
-
-                    { label: "Receive digital marriage contract", status: "next" }, 
-
-                    { label: isCitizen ? "Link your family record" : "Prepare for future child documentation", status: "future" }, 
-
-                ], 
-
-            }; 
-
-            // ... Simplified for brevity in deployment version, keeping main ones ... 
-
-            // (You can paste the full list from previous code here if needed, but these serve the prototype purpose) 
-
-             
-
-            // Adding dummy entries for the rest to prevent errors when clicking buttons 
-
-            const genericJourney = (id, title) => ({ 
-
-                id, title, subtitle: "Details for this stage", ownerEntities: "Department of Health", documents: [],  
-
-                enhancements: ["Integrated timeline", "Smart alerts"], ai: ["Guidance based on age"],  
-
-                integrationsText: "Connected to your central profile.",  
-
-                touchpoints: [{ label: "View requirements", status: "future" }, { label: "Start process", status: "future" }] 
-
-            }); 
-
- 
-
-            return [ 
-
-                premarital, 
-
-                marriage, 
-
-                genericJourney("preconception", "Preconception"), 
-
-                genericJourney("maternity", "Maternity"), 
-
-                genericJourney("birth", "Birth & Certificate"), 
-
-                genericJourney("mabrouk", "Mabrouk Ma Yak"), 
-
-                genericJourney("newborn", "Newborn Care"), 
-
-                genericJourney("vaccination", "Vaccination"), 
-
-                genericJourney("intervention", "Early Intervention"), 
-
-                genericJourney("wellchild", "Well-Child"), 
-
-                genericJourney("school", "School Readiness"), 
-
-                genericJourney("adolescent", "Adolescent Health"), 
-
-                genericJourney("adult", "Adult Prevention"), 
-
-                genericJourney("elderly", "Elderly Care"), 
-
-                genericJourney("sanadkom", "Sanadkom"), 
-
-            ]; 
-
-        }; 
-
- 
-
-        const ASSISTANT_SUGGESTIONS = (profileId) => { 
-
-            const isCitizen = profileId === "citizen"; 
-
-            return [ 
-
-                { id: "s1", title: "Confirm your screening appointment", desc: "Your lab visit is coming up. Review the checklist.", tag: "This week", cta: "View appointment" }, 
-
-                { id: "s2", title: "Complete premarital education", desc: isCitizen ? "A short module is available in Family Space." : "Optional family wellbeing resources.", tag: isCitizen ? "Recommended" : "Optional", cta: "Open resources" }, 
-
-                { id: "s3", title: "Prepare your marriage application", desc: "Your identity details are ready.", tag: "Next", cta: "Review requirements" }, 
-
-            ]; 
-
-        }; 
-
- 
-
-        // --- 4. SUB-COMPONENTS --- 
-
- 
-
-        function StatusPill({ status }) { 
-
-            const meta = STATUS[status] ?? STATUS.future; 
-
-            return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${meta.tone}`}>{meta.label}</span>; 
-
-        } 
-
- 
-
-        function TouchpointChips({ items }) { 
-
-            return ( 
-
-                <div className="flex flex-wrap gap-2"> 
-
-                    {items.map((t, i) => ( 
-
-                        <span key={`${t.label}-${i}`} className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1 text-xs"> 
-
-                            <StatusPill status={t.status} /> 
-
-                            <span className="text-slate-700">{t.label}</span> 
-
-                        </span> 
-
-                    ))} 
-
-                </div> 
-
-            ); 
-
-        } 
-
- 
-
-        function JourneyMiniMap({ journey }) { 
-
-            return ( 
-
-                <Card className="rounded-2xl shadow-sm"> 
-
-                    <CardHeader className="pb-2"> 
-
-                        <div className="flex items-start justify-between gap-3"> 
-
-                            <div> 
-
-                                <CardTitle className="text-lg">{journey.title}</CardTitle> 
-
-                                <CardDescription className="mt-1">{journey.subtitle}</CardDescription> 
-
-                            </div> 
-
-                            <Badge variant="secondary" className="rounded-full">Mini journey</Badge> 
-
-                        </div> 
-
-                    </CardHeader> 
-
-                    <CardContent className="space-y-4"> 
-
-                        <TouchpointChips items={journey.touchpoints} /> 
-
-                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2"> 
-
-                            <div className="rounded-xl border bg-slate-50 p-3"> 
-
-                                <div className="text-xs font-semibold text-slate-600">Owning entities</div> 
-
-                                <div className="mt-1 text-sm text-slate-800">{journey.ownerEntities}</div> 
-
-                            </div> 
-
-                            <div className="rounded-xl border bg-slate-50 p-3"> 
-
-                                <div className="text-xs font-semibold text-slate-600">Key documents</div> 
-
-                                <ul className="mt-1 list-inside list-disc text-sm text-slate-800"> 
-
-                                    {journey.documents?.length ? journey.documents.map((d, i) => <li key={i}>{d}</li>) : <li>No documents shown here</li>} 
-
-                                </ul> 
-
-                            </div> 
-
-                        </div> 
-
-                        <div className="rounded-xl border bg-white p-3"> 
-
-                            <div className="text-xs font-semibold text-slate-600">How this connects across services</div> 
-
-                            <div className="mt-1 text-sm text-slate-800">{journey.integrationsText}</div> 
-
-                        </div> 
-
-                    </CardContent> 
-
-                </Card> 
-
-            ); 
-
-        } 
-
- 
-
-        function LifeArcHeader({ activeId, onSelect, profileId }) { 
-
-            const arc = useMemo(() => LIFE_ARC, []); 
-
-            const progressValue = useMemo(() => { 
-
-                const idx = arc.findIndex((a) => a.id === activeId); 
-
-                return Math.max(5, Math.min(95, Math.round(((idx + 1) / arc.length) * 100))); 
-
-            }, [activeId, arc]); 
-
- 
-
-            return ( 
-
-                <Card className="rounded-2xl shadow-sm"> 
-
-                    <CardHeader className="pb-3"> 
-
-                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between"> 
-
-                            <div className="flex items-center gap-3"> 
-
-                                <div className="flex h-10 w-10 items-center justify-center rounded-2xl border bg-white"> 
-
-                                    <Sparkles className="h-5 w-5" /> 
-
-                                </div> 
-
-                                <div> 
-
-                                    <CardTitle className="text-xl">Your Life Journey</CardTitle> 
-
-                                    <CardDescription>A single, personal view of what’s done, what’s next, and what you can unlock.</CardDescription> 
-
-                                </div> 
-
-                            </div> 
-
-                            <div className="flex items-center gap-2"> 
-
-                                <Badge variant="secondary" className="rounded-full">{profileId === "citizen" ? "Citizen view" : "Resident view"}</Badge> 
-
-                                <Badge variant="outline" className="rounded-full">Family Space</Badge> 
-
-                            </div> 
-
-                        </div> 
-
-                    </CardHeader> 
-
-                    <CardContent className="space-y-4"> 
-
-                        <div className="rounded-xl border bg-slate-50 p-3"> 
-
-                            <div className="flex items-center justify-between"> 
-
-                                <div className="text-sm font-medium text-slate-800">Overall progress</div> 
-
-                                <div className="text-xs text-slate-600">Dynamic by life stage</div> 
-
-                            </div> 
-
-                            <div className="mt-3"><Progress value={progressValue} /></div> 
-
-                        </div> 
-
-                        <div className="flex flex-wrap gap-2"> 
-
-                            {arc.map((a) => { 
-
-                                const Icon = a.icon; 
-
-                                const isActive = a.id === activeId; 
-
-                                return ( 
-
-                                    <button 
-
-                                        key={a.id} 
-
-                                        onClick={() => onSelect(a.id)} 
-
-                                        className={`group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition ${isActive ? "bg-white shadow-sm ring-1 ring-slate-200" : "bg-slate-50 hover:bg-white"}`} 
-
-                                        title={a.label} 
-
-                                    > 
-
-                                        <Icon className="h-3.5 w-3.5" /> 
-
-                                        <span className="text-slate-800">{a.label}</span> 
-
-                                        {isActive && <ChevronRight className="h-3.5 w-3.5 text-slate-400" />} 
-
-                                    </button> 
-
-                                ); 
-
-                            })} 
-
-                        </div> 
-
-                    </CardContent> 
-
-                </Card> 
-
-            ); 
-
-        } 
-
- 
-
-        // --- 5. MAIN APP COMPONENT --- 
-
- 
-
-        function TammLifeDashboardPrototype() { 
-
-            const [profileId, setProfileId] = useState("citizen"); 
-
-            const [activeJourneyId, setActiveJourneyId] = useState("premarital"); 
-
-            const [filter, setFilter] = useState(""); 
-
- 
-
-            const profile = PROFILES.find((p) => p.id === profileId) ?? PROFILES[0]; 
-
-            const journeys = useMemo(() => makeJourneys(profileId), [profileId]); 
-
-            const activeJourney = journeys.find((j) => j.id === activeJourneyId) ?? journeys[0]; 
-
- 
-
-            const filteredJourneys = useMemo(() => { 
-
-                const q = filter.trim().toLowerCase(); 
-
-                if (!q) return journeys; 
-
-                return journeys.filter((j) => [j.title, j.subtitle].join(" ").toLowerCase().includes(q)); 
-
-            }, [filter, journeys]); 
-
- 
-
-            return ( 
-
-                <div className="min-h-screen bg-slate-50 p-4 md:p-6 font-sans text-slate-900"> 
-
-                    <div className="mx-auto max-w-6xl space-y-6"> 
-
-                        {/* Header */} 
-
-                        <div className="flex flex-col gap-3 rounded-2xl border bg-white p-5 shadow-sm md:flex-row md:items-center md:justify-between"> 
-
-                            <div className="flex items-center gap-3"> 
-
-                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border bg-slate-50"> 
-
-                                    <Home className="h-6 w-6" /> 
-
-                                </div> 
-
-                                <div> 
-
-                                    <div className="text-xs font-semibold text-slate-500">TAMM Family Space</div> 
-
-                                    <div className="text-xl font-semibold text-slate-900">Life Events Dashboard</div> 
-
-                                    <div className="text-sm text-slate-600">Personalized hub for your family journeys.</div> 
-
-                                </div> 
-
-                            </div> 
-
-                            <div className="flex flex-col gap-2 md:items-end"> 
-
-                                <div className="flex items-center gap-2"> 
-
-                                    <Badge variant="outline" className="rounded-full">Profile</Badge> 
-
-                                    <Tabs value={profileId} onValueChange={setProfileId}> 
-
-                                        <TabsList className="rounded-full"> 
-
-                                            {PROFILES.map((p) => ( 
-
-                                                <TabsTrigger  
-
-                                                    key={p.id}  
-
-                                                    value={p.id}  
-
-                                                    className={`rounded-full ${profileId === p.id ? 'bg-white shadow-sm text-slate-900' : ''}`} 
-
-                                                > 
-
-                                                    {p.label} 
-
-                                                </TabsTrigger> 
-
-                                            ))} 
-
-                                        </TabsList> 
-
-                                    </Tabs> 
-
-                                </div> 
-
-                                <div className="text-xs text-slate-500">{profile.name} • {profile.subtitle}</div> 
-
-                            </div> 
-
-                        </div> 
-
- 
-
-                        {/* Life arc */} 
-
-                        <LifeArcHeader activeId={activeJourneyId} onSelect={setActiveJourneyId} profileId={profileId} /> 
-
- 
-
-                        {/* Grid */} 
-
-                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3"> 
-
-                            <div className="space-y-6 lg:col-span-2"> 
-
-                                <Card className="rounded-2xl shadow-sm"> 
-
-                                    <CardHeader className="pb-2"> 
-
-                                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between"> 
-
-                                            <div> 
-
-                                                <CardTitle className="text-lg">Journey library</CardTitle> 
-
-                                                <CardDescription>Open any journey map from your hub.</CardDescription> 
-
-                                            </div> 
-
-                                            <div className="relative w-full md:w-72"> 
-
-                                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" /> 
-
-                                                <Input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Search journeys" className="pl-8 rounded-xl" /> 
-
-                                            </div> 
-
-                                        </div> 
-
-                                    </CardHeader> 
-
-                                    <CardContent className="grid grid-cols-1 gap-3 md:grid-cols-2"> 
-
-                                        {filteredJourneys.map((j) => ( 
-
-                                            <button key={j.id} onClick={() => setActiveJourneyId(j.id)} className={`text-left rounded-xl border bg-white p-4 transition hover:shadow-sm ${activeJourneyId === j.id ? "ring-1 ring-slate-300 bg-slate-50" : ""}`}> 
-
-                                                <div className="flex items-start gap-3"> 
-
-                                                    <div className="flex-1"> 
-
-                                                        <div className="text-sm font-semibold text-slate-900">{j.title}</div> 
-
-                                                        <div className="mt-1 text-xs text-slate-600">{j.subtitle}</div> 
-
-                                                    </div> 
-
-                                                </div> 
-
-                                            </button> 
-
-                                        ))} 
-
-                                    </CardContent> 
-
-                                </Card> 
-
-                            </div> 
-
-                            <div className="space-y-6"> 
-
-                                <Card className="rounded-2xl shadow-sm"> 
-
-                                    <CardHeader className="pb-2"> 
-
-                                        <CardTitle className="text-lg">Family Snapshot</CardTitle> 
-
-                                        <CardDescription>Quick status overview</CardDescription> 
-
-                                    </CardHeader> 
-
-                                    <CardContent className="space-y-3"> 
-
-                                        <div className="rounded-xl border bg-slate-50 p-3"> 
-
-                                            <div className="flex items-center gap-2"><UserRound className="h-4 w-4" /><span className="text-sm font-medium">Couple Status</span></div> 
-
-                                            <div className="mt-2 flex flex-wrap gap-2"> 
-
-                                                <Badge variant="secondary" className="rounded-full">Premarital screening</Badge> 
-
-                                            </div> 
-
-                                        </div> 
-
-                                    </CardContent> 
-
-                                </Card> 
-
-                            </div> 
-
-                        </div> 
-
- 
-
-                        {/* Active Journey Detail */} 
-
-                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3"> 
-
-                            <div className="lg:col-span-2"> 
-
-                                <JourneyMiniMap journey={activeJourney} /> 
-
-                            </div> 
-
-                            <div> 
-
-                                <Card className="rounded-2xl shadow-sm h-full"> 
-
-                                    <CardHeader className="pb-2"> 
-
-                                        <CardTitle className="text-lg">AI Assistant</CardTitle> 
-
-                                        <CardDescription>Personalized suggestions</CardDescription> 
-
-                                    </CardHeader> 
-
-                                    <CardContent className="space-y-3"> 
-
-                                        {ASSISTANT_SUGGESTIONS(profileId).map(s => ( 
-
-                                            <div key={s.id} className="rounded-xl border bg-white p-3"> 
-
-                                                <div className="text-sm font-semibold">{s.title}</div> 
-
-                                                <div className="text-xs text-slate-500 mt-1">{s.desc}</div> 
-
-                                                <Button size="sm" className="mt-2 w-full rounded-lg" variant="outline">{s.cta}</Button> 
-
-                                            </div> 
-
-                                        ))} 
-
-                                    </CardContent> 
-
-                                </Card> 
-
-                            </div> 
-
-                        </div> 
-
- 
-
-                    </div> 
-
-                </div> 
-
-            ); 
-
-        } 
-
- 
-
-        // Render the app 
-
-        const root = ReactDOM.createRoot(document.getElementById('root')); 
-
-        root.render(<TammLifeDashboardPrototype />); 
-
-    </script> 
-
-</body> 
-
-</html> 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAMM Family Space Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React + ReactDOM (UMD builds) -->
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+
+    <!-- Make lucide-react happier if it needs a global "react" -->
+    <script>
+      window.react = window.React;
+    </script>
+
+    <!-- Lucide React icons (optional, we also have fallbacks in JS) -->
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+
+    <!-- Babel to compile JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // --- 1. SETUP LIBRARIES ---
+      const { useState, useMemo } = React;
+
+      // Safely grab icons from LucideReact if available, otherwise use a simple fallback
+      const Lucide = window.LucideReact || {};
+      const FallbackIcon = (props) => (
+        <span
+          {...props}
+          className={(props.className || "") + " inline-block w-4 h-4"}
+        />
+      );
+
+      const {
+        Baby = FallbackIcon,
+        HeartPulse = FallbackIcon,
+        ShieldCheck = FallbackIcon,
+        School = FallbackIcon,
+        Building2 = FallbackIcon,
+        Globe2 = FallbackIcon,
+        HandHeart = FallbackIcon,
+        Stethoscope = FallbackIcon,
+        ClipboardCheck = FallbackIcon,
+        FileText = FallbackIcon,
+        Sparkles = FallbackIcon,
+        UserRound = FallbackIcon,
+        CalendarCheck = FallbackIcon,
+        AlertTriangle = FallbackIcon,
+        CheckCircle2 = FallbackIcon,
+        Activity = FallbackIcon,
+        Users = FallbackIcon,
+        Briefcase = FallbackIcon,
+        Home = FallbackIcon,
+        BookOpen = FallbackIcon,
+        ChevronRight = FallbackIcon,
+        Search = FallbackIcon,
+        Bell = FallbackIcon,
+        ClipboardList = FallbackIcon,
+        MapPin = FallbackIcon,
+      } = Lucide;
+
+      // --- 2. UI COMPONENTS (Mocking shadcn/ui with Tailwind) ---
+
+      const Card = ({ className, children }) => (
+        <div
+          className={`rounded-xl border bg-white text-slate-950 shadow-sm ${
+            className || ""
+          }`}
+        >
+          {children}
+        </div>
+      );
+      const CardHeader = ({ className, children }) => (
+        <div
+          className={`flex flex-col space-y-1.5 p-6 ${className || ""}`}
+        >
+          {children}
+        </div>
+      );
+      const CardTitle = ({ className, children }) => (
+        <h3
+          className={`text-2xl font-semibold leading-none tracking-tight ${
+            className || ""
+          }`}
+        >
+          {children}
+        </h3>
+      );
+      const CardDescription = ({ className, children }) => (
+        <p className={`text-sm text-slate-500 ${className || ""}`}>{children}</p>
+      );
+      const CardContent = ({ className, children }) => (
+        <div className={`p-6 pt-0 ${className || ""}`}>{children}</div>
+      );
+
+      const Button = ({
+        className,
+        variant = "default",
+        size = "default",
+        children,
+        ...props
+      }) => {
+        const variants = {
+          default: "bg-slate-900 text-slate-50 hover:bg-slate-900/90",
+          outline:
+            "border border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-900",
+          secondary: "bg-slate-100 text-slate-900 hover:bg-slate-100/80",
+          ghost: "hover:bg-slate-100 hover:text-slate-900",
+        };
+        const sizes = {
+          default: "h-10 px-4 py-2",
+          sm: "h-9 rounded-md px-3",
+          icon: "h-10 w-10",
+        };
+        return (
+          <button
+            className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
+              variants[variant]
+            } ${sizes[size]} ${className || ""}`}
+            {...props}
+          >
+            {children}
+          </button>
+        );
+      };
+
+      const Badge = ({ className, variant = "default", children }) => {
+        const variants = {
+          default: "border-transparent bg-slate-900 text-slate-50",
+          secondary: "border-transparent bg-slate-100 text-slate-900",
+          outline: "text-slate-950",
+        };
+        return (
+          <div
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 ${
+              variants[variant]
+            } ${className || ""}`}
+          >
+            {children}
+          </div>
+        );
+      };
+
+      const Input = ({ className, ...props }) => (
+        <input
+          className={`flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+            className || ""
+          }`}
+          {...props}
+        />
+      );
+
+      const Progress = ({ value, className }) => (
+        <div
+          className={`relative h-4 w-full overflow-hidden rounded-full bg-slate-100 ${
+            className || ""
+          }`}
+        >
+          <div
+            className="h-full w-full flex-1 bg-slate-900 transition-all"
+            style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+          />
+        </div>
+      );
+
+      const Tabs = ({ value, onValueChange, children }) => {
+        return (
+          <div
+            className="w-full"
+            onClick={(e) => {
+              const trigger = e.target.closest("[data-tab-value]");
+              if (trigger && onValueChange) {
+                onValueChange(trigger.dataset.tabValue);
+              }
+            }}
+          >
+            {children}
+          </div>
+        );
+      };
+      const TabsList = ({ className, children }) => (
+        <div
+          className={`inline-flex h-10 items-center justify-center rounded-md bg-slate-100 p-1 text-slate-500 ${
+            className || ""
+          }`}
+        >
+          {children}
+        </div>
+      );
+      const TabsTrigger = ({ value, className, children }) => (
+        <button
+          data-tab-value={value}
+          className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-white/50 ${
+            className || ""
+          }`}
+        >
+          {children}
+        </button>
+      );
+
+      // --- 3. DATA & CONFIGURATION ---
+
+      const PROFILES = [
+        {
+          id: "citizen",
+          label: "Emirati Citizen",
+          name: "Aisha & Omar",
+          subtitle: "Family Space profile",
+          tone: "citizen",
+        },
+        {
+          id: "resident",
+          label: "Resident Family",
+          name: "Mariam & Daniel",
+          subtitle: "Family Space profile",
+          tone: "resident",
+        },
+      ];
+
+      const LIFE_ARC = [
+        { id: "premarital", label: "Premarital", icon: ClipboardCheck },
+        { id: "marriage", label: "Marriage", icon: Users },
+        { id: "preconception", label: "Preconception", icon: HeartPulse },
+        { id: "maternity", label: "Maternity", icon: Stethoscope },
+        { id: "birth", label: "Birth & Certificate", icon: Baby },
+        { id: "mabrouk", label: "Mabrouk Ma Yak", icon: ShieldCheck },
+        { id: "newborn", label: "Newborn Care", icon: Activity },
+        { id: "vaccination", label: "Vaccination", icon: HeartPulse },
+        { id: "wellchild", label: "Well-Child", icon: ClipboardList },
+        { id: "school", label: "School & Development", icon: School },
+        { id: "adolescent", label: "Adolescent Health", icon: BookOpen },
+        { id: "adult", label: "Adult Prevention", icon: Briefcase },
+        { id: "elderly", label: "Elderly Care", icon: HandHeart },
+        { id: "sanadkom", label: "Sanadkom", icon: FileText },
+      ];
+
+      const STATUS = {
+        done: {
+          label: "Completed",
+          tone: "bg-emerald-50 text-emerald-700 border-emerald-200",
+        },
+        active: {
+          label: "In progress",
+          tone: "bg-blue-50 text-blue-700 border-blue-200",
+        },
+        next: {
+          label: "Next",
+          tone: "bg-amber-50 text-amber-700 border-amber-200",
+        },
+        future: {
+          label: "Later",
+          tone: "bg-slate-50 text-slate-700 border-slate-200",
+        },
+        optional: {
+          label: "Optional",
+          tone: "bg-purple-50 text-purple-700 border-purple-200",
+        },
+        needsAttention: {
+          label: "Needs attention",
+          tone: "bg-rose-50 text-rose-700 border-rose-200",
+        },
+      };
+
+      const makeJourneys = (profileId) => {
+        const isCitizen = profileId === "citizen";
+
+        const premarital = {
+          id: "premarital",
+          title: "Premarital Screening",
+          subtitle: "Health readiness and required checks before marriage",
+          ownerEntities: "Department of Health, partner hospitals and labs",
+          documents: ["Premarital screening certificate"],
+          enhancements: [
+            "One checklist for required tests",
+            "Clear validity period shown in your timeline",
+            "Reminders before the certificate expires",
+          ],
+          ai: [
+            "Explains your results in plain language",
+            "Suggests next steps and education tailored to your needs",
+          ],
+          integrationsText:
+            "Your results are shared with the marriage authority as a simple completion status so you won’t need to re-submit documents.",
+          touchpoints: [
+            { label: "Review screening requirements", status: "done" },
+            { label: "Choose a facility and book an appointment", status: "done" },
+            { label: "Complete lab tests", status: "done" },
+            {
+              label: isCitizen
+                ? "Confirm genome-related consent (if applicable)"
+                : "Confirm any additional required checks",
+              status: "active",
+            },
+            {
+              label: "Receive your digital screening certificate",
+              status: "next",
+            },
+            {
+              label: "Share screening status for marriage application",
+              status: "future",
+            },
+          ],
+        };
+
+        const marriage = {
+          id: "marriage",
+          title: "Marriage",
+          subtitle:
+            "Apply, verify eligibility, and issue the marriage contract",
+          ownerEntities: "ADJD and related federal identity services",
+          documents: ["Marriage contract"],
+          enhancements: [
+            "Single application that adapts to your status",
+            "Auto-fill of identities and screening status",
+            "Smart appointment and document readiness checks",
+          ],
+          ai: [
+            "Detects missing documents early",
+            "Explains the contract in simple terms",
+            "Answers questions about timelines and responsibilities",
+          ],
+          integrationsText:
+            "Marriage status updates automatically unlock the next family services without repeated paperwork.",
+          touchpoints: [
+            { label: "Confirm personal details", status: "done" },
+            {
+              label: "Check eligibility and required documents",
+              status: "done",
+            },
+            { label: "Submit marriage application", status: "active" },
+            {
+              label: "Schedule court or authorized ceremony appointment",
+              status: "active",
+            },
+            {
+              label: "Receive digital marriage contract",
+              status: "next",
+            },
+            {
+              label: isCitizen
+                ? "Link your family record"
+                : "Prepare for future child documentation",
+              status: "future",
+            },
+          ],
+        };
+
+        const genericJourney = (id, title) => ({
+          id,
+          title,
+          subtitle: "Details for this stage",
+          ownerEntities: "Department of Health",
+          documents: [],
+          enhancements: ["Integrated timeline", "Smart alerts"],
+          ai: ["Guidance based on age"],
+          integrationsText: "Connected to your central profile.",
+          touchpoints: [
+            { label: "View requirements", status: "future" },
+            { label: "Start process", status: "future" },
+          ],
+        });
+
+        return [
+          premarital,
+          marriage,
+          genericJourney("preconception", "Preconception"),
+          genericJourney("maternity", "Maternity"),
+          genericJourney("birth", "Birth & Certificate"),
+          genericJourney("mabrouk", "Mabrouk Ma Yak"),
+          genericJourney("newborn", "Newborn Care"),
+          genericJourney("vaccination", "Vaccination"),
+          genericJourney("intervention", "Early Intervention"),
+          genericJourney("wellchild", "Well-Child"),
+          genericJourney("school", "School Readiness"),
+          genericJourney("adolescent", "Adolescent Health"),
+          genericJourney("adult", "Adult Prevention"),
+          genericJourney("elderly", "Elderly Care"),
+          genericJourney("sanadkom", "Sanadkom"),
+        ];
+      };
+
+      const ASSISTANT_SUGGESTIONS = (profileId) => {
+        const isCitizen = profileId === "citizen";
+        return [
+          {
+            id: "s1",
+            title: "Confirm your screening appointment",
+            desc: "Your lab visit is coming up. Review the checklist.",
+            tag: "This week",
+            cta: "View appointment",
+          },
+          {
+            id: "s2",
+            title: "Complete premarital education",
+            desc: isCitizen
+              ? "A short module is available in Family Space."
+              : "Optional family wellbeing resources.",
+            tag: isCitizen ? "Recommended" : "Optional",
+            cta: "Open resources",
+          },
+          {
+            id: "s3",
+            title: "Prepare your marriage application",
+            desc: "Your identity details are ready.",
+            tag: "Next",
+            cta: "Review requirements",
+          },
+        ];
+      };
+
+      // --- 4. SUB-COMPONENTS ---
+
+      function StatusPill({ status }) {
+        const meta = STATUS[status] ?? STATUS.future;
+        return (
+          <span
+            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${meta.tone}`}
+          >
+            {meta.label}
+          </span>
+        );
+      }
+
+      function TouchpointChips({ items }) {
+        return (
+          <div className="flex flex-wrap gap-2">
+            {items.map((t, i) => (
+              <span
+                key={`${t.label}-${i}`}
+                className="inline-flex items-center gap-2 rounded-full border bg-white px-3 py-1 text-xs"
+              >
+                <StatusPill status={t.status} />
+                <span className="text-slate-700">{t.label}</span>
+              </span>
+            ))}
+          </div>
+        );
+      }
+
+      function JourneyMiniMap({ journey }) {
+        return (
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader className="pb-2">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <CardTitle className="text-lg">{journey.title}</CardTitle>
+                  <CardDescription className="mt-1">
+                    {journey.subtitle}
+                  </CardDescription>
+                </div>
+                <Badge variant="secondary" className="rounded-full">
+                  Mini journey
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <TouchpointChips items={journey.touchpoints} />
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                <div className="rounded-xl border bg-slate-50 p-3">
+                  <div className="text-xs font-semibold text-slate-600">
+                    Owning entities
+                  </div>
+                  <div className="mt-1 text-sm text-slate-800">
+                    {journey.ownerEntities}
+                  </div>
+                </div>
+                <div className="rounded-xl border bg-slate-50 p-3">
+                  <div className="text-xs font-semibold text-slate-600">
+                    Key documents
+                  </div>
+                  <ul className="mt-1 list-inside list-disc text-sm text-slate-800">
+                    {journey.documents?.length ? (
+                      journey.documents.map((d, i) => <li key={i}>{d}</li>)
+                    ) : (
+                      <li>No documents shown here</li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+              <div className="rounded-xl border bg-white p-3">
+                <div className="text-xs font-semibold text-slate-600">
+                  How this connects across services
+                </div>
+                <div className="mt-1 text-sm text-slate-800">
+                  {journey.integrationsText}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      }
+
+      function LifeArcHeader({ activeId, onSelect, profileId }) {
+        const arc = useMemo(() => LIFE_ARC, []);
+        const progressValue = useMemo(() => {
+          const idx = arc.findIndex((a) => a.id === activeId);
+          return Math.max(
+            5,
+            Math.min(95, Math.round(((idx + 1) / arc.length) * 100))
+          );
+        }, [activeId, arc]);
+
+        return (
+          <Card className="rounded-2xl shadow-sm">
+            <CardHeader className="pb-3">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-2xl border bg-white">
+                    <Sparkles className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">Your Life Journey</CardTitle>
+                    <CardDescription>
+                      A single, personal view of what’s done, what’s next, and
+                      what you can unlock.
+                    </CardDescription>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="rounded-full">
+                    {profileId === "citizen" ? "Citizen view" : "Resident view"}
+                  </Badge>
+                  <Badge variant="outline" className="rounded-full">
+                    Family Space
+                  </Badge>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="rounded-xl border bg-slate-50 p-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-medium text-slate-800">
+                    Overall progress
+                  </div>
+                  <div className="text-xs text-slate-600">
+                    Dynamic by life stage
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <Progress value={progressValue} />
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {arc.map((a) => {
+                  const Icon = a.icon;
+                  const isActive = a.id === activeId;
+                  return (
+                    <button
+                      key={a.id}
+                      onClick={() => onSelect(a.id)}
+                      className={`group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition ${
+                        isActive
+                          ? "bg-white shadow-sm ring-1 ring-slate-200"
+                          : "bg-slate-50 hover:bg-white"
+                      }`}
+                      title={a.label}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      <span className="text-slate-800">{a.label}</span>
+                      {isActive && (
+                        <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      }
+
+      // --- 5. MAIN APP COMPONENT ---
+
+      function TammLifeDashboardPrototype() {
+        const [profileId, setProfileId] = useState("citizen");
+        const [activeJourneyId, setActiveJourneyId] = useState("premarital");
+        const [filter, setFilter] = useState("");
+
+        const profile =
+          PROFILES.find((p) => p.id === profileId) ?? PROFILES[0];
+        const journeys = useMemo(() => makeJourneys(profileId), [profileId]);
+        const activeJourney =
+          journeys.find((j) => j.id === activeJourneyId) ?? journeys[0];
+
+        const filteredJourneys = useMemo(() => {
+          const q = filter.trim().toLowerCase();
+          if (!q) return journeys;
+          return journeys.filter((j) =>
+            [j.title, j.subtitle].join(" ").toLowerCase().includes(q)
+          );
+        }, [filter, journeys]);
+
+        return (
+          <div className="min-h-screen bg-slate-50 p-4 md:p-6 font-sans text-slate-900">
+            <div className="mx-auto max-w-6xl space-y-6">
+              {/* Header */}
+              <div className="flex flex-col gap-3 rounded-2xl border bg-white p-5 shadow-sm md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border bg-slate-50">
+                    <Home className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-slate-500">
+                      TAMM Family Space
+                    </div>
+                    <div className="text-xl font-semibold text-slate-900">
+                      Life Events Dashboard
+                    </div>
+                    <div className="text-sm text-slate-600">
+                      Personalized hub for your family journeys.
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2 md:items-end">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="rounded-full">
+                      Profile
+                    </Badge>
+                    <Tabs value={profileId} onValueChange={setProfileId}>
+                      <TabsList className="rounded-full">
+                        {PROFILES.map((p) => (
+                          <TabsTrigger
+                            key={p.id}
+                            value={p.id}
+                            className={`rounded-full ${
+                              profileId === p.id
+                                ? "bg-white shadow-sm text-slate-900"
+                                : ""
+                            }`}
+                          >
+                            {p.label}
+                          </TabsTrigger>
+                        ))}
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                  <div className="text-xs text-slate-500">
+                    {profile.name} • {profile.subtitle}
+                  </div>
+                </div>
+              </div>
+
+              {/* Life arc */}
+              <LifeArcHeader
+                activeId={activeJourneyId}
+                onSelect={setActiveJourneyId}
+                profileId={profileId}
+              />
+
+              {/* Grid */}
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <div className="space-y-6 lg:col-span-2">
+                  <Card className="rounded-2xl shadow-sm">
+                    <CardHeader className="pb-2">
+                      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                        <div>
+                          <CardTitle className="text-lg">
+                            Journey library
+                          </CardTitle>
+                          <CardDescription>
+                            Open any journey map from your hub.
+                          </CardDescription>
+                        </div>
+                        <div className="relative w-full md:w-72">
+                          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
+                          <Input
+                            value={filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                            placeholder="Search journeys"
+                            className="pl-8 rounded-xl"
+                          />
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                      {filteredJourneys.map((j) => (
+                        <button
+                          key={j.id}
+                          onClick={() => setActiveJourneyId(j.id)}
+                          className={`text-left rounded-xl border bg-white p-4 transition hover:shadow-sm ${
+                            activeJourneyId === j.id
+                              ? "ring-1 ring-slate-300 bg-slate-50"
+                              : ""
+                          }`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="flex-1">
+                              <div className="text-sm font-semibold text-slate-900">
+                                {j.title}
+                              </div>
+                              <div className="mt-1 text-xs text-slate-600">
+                                {j.subtitle}
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </div>
+                <div className="space-y-6">
+                  <Card className="rounded-2xl shadow-sm">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">Family Snapshot</CardTitle>
+                      <CardDescription>Quick status overview</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="rounded-xl border bg-slate-50 p-3">
+                        <div className="flex items-center gap-2">
+                          <UserRound className="h-4 w-4" />
+                          <span className="text-sm font-medium">
+                            Couple Status
+                          </span>
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <Badge
+                            variant="secondary"
+                            className="rounded-full"
+                          >
+                            Premarital screening
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Active Journey Detail */}
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <div className="lg:col-span-2">
+                  <JourneyMiniMap journey={activeJourney} />
+                </div>
+                <div>
+                  <Card className="rounded-2xl shadow-sm h-full">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">AI Assistant</CardTitle>
+                      <CardDescription>Personalized suggestions</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {ASSISTANT_SUGGESTIONS(profileId).map((s) => (
+                        <div
+                          key={s.id}
+                          className="rounded-xl border bg-white p-3"
+                        >
+                          <div className="text-sm font-semibold">
+                            {s.title}
+                          </div>
+                          <div className="text-xs text-slate-500 mt-1">
+                            {s.desc}
+                          </div>
+                          <Button
+                            size="sm"
+                            className="mt-2 w-full rounded-lg"
+                            variant="outline"
+                          >
+                            {s.cta}
+                          </Button>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // Render the app
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<TammLifeDashboardPrototype />);
+    </script>
+  </body>
+</html>
