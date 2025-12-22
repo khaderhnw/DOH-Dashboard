@@ -2,31 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Issue a Newborn Digital Birth Certificate – Prototype</title>
+  <title>Newborn Digital Birth Certificate – Prototype</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- React + ReactDOM -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-
-  <!-- Babel for JSX -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
     body {
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #f1f5f9;
+      background-color: #e2e8f0; /* slate-200 */
       margin: 0;
     }
+
     .phone-shell {
       max-width: 430px;
       margin: 0 auto;
       background-color: #ffffff;
     }
+
     @media (min-width: 768px) {
       .phone-shell {
         margin-top: 16px;
@@ -36,145 +32,1115 @@
         overflow: hidden;
       }
     }
+
+    .screen {
+      width: 100%;
+    }
+
     .animate-fade-in {
       animation: fadeIn 0.4s ease-out forwards;
     }
-    .animate-slide-up {
-      animation: slideUp 0.4s ease-out forwards;
-    }
+
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideUp {
-      from { transform: translateY(16px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      to   { opacity: 1; }
     }
   </style>
 </head>
-<body>
-  <div id="root"></div>
+<body class="bg-slate-200">
 
-  <script type="text/babel" data-presets="env,react">
-    const { useState, useEffect } = React;
-
-    // ---------- Small helpers ----------
-
-    const EmojiIcon = ({ symbol }) => (
-      <span className="inline-block w-5 text-center">{symbol}</span>
-    );
-
-    const Card = ({ children, className = "" }) => (
-      <div className={"bg-white rounded-3xl border border-slate-200 shadow-sm " + className}>
-        {children}
+  <!-- SPLASH -------------------------------------------------------->
+  <section class="screen min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-900 to-teal-700 text-white"
+           data-screen="splash">
+    <div class="phone-shell h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      <div class="w-24 h-24 rounded-3xl bg-white/10 border border-white/20 flex items-center justify-center mb-6 shadow-xl">
+        <span class="text-3xl">📱</span>
       </div>
-    );
+      <h1 class="text-4xl font-bold tracking-tight">TAMM</h1>
+      <p class="text-teal-200 text-xs mt-2 tracking-[0.25em] uppercase">
+        ABU DHABI GOVERNMENT
+      </p>
+      <div class="absolute bottom-10 text-xs text-teal-100 flex items-center gap-2">
+        <span class="animate-pulse">●</span>
+        Loading your services…
+      </div>
+    </div>
+  </section>
 
-    const Button = ({
-      children,
-      onClick,
-      variant = "primary",
-      className = "",
-      disabled = false
-    }) => {
-      const base =
-        "px-4 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition active:scale-95";
-      const styles = {
-        primary: "bg-teal-700 text-white hover:bg-teal-800",
-        secondary: "bg-white text-slate-800 hover:bg-slate-50 border border-slate-200",
-        ghost: "bg-transparent text-teal-700 hover:bg-teal-50"
-      };
-      return (
-        <button
-          onClick={onClick}
-          disabled={disabled}
-          className={
-            base +
-            " " +
-            (styles[variant] || "") +
-            " " +
-            className +
-            (disabled ? " opacity-40 cursor-not-allowed" : "")
-          }
-        >
-          {children}
+  <!-- LOGIN / UAE PASS ---------------------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="login">
+    <div class="phone-shell h-screen flex flex-col items-center justify-center px-6">
+      <div class="w-full max-w-sm">
+        <div class="text-center mb-10">
+          <h1 class="text-3xl font-bold text-slate-900 mb-2">
+            Welcome
+          </h1>
+          <p class="text-slate-500 text-sm">
+            Sign in securely with UAE PASS to access your newborn services.
+          </p>
+        </div>
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-7 mb-4">
+          <div class="flex justify-center mb-6">
+            <div class="w-16 h-16 rounded-2xl bg-slate-900 text-white flex flex-col items-center justify-center text-[10px] font-bold leading-tight">
+              <span>UAE</span>
+              <span>PASS</span>
+            </div>
+          </div>
+          <button onclick="loginSuccess()"
+                  class="w-full h-11 text-sm font-semibold rounded-xl bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-center gap-2 transition active:scale-95">
+            <span>🔐</span>
+            <span>Login with UAE PASS</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-center text-slate-400">
+          Your identity is verified by UAE PASS. No password is stored in TAMM.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOME / SEARCH ------------------------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="home">
+    <div class="phone-shell h-screen flex flex-col">
+      <!-- Top hero -->
+      <div class="bg-gradient-to-b from-teal-800 to-teal-700 text-white px-4 pt-10 pb-6 rounded-b-3xl shadow-md">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <p class="text-[11px] text-teal-200">How can I assist you?</p>
+            <p class="text-xl font-semibold">Search for a service</p>
+          </div>
+          <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+            <span>🙂</span>
+          </div>
+        </div>
+        <div class="bg-white rounded-full px-3 py-2 flex items-center gap-2 shadow-sm">
+          <span>🔍</span>
+          <input id="home-search"
+                 class="flex-1 border-none outline-none text-sm text-slate-800 placeholder-slate-400"
+                 placeholder="Issue a Newborn Digital Birth Certificate" />
+          <button type="button"
+                  onclick="clearHomeSearch()"
+                  class="text-xs text-slate-400">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <main class="flex-1 px-4 pt-4 pb-6 overflow-y-auto">
+        <p class="text-xs text-slate-500 mb-2">Services</p>
+        <div class="space-y-2">
+          <!-- Main service -->
+          <button type="button"
+                  class="service-row w-full text-left"
+                  data-service-id="newborn"
+                  data-service-title="Issue a Newborn Digital Birth Certificate"
+                  onclick="selectServiceNewborn()">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center">
+                  <span>👶</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-slate-900">
+                    Issue a Newborn Digital Birth Certificate
+                  </p>
+                  <p class="text-[11px] text-slate-500">
+                    Department of Health
+                  </p>
+                </div>
+              </div>
+              <span class="text-[11px] text-teal-700 font-semibold">
+                Recommended
+              </span>
+            </div>
+          </button>
+
+          <!-- Other examples (non-clickable) -->
+          <div class="service-row w-full text-left"
+               data-service-title="Issue a Digital Age Estimation Certificate">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 flex items-center justify-between opacity-60">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center">
+                  <span>📄</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-slate-900">
+                    Issue a Digital Age Estimation Certificate
+                  </p>
+                  <p class="text-[11px] text-slate-500">
+                    Department of Health
+                  </p>
+                </div>
+              </div>
+              <span class="text-[10px] text-slate-400">
+                (Prototype focuses on newborn)
+              </span>
+            </div>
+          </div>
+
+          <div class="service-row w-full text-left"
+               data-service-title="Issue True Copy Certificate">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 flex items-center justify-between opacity-60">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center">
+                  <span>📑</span>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-slate-900">
+                    Issue True Copy Certificate
+                  </p>
+                  <p class="text-[11px] text-slate-500">
+                    General Administration of Customs – Abu Dhabi
+                  </p>
+                </div>
+              </div>
+              <span class="text-[10px] text-slate-400">
+                (Shown for context)
+              </span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- SERVICE DETAILS / AS-IS BASE --------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="service">
+    <div class="phone-shell h-screen flex flex-col">
+      <header class="px-4 pt-4 pb-3 flex items-center justify-between">
+        <button type="button"
+                onclick="showScreen('home')"
+                class="text-xs text-slate-500 flex items-center gap-1">
+          ← Home
         </button>
-      );
-    };
+        <span class="text-[11px] text-slate-500 font-semibold">
+          Newborn Digital Birth Certificate
+        </span>
+        <div class="w-5"></div>
+      </header>
 
-    // ---------- CRM DATA (simplified) ----------
+      <main class="flex-1 px-4 pb-5 overflow-y-auto">
+        <!-- Insights toggle -->
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs text-slate-500">
+            CRM & KPI overlays
+          </p>
+          <button id="insights-toggle"
+                  type="button"
+                  onclick="toggleInsights()"
+                  class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-teal-600 text-white text-[11px] font-medium">
+            <span>Insights</span>
+            <span id="insights-toggle-text">On</span>
+          </button>
+        </div>
 
-    const CRM_GLOBAL = {
-      totalCases: 762,
-      payment: { count: 190, share: 25 },
-      technical: { count: 396, share: 52 }
-    };
+        <!-- Global CRM card -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 mb-3 text-xs flex justify-between items-center"
+             data-insight>
+          <div>
+            <p class="text-[11px] uppercase font-semibold text-slate-400">
+              CRM for this service
+            </p>
+            <p class="text-slate-700">
+              762 complaints analysed (Jan–Sep)
+            </p>
+            <p class="text-slate-500">
+              198 payment issues (26%) · 396 technical (52%)
+            </p>
+          </div>
+          <div class="text-[10px] text-rose-600 font-semibold text-right">
+            ⚠️ Very high friction
+          </div>
+        </div>
 
-    const CRM_STAGES = {
-      service: {
-        label: "Service overview",
-        totalCases: 762,
-        share: 100,
-        topCategory: "Technical & payment issues",
-        examples: [
-          "Parents report difficulty finding the correct newborn digital birth certificate service inside TAMM.",
-          "Several cases mention confusion between certificates, copies, and attestation options."
-        ]
-      },
-      notification: {
-        label: "Notification selection",
-        totalCases: 7,
-        share: 1,
-        topCategory: "Technical issues when selecting notification",
-        examples: [
-          "Case 240909‑5038613: “When I select the birth notification number, an unexpected error appears and I cannot move to the next step.”",
-          "Case 240924‑5103975: “I tried to apply using the birth notification but there was a problem and I could not proceed.”"
-        ]
-      },
-      documents: {
-        label: "Upload documents",
-        totalCases: 41,
-        share: 5,
-        topCategory: "Document upload & eligibility issues",
-        examples: [
-          "“Once I submit all required documents I get an error and the page does not move forward in the newborn digital birth certificate service.”",
-          "“The system shows that I am not eligible even though I have attached the birth notification and documents.”"
-        ]
-      },
-      naming: {
-        label: "Baby details / naming",
-        totalCases: 5,
-        share: 1,
-        topCategory: "Freezing & wrong name details",
-        examples: [
-          "“When I try to complete the newborn details the form freezes and I cannot reach the payment step.”",
-          "“The name for my baby is shown incorrectly and I cannot edit it in the service.”"
-        ]
-      },
-      payment: {
-        label: "Payment",
-        totalCases: 198,
-        share: 26,
-        topCategory: "Payment captured but status still pending",
-        examples: [
-          "“I already paid for the newborn birth certificate but the application still says ‘pending payment’ and I cannot download the certificate.”",
-          "“There was an error during payment so I could not complete the service.”"
-        ]
-      },
-      status: {
-        label: "Processing & issuance",
-        totalCases: 57,
-        share: 7,
-        topCategory: "Request stuck in progress / late rejection",
-        examples: [
-          "“My newborn’s digital birth certificate request has been in progress for many days and has not been issued.”",
-          "“The request was later rejected due to a name error with no clear way to correct and resubmit.”"
-        ]
-      }
-    };
+        <!-- Service description -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4">
+          <h1 class="text-lg font-bold text-slate-900 mb-1">
+            Issue a Newborn Digital Birth Certificate
+          </h1>
+          <p class="text-xs text-slate-600">
+            Through this service, you can request the issuance of a digital birth certificate
+            for a newborn. If desired, the certificate can be attested for international use.
+          </p>
+        </div>
 
-    // ---------- AI name library (gender + initial + meaning) ----------
+        <!-- Required documents -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs">
+          <h2 class="text-sm font-semibold text-slate-900 mb-2">
+            Required documents
+          </h2>
+          <p class="text-[11px] text-slate-500 mb-2">
+            These are available in My TAMM:
+          </p>
+          <p class="mb-2">• Emirates ID (Parents’ Emirates Identity)</p>
+          <p class="text-[11px] text-slate-500 mb-1">
+            The following must be submitted during the application process:
+          </p>
+          <p>• Parents’ passports</p>
+          <p>• Marriage contract</p>
+        </div>
 
+        <!-- Costs -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs">
+          <h2 class="text-sm font-semibold text-slate-900 mb-2">
+            Costs
+          </h2>
+          <p class="text-[11px] text-slate-500 mb-2">
+            Payment methods: AD Pay, debit / credit card
+          </p>
+          <div class="space-y-1">
+            <div class="flex justify-between">
+              <span>Issuance fees for a certificate in English</span>
+              <span class="font-semibold">AED 50.00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Issuance fees for a certificate in Arabic</span>
+              <span class="font-semibold">AED 50.00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Attestation fee by Ministry of Foreign Affairs (optional)</span>
+              <span class="font-semibold">AED 150.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Process -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs">
+          <h2 class="text-sm font-semibold text-slate-900 mb-2">
+            The process (As‑Is)
+          </h2>
+          <ol class="space-y-1 text-slate-700">
+            <li>1. Log in using UAE PASS.</li>
+            <li>2. Select the newborn digital birth certificate service.</li>
+            <li>3. Submit the application and required documents.</li>
+            <li>4. Pay the fees.</li>
+            <li>5. Receive the digital birth certificate.</li>
+          </ol>
+        </div>
+
+        <div class="text-[11px] text-slate-400 mb-3" data-insight>
+          Tip: Turn insights off to see the pure TAMM journey without CRM overlays.
+        </div>
+      </main>
+
+      <footer class="px-4 pb-4 flex flex-col gap-2">
+        <button type="button"
+                onclick="startAsIsJourney()"
+                class="w-full h-11 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold flex items-center justify-center gap-2">
+          <span>⏳</span>
+          <span>View As‑Is journey</span>
+        </button>
+        <button type="button"
+                onclick="startToBeJourney()"
+                class="w-full h-11 rounded-xl bg-white text-teal-700 border border-teal-600 text-sm font-semibold flex items-center justify-center gap-2">
+          <span>⚡️</span>
+          <span>View To‑Be journey</span>
+        </button>
+      </footer>
+    </div>
+  </section>
+
+  <!-- AS-IS JOURNEY ------------------------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="asis">
+    <div class="phone-shell h-screen flex flex-col">
+      <header class="px-4 pt-4 pb-2 flex items-center justify-between">
+        <button type="button"
+                onclick="showScreen('service')"
+                class="text-xs text-slate-500 flex items-center gap-1">
+          ← Service
+        </button>
+        <span class="text-[11px] text-slate-500 font-semibold">
+          As‑Is journey
+        </span>
+        <span class="text-[10px] text-rose-600 font-semibold" data-insight>
+          ⚠️ CRM issues visible
+        </span>
+      </header>
+
+      <main class="flex-1 px-4 pb-5 overflow-y-auto">
+        <!-- Stepper -->
+        <div id="asis-stepper" class="flex justify-between mb-3 text-[10px]">
+          <div class="flex flex-col items-center" data-step="1">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              1
+            </div>
+            <span class="mt-1 text-slate-500">Notification</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="2">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              2
+            </div>
+            <span class="mt-1 text-slate-500">Documents</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="3">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              3
+            </div>
+            <span class="mt-1 text-slate-500">Baby details</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="4">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              4
+            </div>
+            <span class="mt-1 text-slate-500">Payment</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="5">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              5
+            </div>
+            <span class="mt-1 text-slate-500">Certificate</span>
+          </div>
+        </div>
+
+        <!-- Steps container -->
+        <div id="asis-steps" class="text-xs space-y-4">
+
+          <!-- STEP 1: Notification -->
+          <div data-step="1">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 1 · Select birth notification
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Parents must find and select the correct birth notification number before they can
+              continue the service.
+            </p>
+
+            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
+                 data-insight>
+              <span>7 CRM cases · 1% · Notification errors</span>
+              <span>⚠️</span>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 space-y-2">
+              <p class="text-[11px] text-slate-500 mb-1">
+                Birth notification number
+              </p>
+              <div class="space-y-2">
+                <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
+                  <span>AD/BTH‑NC/0030214/2024</span>
+                  <input type="radio" name="asis-notif" />
+                </label>
+                <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
+                  <span>AD/BTH‑NC/0031020/2024</span>
+                  <input type="radio" name="asis-notif" />
+                </label>
+                <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
+                  <span>AG/BTH/MC/0032292/2024</span>
+                  <input type="radio" name="asis-notif" />
+                </label>
+              </div>
+
+              <div class="mt-3 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
+                   data-insight>
+                <p class="font-semibold mb-1">Example CRM complaints</p>
+                <ul class="list-disc list-inside space-y-1">
+                  <li>“When I select the birth notification number an error appears and I cannot move to the next step.”</li>
+                  <li>“I tried to apply using the birth notification but the system keeps showing an error.”</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showAsIsStep(2)"
+                      class="w-full h-10 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showToBeFromAsIs(1)"
+                      class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
+                See To‑Be version of this step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Documents -->
+          <div data-step="2" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 2 · Upload documents
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Parents re‑upload documents that already exist in ICP and Malafi.
+            </p>
+
+            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
+                 data-insight>
+              <span>41 CRM cases · 5% · Upload & eligibility issues</span>
+              <span>⚠️</span>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 space-y-2">
+              <p class="text-[11px] text-slate-500 mb-1">
+                Upload all required files
+              </p>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between border border-dashed border-slate-300 rounded-xl px-3 py-2 bg-slate-50">
+                  <span>Father passport</span>
+                  <span class="text-teal-700 font-semibold text-[11px]">Upload</span>
+                </div>
+                <div class="flex items-center justify-between border border-dashed border-slate-300 rounded-xl px-3 py-2 bg-slate-50">
+                  <span>Mother passport</span>
+                  <span class="text-teal-700 font-semibold text-[11px]">Upload</span>
+                </div>
+                <div class="flex items-center justify-between border border-dashed border-slate-300 rounded-xl px-3 py-2 bg-slate-50">
+                  <span>Marriage contract</span>
+                  <span class="text-teal-700 font-semibold text-[11px]">Upload</span>
+                </div>
+                <div class="flex items-center justify-between border border-dashed border-slate-300 rounded-xl px-3 py-2 bg-slate-50">
+                  <span>Family book</span>
+                  <span class="text-teal-700 font-semibold text-[11px]">Upload</span>
+                </div>
+              </div>
+
+              <div class="mt-3 bg-amber-50 border border-amber-100 rounded-2xl p-2.5 text-amber-800"
+                   data-insight>
+                “Once I submit all required documents I get an error and the page does not move
+                forward in the newborn digital birth certificate service.”
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showAsIsStep(3)"
+                      class="w-full h-10 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showToBeFromAsIs(2)"
+                      class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
+                See To‑Be version of this step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Baby details -->
+          <div data-step="3" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 3 · Baby details
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Names are typed manually in English and Arabic with no validation.
+            </p>
+
+            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
+                 data-insight>
+              <span>5 CRM cases · 1% · Name & freezing issues</span>
+              <span>⚠️</span>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 space-y-3">
+              <div>
+                <label class="block text-[11px] font-medium text-slate-600 mb-1">
+                  Baby name (English)
+                </label>
+                <input class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"
+                       placeholder="e.g. Zayed" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-medium text-slate-600 mb-1">
+                  Baby name (Arabic)
+                </label>
+                <input class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm text-right"
+                       placeholder="e.g. زايد" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-medium text-slate-600 mb-1">
+                  Nationality
+                </label>
+                <select class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+                  <option>United Arab Emirates</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-medium text-slate-600 mb-1">
+                  Religion
+                </label>
+                <select class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
+                  <option>Islam</option>
+                </select>
+              </div>
+              <p class="text-[10px] text-slate-400" data-insight>
+                * If the Arabic and English spelling do not match ICP rules, the request may be
+                rejected after several days.
+              </p>
+
+              <div class="mt-2 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
+                   data-insight>
+                “I tried to complete the newborn details but the form freezes and I cannot reach
+                the payment step or correct the name.”
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showAsIsStep(4)"
+                      class="w-full h-10 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showToBeFromAsIs(3)"
+                      class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
+                See To‑Be version of this step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Payment -->
+          <div data-step="4" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 4 · Pay for certificates
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Parents pay separately for Arabic and English certificates, increasing cost and
+              complexity.
+            </p>
+
+            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
+                 data-insight>
+              <span>198 CRM cases · 26% · Payment captured / status pending</span>
+              <span>⚠️</span>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs">
+              <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2 mb-2">
+                <span>Arabic certificate</span>
+                <span class="flex items-center gap-2">
+                  <span class="font-semibold">AED 50.00</span>
+                  <input type="checkbox" />
+                </span>
+              </label>
+              <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
+                <span>English certificate</span>
+                <span class="flex items-center gap-2">
+                  <span class="font-semibold">AED 50.00</span>
+                  <input type="checkbox" />
+                </span>
+              </label>
+              <div class="mt-3 border-t border-slate-200 pt-2 flex justify-between">
+                <span class="font-semibold">Total</span>
+                <span class="font-bold text-teal-700">AED 100.00</span>
+              </div>
+
+              <div class="mt-3 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
+                   data-insight>
+                “I already paid but the application still shows pending payment and I cannot get
+                the certificate.”
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showAsIsStep(5)"
+                      class="w-full h-10 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showToBeFromAsIs(4)"
+                      class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
+                See To‑Be version of this step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 5: Certificate / status -->
+          <div data-step="5" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 5 · Processing & issuance
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Requests can remain “in progress” for days and may be rejected later due to name
+              mismatches.
+            </p>
+
+            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
+                 data-insight>
+              <span>57 CRM cases · 7% · Stuck or late rejection</span>
+              <span>⚠️</span>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs space-y-3">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-[11px] text-slate-500">Current status</p>
+                  <p class="text-sm font-semibold text-amber-700">In progress</p>
+                </div>
+                <span class="text-xs text-slate-400">2 days</span>
+              </div>
+              <div class="border-t border-slate-200 pt-3">
+                <p class="text-[11px] text-slate-500 mb-1">
+                  Final outcome (example)
+                </p>
+                <p class="text-sm font-semibold text-rose-700 mb-1">
+                  Application rejected
+                </p>
+                <p class="text-[11px] text-slate-600">
+                  Name mismatch. The Arabic name does not match the English spelling as per ICP
+                  naming rules. A new application with new fees is required.
+                </p>
+              </div>
+
+              <div class="mt-2 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
+                   data-insight>
+                “My newborn’s certificate request stayed in progress for many days then was rejected
+                because of a name issue and I had to start again.”
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showScreen('service')"
+                      class="w-full h-10 rounded-xl bg-slate-900 text-white font-semibold flex items-center justify-center gap-2">
+                <span>←</span>
+                <span>Back to service overview</span>
+              </button>
+              <button type="button"
+                      onclick="showToBeFromAsIs(5)"
+                      class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
+                See To‑Be version of this step
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- TO-BE JOURNEY ------------------------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="tobe">
+    <div class="phone-shell h-screen flex flex-col">
+      <header class="px-4 pt-4 pb-2 flex items-center justify-between">
+        <button type="button"
+                onclick="showScreen('service')"
+                class="text-xs text-slate-500 flex items-center gap-1">
+          ← Service
+        </button>
+        <span class="text-[11px] text-emerald-700 font-semibold">
+          To‑Be journey
+        </span>
+        <span class="text-[10px] text-emerald-600 font-semibold" data-insight>
+          ✅ CRM issues addressed
+        </span>
+      </header>
+
+      <main class="flex-1 px-4 pb-5 overflow-y-auto">
+        <!-- Stepper -->
+        <div id="tobe-stepper" class="flex justify-between mb-3 text-[10px]">
+          <div class="flex flex-col items-center" data-step="1">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              1
+            </div>
+            <span class="mt-1 text-slate-500">Start</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="2">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              2
+            </div>
+            <span class="mt-1 text-slate-500">Naming</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="3">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              3
+            </div>
+            <span class="mt-1 text-slate-500">Documents</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="4">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              4
+            </div>
+            <span class="mt-1 text-slate-500">Payment</span>
+          </div>
+          <div class="flex flex-col items-center" data-step="5">
+            <div class="step-circle w-7 h-7 rounded-full border border-slate-300 bg-slate-50 text-slate-500 flex items-center justify-center text-xs font-semibold">
+              5
+            </div>
+            <span class="mt-1 text-slate-500">Issued</span>
+          </div>
+        </div>
+
+        <!-- Steps -->
+        <div id="tobe-steps" class="text-xs space-y-4">
+
+          <!-- STEP 1: Proactive start -->
+          <div data-step="1">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 1 · Proactive notification
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Parents receive a Mabrouk Ma Yak notification directly from the hospital record. No
+              need to search or select a notification number.
+            </p>
+
+            <div class="bg-slate-900 text-white rounded-3xl p-4 mb-3">
+              <div class="flex items-start gap-3 text-xs">
+                <span>👶</span>
+                <div>
+                  <p class="font-semibold mb-1">Mabrouk Ma Yak!</p>
+                  <p class="text-slate-200">
+                    We received a birth notification for your newborn. Tap to name your baby and
+                    issue all documents in one journey.
+                  </p>
+                  <p class="text-[10px] text-slate-400 mt-1">Just now · from Malafi</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px]"
+                 data-insight>
+              <p class="font-semibold mb-1">Expected CRM impact</p>
+              <p>Eliminates notification‑selection errors (7 cases, 1% of complaints).</p>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showToBeStep(2)"
+                      class="w-full h-10 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showAsIsFromToBe(1)"
+                      class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
+                Compare with As‑Is step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Smart naming with AI -->
+          <div data-step="2" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 2 · Smart naming with AI
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Choose gender and first letter, then let AI suggest names with meanings. Arabic and
+              English are checked against ICP rules.
+            </p>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-3 text-xs space-y-3">
+              <!-- Manual inputs -->
+              <div>
+                <label class="block text-[11px] font-medium text-slate-600 mb-1">
+                  Name (English)
+                </label>
+                <input id="tobe-name-en"
+                       class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"
+                       placeholder="e.g. Zayed" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-medium text-slate-600 mb-1">
+                  Name (Arabic)
+                </label>
+                <input id="tobe-name-ar"
+                       class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm text-right"
+                       placeholder="e.g. زايد" />
+              </div>
+
+              <div class="relative flex py-2 items-center">
+                <div class="flex-grow border-t border-slate-200"></div>
+                <span class="flex-shrink-0 mx-4 text-[10px] text-slate-400 uppercase tracking-wide">
+                  or use AI
+                </span>
+                <div class="flex-grow border-t border-slate-200"></div>
+              </div>
+
+              <!-- AI helper -->
+              <div class="bg-violet-50 border border-violet-100 rounded-2xl p-3">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-[11px] font-semibold text-violet-700">
+                    AI name helper
+                  </span>
+                  <div class="flex text-[11px] bg-white rounded-full p-0.5">
+                    <button type="button"
+                            data-gender="boy"
+                            class="gender-btn px-2 py-0.5 rounded-full bg-violet-600 text-white">
+                      Boy
+                    </button>
+                    <button type="button"
+                            data-gender="girl"
+                            class="gender-btn px-2 py-0.5 rounded-full text-violet-700">
+                      Girl
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mb-2">
+                  <p class="text-[10px] text-slate-500 mb-1">
+                    Choose first letter (optional)
+                  </p>
+                  <div class="flex flex-wrap gap-1">
+                    <button type="button" data-letter="Z"
+                            class="letter-btn px-2 py-0.5 rounded-full text-[11px] border border-violet-200 bg-white text-violet-700">
+                      Z
+                    </button>
+                    <button type="button" data-letter="K"
+                            class="letter-btn px-2 py-0.5 rounded-full text-[11px] border border-violet-200 bg-white text-violet-700">
+                      K
+                    </button>
+                    <button type="button" data-letter="H"
+                            class="letter-btn px-2 py-0.5 rounded-full text-[11px] border border-violet-200 bg-white text-violet-700">
+                      H
+                    </button>
+                    <button type="button" data-letter="M"
+                            class="letter-btn px-2 py-0.5 rounded-full text-[11px] border border-violet-200 bg-white text-violet-700">
+                      M
+                    </button>
+                    <button type="button" data-letter="F"
+                            class="letter-btn px-2 py-0.5 rounded-full text-[11px] border border-violet-200 bg-white text-violet-700">
+                      F
+                    </button>
+                    <button type="button" data-letter="L"
+                            class="letter-btn px-2 py-0.5 rounded-full text-[11px] border border-violet-200 bg-white text-violet-700">
+                      L
+                    </button>
+                  </div>
+                </div>
+
+                <button id="btn-generate-names"
+                        type="button"
+                        class="w-full h-8 rounded-xl bg-white border border-violet-200 text-[11px] text-violet-700 font-semibold flex items-center justify-center gap-2">
+                  <span>✨</span>
+                  <span>Generate name suggestions</span>
+                </button>
+
+                <div id="ai-suggestions" class="mt-3"></div>
+              </div>
+
+              <div id="name-verified"
+                   class="mt-3 rounded-2xl bg-emerald-50 border border-emerald-100 p-2.5 text-[11px] text-emerald-800 hidden"
+                   data-insight>
+                <p class="font-semibold mb-1">Name verified</p>
+                <p>
+                  Arabic and English forms match ICP naming rules. No name‑mismatch rejections.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px] mb-3"
+                 data-insight>
+              <p class="font-semibold mb-1">Expected CRM impact</p>
+              <p>Removes name and freezing issues (5 cases) and avoids late rejection at issuance.</p>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button id="btn-tobe-naming-next"
+                      type="button"
+                      onclick="showToBeStep(3)"
+                      class="w-full h-10 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showAsIsFromToBe(3)"
+                      class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
+                Compare with As‑Is step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Documents auto-fetched -->
+          <div data-step="3" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 3 · Documents auto‑fetched
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              All required documents are pulled from ICP and back‑end systems. No uploads, no
+              eligibility surprises.
+            </p>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs space-y-3">
+              <div class="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2">
+                <span>Father’s ID & passport – Retrieved from ICP</span>
+                <span>✔</span>
+              </div>
+              <div class="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2">
+                <span>Mother’s ID & passport – Retrieved from ICP</span>
+                <span>✔</span>
+              </div>
+              <div class="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2">
+                <span>Marriage contract – Verified by Ministry of Justice</span>
+                <span>✔</span>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px] mt-3"
+                 data-insight>
+              <p class="font-semibold mb-1">Expected CRM impact</p>
+              <p>Removes document upload and eligibility complaints (41 cases, 5%).</p>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showToBeStep(4)"
+                      class="w-full h-10 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showAsIsFromToBe(2)"
+                      class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
+                Compare with As‑Is step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Payment (one payment) -->
+          <div data-step="4" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 4 · Single payment for bundle
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              One payment covers birth certificate + Emirates ID + passport, with payment recovery
+              to fix “paid but pending” issues.
+            </p>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3">
+              <div class="bg-slate-50 rounded-2xl p-3 mb-3">
+                <p class="text-[11px] font-semibold text-slate-500 mb-2">
+                  Bundle breakdown
+                </p>
+                <div class="flex justify-between mb-1">
+                  <span>Birth certificate</span>
+                  <span class="font-semibold">AED 50.00</span>
+                </div>
+                <div class="flex justify-between mb-1">
+                  <span>Emirates ID (newborn)</span>
+                  <span class="font-semibold">AED 170.00</span>
+                </div>
+                <div class="flex justify-between mb-1">
+                  <span>Passport issuance</span>
+                  <span class="font-semibold">AED 55.00</span>
+                </div>
+                <div class="mt-2 pt-2 border-t border-slate-200 flex justify-between items-center">
+                  <span class="font-semibold">Bundle total</span>
+                  <span class="font-bold text-teal-700">AED 275.00</span>
+                </div>
+              </div>
+
+              <button type="button"
+                      class="w-full h-10 mb-2 rounded-xl bg-black text-white font-semibold flex items-center justify-center gap-2">
+                <span>Pay with Apple Pay</span>
+              </button>
+
+              <div class="mt-2 p-3 rounded-2xl bg-emerald-50 border border-emerald-100 text-xs text-emerald-800"
+                   data-insight>
+                <p class="font-semibold mb-1">Payment recovery</p>
+                <p>
+                  If the bank shows the amount as paid but TAMM is still “pending payment”, the
+                  system automatically reconciles with AD Pay logs and continues the journey without
+                  a new complaint.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px]"
+                 data-insight>
+              <p class="font-semibold mb-1">Expected CRM impact</p>
+              <p>Resolves the majority of payment‑related cases (198 cases, 26%).</p>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showToBeStep(5)"
+                      class="w-full h-10 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold flex items-center justify-center gap-2">
+                <span>Next</span>
+                <span>→</span>
+              </button>
+              <button type="button"
+                      onclick="showAsIsFromToBe(4)"
+                      class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
+                Compare with As‑Is step
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 5: Issued + digital locker -->
+          <div data-step="5" class="hidden">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">
+              Step 5 · Documents issued instantly
+            </h2>
+            <p class="text-xs text-slate-500 mb-2">
+              Birth certificate, Emirates ID and passport are issued in one go and stored in the
+              digital locker.
+            </p>
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 text-xs text-center mb-3">
+              <div class="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-3">
+                <span>✅</span>
+              </div>
+              <p class="text-lg font-bold text-slate-900 mb-1">Successfully issued</p>
+              <p class="text-slate-500 mb-3">
+                Your newborn’s birth certificate, Emirates ID and passport are now available in
+                your digital locker and wallet.
+              </p>
+
+              <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 mb-3 text-left">
+                <p class="text-[11px] font-semibold text-slate-500 mb-1">
+                  Digital locker
+                </p>
+                <div class="flex items-center justify-between bg-white rounded-xl px-3 py-2 mb-2 border border-slate-200">
+                  <span>Birth certificate (PDF)</span>
+                  <span>⬇️</span>
+                </div>
+                <div class="flex items-center justify-between bg-black text-white rounded-xl px-3 py-2">
+                  <span>Add to Apple Wallet</span>
+                  <span>➕</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-900 text-white rounded-2xl p-4 text-left">
+                <p class="text-sm font-semibold mb-1">
+                  Hospital kiosk pickup
+                </p>
+                <p class="text-[11px] text-slate-200 mb-2">
+                  Scan this code at the hospital kiosk to print the newborn’s physical documents.
+                </p>
+                <div class="bg-white rounded-xl p-2 w-fit">
+                  <span>🔳</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px]"
+                 data-insight>
+              <p class="font-semibold mb-1">Overall CRM impact</p>
+              <p>
+                Combining early validation, auto‑fetched data and single payment removes the
+                majority of complaints along this journey.
+              </p>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <button type="button"
+                      onclick="showScreen('service')"
+                      class="w-full h-10 rounded-xl bg-slate-900 text-white font-semibold flex items-center justify-center gap-2">
+                <span>←</span>
+                <span>Back to service overview</span>
+              </button>
+              <button type="button"
+                      onclick="showAsIsFromToBe(5)"
+                      class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
+                Compare with As‑Is step
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- SCRIPT -------------------------------------------------------->
+  <script>
+    // ------------ Data for AI naming ------------
     const NAME_LIBRARY = [
       {
         en: "Zayed",
@@ -220,1512 +1186,334 @@
       }
     ];
 
-    // ---------- CRM snippet ----------
+    // ------------ Global state ------------
+    let insightsOn = true;
+    let asisCurrentStep = 1;
+    let tobeCurrentStep = 1;
+    let selectedGender = "boy";
+    let selectedInitial = null;
 
-    const CRMPanel = ({ stageKey, onSeeToBe }) => {
-      const data = CRM_STAGES[stageKey];
-      if (!data) return null;
-      return (
-        <div className="mt-4 bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs">
-          <div className="flex justify-between mb-1">
-            <span className="font-semibold text-slate-700">
-              CRM hotspot – {data.label}
-            </span>
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-[10px] font-semibold">
-              <EmojiIcon symbol="⚠️" /> Pain point
-            </span>
-          </div>
-          <p className="text-slate-600">
-            {data.totalCases} complaints · {data.share}% of all cases – mainly{" "}
-            <span className="font-semibold">{data.topCategory}</span>.
-          </p>
-          <ul className="mt-2 space-y-1 list-disc list-inside">
-            {data.examples.slice(0, 2).map((t, i) => (
-              <li key={i} className="text-slate-500">
-                {t}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-2 flex gap-2">
-            <Button
-              variant="secondary"
-              className="flex-1 h-8 text-[11px]"
-            >
-              View CRM details
-            </Button>
-            <Button
-              variant="ghost"
-              className="flex-1 h-8 text-[11px]"
-              onClick={onSeeToBe}
-            >
-              See To‑Be fix →
-            </Button>
-          </div>
-        </div>
-      );
-    };
-
-    // ---------- Screens ----------
-
-    const Splash = ({ onNext }) => {
-      useEffect(() => {
-        const t = setTimeout(onNext, 1500);
-        return () => clearTimeout(t);
-      }, [onNext]);
-
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-900 to-teal-700 text-white">
-          <div className="phone-shell h-screen flex flex-col items-center justify-center relative overflow-hidden">
-            <div className="w-24 h-24 rounded-3xl bg-white/10 border border-white/20 flex items-center justify-center mb-6 shadow-xl">
-              <EmojiIcon symbol="📱" />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight">TAMM</h1>
-            <p className="text-teal-200 text-xs mt-2 tracking-[0.25em] uppercase">
-              Abu Dhabi Government
-            </p>
-            <div className="absolute bottom-10 text-xs text-teal-100 flex items-center gap-2">
-              <span className="animate-pulse">●</span>
-              Loading your services…
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    const UAEPassLogin = ({ onLogin }) => {
-      const [loading, setLoading] = useState(false);
-      const handle = () => {
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          onLogin();
-        }, 1500);
-      };
-
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
-          <div className="phone-shell h-screen flex flex-col items-center justify-center px-6">
-            <div className="w-full max-w-sm">
-              {!loading ? (
-                <>
-                  <div className="text-center mb-10">
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                      Welcome
-                    </h1>
-                    <p className="text-slate-500 text-sm">
-                      Sign in securely with UAE PASS to access your newborn services.
-                    </p>
-                  </div>
-                  <Card className="p-7 mb-4">
-                    <div className="flex justify-center mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-slate-900 text-white flex flex-col items-center justify-center text-[10px] font-bold leading-tight">
-                        <span>UAE</span>
-                        <span>PASS</span>
-                      </div>
-                    </div>
-                    <Button
-                      variant="primary"
-                      className="w-full h-11 text-sm bg-slate-900 hover:bg-slate-800"
-                      onClick={handle}
-                    >
-                      <EmojiIcon symbol="🔐" /> Login with UAE PASS
-                    </Button>
-                  </Card>
-                  <p className="text-[11px] text-center text-slate-400">
-                    Your identity is verified by UAE PASS. No password is stored in TAMM.
-                  </p>
-                </>
-              ) : (
-                <div className="flex flex-col items-center animate-fade-in">
-                  <div className="w-28 h-28 bg-white rounded-3xl shadow-xl border-4 border-slate-900 flex items-center justify-center mb-6 relative overflow-hidden">
-                    <EmojiIcon symbol="🌀" />
-                  </div>
-                  <h2 className="text-xl font-semibold text-slate-900">
-                    Verifying identity…
-                  </h2>
-                  <p className="text-slate-500 text-sm mt-1">
-                    Confirm the request in your UAE PASS app.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // --------- HOME (search for service like TAMM) ---------
-
-    const Home = ({ onSelectService }) => {
-      const [query, setQuery] = useState("");
-
-      const services = [
-        {
-          id: "newborn-cert",
-          title: "Issue a Newborn Digital Birth Certificate",
-          entity: "Department of Health"
-        },
-        {
-          id: "age-estimation",
-          title: "Issue a Digital Age Estimation Certificate",
-          entity: "Department of Health"
-        },
-        {
-          id: "true-copy",
-          title: "Issue True Copy Certificate",
-          entity: "General Administration of Customs - Abu Dhabi"
+    // ------------ Helpers ------------
+    function showScreen(key) {
+      document.querySelectorAll(".screen").forEach(function (el) {
+        if (el.getAttribute("data-screen") === key) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
         }
-      ];
+      });
+    }
 
-      const filtered = services.filter((s, idx) => {
-        if (!query) {
-          // no search -> only highlight the main service like TAMM assistant
-          return idx === 0;
+    function toggleInsights() {
+      insightsOn = !insightsOn;
+      updateInsightsUI();
+    }
+
+    function updateInsightsUI() {
+      const toggleText = document.getElementById("insights-toggle-text");
+      if (toggleText) {
+        toggleText.textContent = insightsOn ? "On" : "Off";
+      }
+      const toggle = document.getElementById("insights-toggle");
+      if (toggle) {
+        if (insightsOn) {
+          toggle.classList.add("bg-teal-600", "text-white");
+        } else {
+          toggle.classList.remove("bg-teal-600");
+          toggle.classList.add("bg-slate-300");
         }
-        return s.title.toLowerCase().includes(query.toLowerCase());
+      }
+      document.querySelectorAll("[data-insight]").forEach(function (el) {
+        if (insightsOn) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
+        }
+      });
+    }
+
+    function startAsIsJourney() {
+      asisCurrentStep = 1;
+      updateAsIsStep();
+      showScreen("asis");
+    }
+
+    function startToBeJourney() {
+      tobeCurrentStep = 1;
+      updateToBeStep();
+      showScreen("tobe");
+    }
+
+    function showAsIsStep(step) {
+      asisCurrentStep = step;
+      updateAsIsStep();
+    }
+
+    function showToBeStep(step) {
+      tobeCurrentStep = step;
+      updateToBeStep();
+    }
+
+    function showToBeFromAsIs(asisStep) {
+      const mapping = { 1: 1, 2: 3, 3: 2, 4: 4, 5: 5 };
+      const target = mapping[asisStep] || 1;
+      tobeCurrentStep = target;
+      updateToBeStep();
+      showScreen("tobe");
+    }
+
+    function showAsIsFromToBe(tobeStep) {
+      const mapping = { 1: 1, 2: 3, 3: 2, 4: 4, 5: 5 };
+      const target = mapping[tobeStep] || 1;
+      asisCurrentStep = target;
+      updateAsIsStep();
+      showScreen("asis");
+    }
+
+    function updateAsIsStep() {
+      const container = document.getElementById("asis-steps");
+      if (!container) return;
+      container.querySelectorAll("[data-step]").forEach(function (el) {
+        const step = parseInt(el.getAttribute("data-step"), 10);
+        if (step === asisCurrentStep) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
+        }
       });
 
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
-          <div className="phone-shell h-screen flex flex-col">
-            {/* Top hero */}
-            <div className="bg-gradient-to-b from-teal-800 to-teal-700 text-white px-4 pt-10 pb-6 rounded-b-3xl shadow-md">
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <p className="text-[11px] text-teal-200">How can I assist you?</p>
-                  <p className="text-xl font-semibold">Search for a service</p>
-                </div>
-                <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-                  <EmojiIcon symbol="🙂" />
-                </div>
-              </div>
-              <div className="bg-white rounded-full px-3 py-2 flex items-center gap-2 shadow-sm">
-                <EmojiIcon symbol="🔍" />
-                <input
-                  className="flex-1 border-none outline-none text-sm text-slate-800"
-                  placeholder="Issue a Newborn Digital Birth Certificate"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-                {query && (
-                  <button
-                    onClick={() => setQuery("")}
-                    className="text-xs text-slate-400"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Results list */}
-            <main className="flex-1 px-4 pt-4 pb-6 overflow-y-auto">
-              <p className="text-xs text-slate-500 mb-2">Services</p>
-              <div className="space-y-2">
-                {filtered.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => s.id === "newborn-cert" && onSelectService()}
-                    className="w-full text-left"
-                  >
-                    <Card className="p-3 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center">
-                          <EmojiIcon symbol={s.id === "newborn-cert" ? "👶" : "📄"} />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-slate-900">
-                            {s.title}
-                          </p>
-                          <p className="text-[11px] text-slate-500">
-                            {s.entity}
-                          </p>
-                        </div>
-                      </div>
-                      {s.id === "newborn-cert" ? (
-                        <span className="text-[11px] text-teal-700 font-semibold">
-                          Recommended
-                        </span>
-                      ) : (
-                        <span className="text-[10px] text-slate-400">
-                          (prototype: main flow only)
-                        </span>
-                      )}
-                    </Card>
-                  </button>
-                ))}
-              </div>
-            </main>
-          </div>
-        </div>
-      );
-    };
-
-    // --------- Service overview: As‑Is vs To‑Be ---------
-
-    const ServiceOverview = ({ onBack, onSelectMode }) => {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
-          <div className="phone-shell h-screen flex flex-col">
-            <header className="px-4 pt-4 pb-3 flex items-center justify-between">
-              <button
-                onClick={onBack}
-                className="text-xs text-slate-500 flex items-center gap-1"
-              >
-                ← Home
-              </button>
-              <span className="text-[11px] text-slate-500 font-semibold">
-                Newborn Digital Birth Certificate
-              </span>
-              <div className="w-5" />
-            </header>
-
-            {/* Global CRM bar */}
-            <div className="px-4 mb-3">
-              <Card className="p-3 text-xs flex justify-between items-center">
-                <div>
-                  <p className="text-[11px] uppercase font-semibold text-slate-400">
-                    CRM for this service
-                  </p>
-                  <p className="text-slate-700">
-                    {CRM_GLOBAL.totalCases} complaints analysed
-                  </p>
-                  <p className="text-slate-500">
-                    {CRM_GLOBAL.payment.count} payment issues ({CRM_GLOBAL.payment.share}%) ·{" "}
-                    {CRM_GLOBAL.technical.count} technical ({CRM_GLOBAL.technical.share}%)
-                  </p>
-                </div>
-                <div className="text-[10px] text-rose-600 font-semibold text-right">
-                  <EmojiIcon symbol="⚠️" /> Very high friction
-                </div>
-              </Card>
-            </div>
-
-            <main className="flex-1 px-4 pb-6 overflow-y-auto">
-              <p className="text-xs text-slate-500 mb-3">
-                Compare the current TAMM journey with the redesigned seamless journey.
-              </p>
-              <div className="grid gap-4">
-                {/* As‑Is card */}
-                <button
-                  onClick={() => onSelectMode("asis")}
-                  className="text-left"
-                >
-                  <Card className="p-4">
-                    <div className="flex justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <EmojiIcon symbol="⏳" />
-                        <div>
-                          <p className="text-[11px] text-slate-500 font-semibold">
-                            Current state
-                          </p>
-                          <p className="text-sm font-semibold text-slate-900">
-                            As‑Is journey
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-[11px] text-rose-600 font-semibold">
-                        26% payment issues
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-600 mb-2">
-                      Manual data entry, repeated uploads, split payments and delayed rejections.
-                    </p>
-                    <ul className="text-[11px] text-rose-700 space-y-1">
-                      <li>• Confusing birth notification selection</li>
-                      <li>• Re‑uploading documents already in ICP / Malafi</li>
-                      <li>• Separate Arabic & English fees</li>
-                      <li>• Name mismatch rejections after several days</li>
-                    </ul>
-                  </Card>
-                </button>
-
-                {/* To‑Be card */}
-                <button
-                  onClick={() => onSelectMode("tobe")}
-                  className="text-left"
-                >
-                  <Card className="p-4 bg-gradient-to-br from-teal-600 to-teal-800 text-white">
-                    <div className="flex justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <EmojiIcon symbol="⚡️" />
-                        <div>
-                          <p className="text-[11px] text-teal-100 font-semibold">
-                            Future state
-                          </p>
-                          <p className="text-sm font-semibold">
-                            To‑Be journey
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-[11px] text-emerald-200 font-semibold">
-                        1 journey · 0 uploads
-                      </span>
-                    </div>
-                    <p className="text-xs text-teal-100 mb-2">
-                      Proactive Mabrouk Ma Yak bundle triggered from Malafi & ICP. Smart naming,
-                      single payment, instant documents.
-                    </p>
-                    <ul className="text-[11px] text-teal-100 space-y-1">
-                      <li>• Notification instead of searching for the service</li>
-                      <li>• Auto‑fetched documents from back‑end systems</li>
-                      <li>• AI‑assisted naming with validation</li>
-                      <li>• Payment recovery for failed / pending payments</li>
-                    </ul>
-                  </Card>
-                </button>
-              </div>
-            </main>
-          </div>
-        </div>
-      );
-    };
-
-    // --------- As‑Is Journey (same structure as before) ---------
-
-    const AsIs = ({ onBack, onJumpToToBe }) => {
-      const [step, setStep] = useState(1);
-      const [notif, setNotif] = useState("");
-      const [nameEn, setNameEn] = useState("");
-      const [nameAr, setNameAr] = useState("");
-      const [langs, setLangs] = useState({ ar: false, en: false });
-      const [rejected, setRejected] = useState(false);
-
-      // Step 1: service detail & process
-      if (step === 1) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  As‑Is · TAMM
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h1 className="text-xl font-bold text-slate-900 mb-1">
-                  Issue a Newborn Digital Birth Certificate
-                </h1>
-                <p className="text-xs text-slate-500 mb-3">
-                  Through this service, you can request the issuance of a digital birth certificate
-                  for a newborn. If desired, the certificate can be attested for international use.
-                </p>
-
-                <Card className="p-4 mb-4">
-                  <h2 className="text-sm font-semibold text-slate-900 mb-2">
-                    Required documents
-                  </h2>
-                  <p className="text-[11px] text-slate-500 mb-2">
-                    These are available in My TAMM:
-                  </p>
-                  <p className="text-xs text-slate-700 mb-2">
-                    • Emirates ID (Parents’ Emirates Identity)
-                  </p>
-                  <p className="text-[11px] text-slate-500 mb-1">
-                    The following must be submitted during the application process:
-                  </p>
-                  <p className="text-xs text-slate-700">• Parents’ passports</p>
-                  <p className="text-xs text-slate-700">• Marriage contract</p>
-                </Card>
-
-                <Card className="p-4 mb-4 text-xs">
-                  <h2 className="text-sm font-semibold text-slate-900 mb-2">Costs</h2>
-                  <p className="text-[11px] text-slate-500 mb-2">
-                    Payment methods: AD Pay, debit / credit card
-                  </p>
-                  <div className="space-y-1">
-                    <div className="flex justify-between">
-                      <span>Issuance fees for a certificate in English</span>
-                      <span className="font-semibold">AED 50.00</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Issuance fees for a certificate in Arabic</span>
-                      <span className="font-semibold">AED 50.00</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Attestation fee by Ministry of Foreign Affairs (optional)</span>
-                      <span className="font-semibold">AED 150.00</span>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card className="p-4 mb-3">
-                  <h2 className="text-sm font-semibold text-slate-900 mb-2">
-                    The process
-                  </h2>
-                  <ol className="space-y-2 text-xs text-slate-700">
-                    <li>1. Log in using UAE PASS.</li>
-                    <li>2. Submit the application and the required documents.</li>
-                    <li>3. Pay the fees.</li>
-                    <li>4. Receive the digital birth certificate.</li>
-                  </ol>
-                </Card>
-
-                <CRMPanel
-                  stageKey="service"
-                  onSeeToBe={() => onJumpToToBe(0)}
-                />
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  onClick={() => setStep(2)}
-                >
-                  Start As‑Is journey →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 2: select notification
-      if (step === 2) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={() => setStep(1)}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Service
-                </button>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  Step 1 of 5
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Select birth notification
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  Parents must choose the correct notification number before they can proceed.
-                </p>
-
-                <Card className="p-4 mb-3 text-xs">
-                  <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                    Birth notification number
-                  </label>
-                  <select
-                    className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-slate-50"
-                    value={notif}
-                    onChange={(e) => setNotif(e.target.value)}
-                  >
-                    <option value="">Select notification…</option>
-                    <option value="AD/BTH‑NC/0030214/2024">AD/BTH‑NC/0030214/2024</option>
-                    <option value="AD/BTH‑NC/0031020/2024">AD/BTH‑NC/0031020/2024</option>
-                    <option value="AG/BTH/MC/0032292/2024">AG/BTH/MC/0032292/2024</option>
-                  </select>
-
-                  <div className="mt-3 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700">
-                    <p className="font-semibold mb-1">Sample CRM complaint</p>
-                    <p>
-                      Case 240909‑5038613: “When I select the birth notification number, an
-                      unexpected error appears and I cannot move to the next step.”
-                    </p>
-                  </div>
-                </Card>
-
-                <CRMPanel
-                  stageKey="notification"
-                  onSeeToBe={() => onJumpToToBe(0)}
-                />
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  disabled={!notif}
-                  onClick={() => setStep(3)}
-                >
-                  Continue →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 3: upload documents
-      if (step === 3) {
-        const docs = [
-          "Father passport",
-          "Mother passport",
-          "Marriage contract",
-          "Family book",
-          "Father Emirates ID",
-          "Mother Emirates ID"
-        ];
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={() => setStep(2)}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Notification
-                </button>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  Step 2 of 5
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Upload documents
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  Parents re‑upload documents that already exist in ICP and Malafi.
-                </p>
-
-                <Card className="p-4 mb-3 text-xs">
-                  <div className="space-y-2">
-                    {docs.map((d) => (
-                      <div
-                        key={d}
-                        className="flex items-center justify-between border border-dashed border-slate-300 rounded-xl px-3 py-2 bg-slate-50"
-                      >
-                        <span>{d}</span>
-                        <span className="text-teal-700 font-semibold text-[11px]">
-                          Upload
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-3 bg-amber-50 border border-amber-100 rounded-2xl p-2.5 text-amber-800">
-                    “Once I submit all required documents I get an error and the page does not move
-                    forward in the newborn digital birth certificate service.”
-                  </div>
-                </Card>
-
-                <CRMPanel
-                  stageKey="documents"
-                  onSeeToBe={() => onJumpToToBe(2)}
-                />
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  onClick={() => setStep(4)}
-                >
-                  Continue →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 4: baby details & naming
-      if (step === 4) {
-        const canContinue = nameEn && nameAr;
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={() => setStep(3)}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Documents
-                </button>
-              <span className="text-[11px] text-slate-500 font-semibold">
-                  Step 3 of 5
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Baby details
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  Names are typed manually in English and Arabic with no validation.
-                </p>
-
-                <Card className="p-4 mb-3 text-xs">
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                        Baby name (English)
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"
-                        placeholder="e.g. Zayed"
-                        value={nameEn}
-                        onChange={(e) => setNameEn(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                        Baby name (Arabic)
-                      </label>
-                      <input
-                        type="text"
-                        className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm text-right"
-                        placeholder="e.g. زايد"
-                        value={nameAr}
-                        onChange={(e) => setNameAr(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                        Nationality
-                      </label>
-                      <select className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
-                        <option>United Arab Emirates</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                        Religion
-                      </label>
-                      <select className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm">
-                        <option>Islam</option>
-                      </select>
-                    </div>
-                    <p className="text-[10px] text-slate-400">
-                      * If the Arabic and English spelling do not match ICP rules, the request may be
-                      rejected after submission.
-                    </p>
-                  </div>
-
-                  <div className="mt-3 text-[11px] bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700">
-                    “I tried to complete the newborn details but the form freezes and I cannot reach
-                    the payment step or correct the name.”
-                  </div>
-                </Card>
-
-                <CRMPanel
-                  stageKey="naming"
-                  onSeeToBe={() => onJumpToToBe(1)}
-                />
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  disabled={!canContinue}
-                  onClick={() => setStep(5)}
-                >
-                  Continue →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 5: language & payment
-      if (step === 5) {
-        const total =
-          (langs.ar ? 50 : 0) +
-          (langs.en ? 50 : 0);
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={() => setStep(4)}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Baby details
-                </button>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  Step 4 of 5
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Choose certificates & pay
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  Parents pay separately for Arabic and English certificates, increasing cost and
-                  complexity.
-                </p>
-
-                <Card className="p-4 mb-3 text-xs">
-                  <label className="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2 mb-2">
-                    <span>Arabic certificate</span>
-                    <span className="flex items-center gap-2">
-                      <span className="font-semibold">AED 50.00</span>
-                      <input
-                        type="checkbox"
-                        checked={langs.ar}
-                        onChange={() =>
-                          setLangs((s) => ({ ...s, ar: !s.ar }))
-                        }
-                      />
-                    </span>
-                  </label>
-                  <label className="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
-                    <span>English certificate</span>
-                    <span className="flex items-center gap-2">
-                      <span className="font-semibold">AED 50.00</span>
-                      <input
-                        type="checkbox"
-                        checked={langs.en}
-                        onChange={() =>
-                          setLangs((s) => ({ ...s, en: !s.en }))
-                        }
-                      />
-                    </span>
-                  </label>
-                  <div className="mt-3 border-t border-slate-200 pt-2 flex justify-between text-xs">
-                    <span className="font-semibold">Total</span>
-                    <span className="font-bold text-teal-700">
-                      AED {total.toFixed(2)}
-                    </span>
-                  </div>
-
-                  <div className="mt-3 text-[11px] bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700">
-                    “I already paid but the application still shows pending payment and I cannot get
-                    the certificate.”
-                  </div>
-                </Card>
-
-                <CRMPanel
-                  stageKey="payment"
-                  onSeeToBe={() => onJumpToToBe(4)}
-                />
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  disabled={total === 0}
-                  onClick={() => setStep(6)}
-                >
-                  Pay AED {total.toFixed(2)}
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 6: processing & possible rejection
-      if (step === 6) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={() => setStep(5)}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Payment
-                </button>
-                <span className="text-[11px] text-slate-500 font-semibold">
-                  Step 5 of 5
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <Card className="p-5 mb-3 text-center">
-                  {!rejected ? (
-                    <>
-                      <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3">
-                        <EmojiIcon symbol="⏱️" />
-                      </div>
-                      <h2 className="text-lg font-bold text-slate-900 mb-1">
-                        Request submitted
-                      </h2>
-                      <p className="text-xs text-slate-500 mb-3">
-                        Your application is under review. CRM data shows many parents waiting
-                        several days at this step.
-                      </p>
-                      <Button
-                        variant="secondary"
-                        className="w-full h-9 text-sm"
-                        onClick={() => setRejected(true)}
-                      >
-                        Simulate: 2 days later →
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-14 h-14 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-3">
-                        <EmojiIcon symbol="❌" />
-                      </div>
-                      <h2 className="text-lg font-bold text-slate-900 mb-1">
-                        Application rejected
-                      </h2>
-                      <p className="text-xs text-slate-500 mb-3">
-                        Parents discover the rejection only later, with no clear way to correct the
-                        name and resubmit.
-                      </p>
-                      <div className="bg-rose-50 border border-rose-200 rounded-2xl p-3 text-xs text-rose-800 mb-3">
-                        <p className="font-semibold mb-1">Rejection reason</p>
-                        <p>
-                          Name mismatch. The Arabic name does not match the English spelling as per
-                          ICP naming rules. A new application with new fees is required.
-                        </p>
-                      </div>
-                    </>
-                  )}
-                </Card>
-
-                <CRMPanel
-                  stageKey="status"
-                  onSeeToBe={() => onJumpToToBe(5)}
-                />
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  variant="secondary"
-                  onClick={onBack}
-                >
-                  Back to overview
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      return null;
-    };
-
-    // --------- To‑Be journey with advanced AI naming ----------
-
-    const ToBe = ({ onBack, initialStep = 0 }) => {
-      const [step, setStep] = useState(initialStep || 0);
-      const [nameEn, setNameEn] = useState("");
-      const [nameAr, setNameAr] = useState("");
-      const [addMofa, setAddMofa] = useState(false);
-      const [selectedGender, setSelectedGender] = useState("boy");
-      const [selectedInitial, setSelectedInitial] = useState(null);
-      const [aiSuggestions, setAiSuggestions] = useState([]);
-
-      useEffect(() => {
-        setStep(initialStep || 0);
-      }, [initialStep]);
-
-      const total = 275 + (addMofa ? 150 : 0);
-      const isNameConfirmed = nameEn && nameAr;
-
-      const availableLetters = Array.from(
-        new Set(
-          NAME_LIBRARY.filter((n) => n.gender === selectedGender).map((n) => n.initial)
-        )
-      ).sort();
-
-      const handleSuggest = () => {
-        let filtered = NAME_LIBRARY.filter((n) => n.gender === selectedGender);
-        if (selectedInitial) {
-          filtered = filtered.filter((n) => n.initial === selectedInitial);
+      const stepper = document.getElementById("asis-stepper");
+      if (!stepper) return;
+      stepper.querySelectorAll("[data-step]").forEach(function (el) {
+        const circle = el.querySelector(".step-circle");
+        if (!circle) return;
+        const step = parseInt(el.getAttribute("data-step"), 10);
+        if (step === asisCurrentStep) {
+          circle.classList.add("bg-teal-700", "text-white", "border-teal-700");
+          circle.classList.remove("bg-slate-50", "text-slate-500", "border-slate-300");
+        } else {
+          circle.classList.remove("bg-teal-700", "text-white", "border-teal-700");
+          circle.classList.add("bg-slate-50", "text-slate-500", "border-slate-300");
         }
-        if (filtered.length === 0) {
-          filtered = NAME_LIBRARY.filter((n) => n.gender === selectedGender);
+      });
+    }
+
+    function updateToBeStep() {
+      const container = document.getElementById("tobe-steps");
+      if (!container) return;
+      container.querySelectorAll("[data-step]").forEach(function (el) {
+        const step = parseInt(el.getAttribute("data-step"), 10);
+        if (step === tobeCurrentStep) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
         }
-        setAiSuggestions(filtered);
-      };
+      });
 
-      // Step 0 – proactive notification
-      if (step === 0) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
-            <div className="phone-shell h-screen flex flex-col justify-between px-6 py-6">
-              <header className="flex items-center justify-between mb-6">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-teal-100 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-teal-100 font-semibold">
-                  To‑Be · Mabrouk Ma Yak
-                </span>
-                <div className="w-5" />
-              </header>
+      const stepper = document.getElementById("tobe-stepper");
+      if (!stepper) return;
+      stepper.querySelectorAll("[data-step]").forEach(function (el) {
+        const circle = el.querySelector(".step-circle");
+        if (!circle) return;
+        const step = parseInt(el.getAttribute("data-step"), 10);
+        if (step === tobeCurrentStep) {
+          circle.classList.add("bg-emerald-700", "text-white", "border-emerald-700");
+          circle.classList.remove("bg-slate-50", "text-slate-500", "border-slate-300");
+        } else {
+          circle.classList.remove("bg-emerald-700", "text-white", "border-emerald-700");
+          circle.classList.add("bg-slate-50", "text-slate-500", "border-slate-300");
+        }
+      });
+    }
 
-              <div className="flex-1 flex items-center">
-                <Card className="bg-white text-slate-900 border-none shadow-2xl p-4 w-full">
-                  <div className="flex items-start gap-3 text-xs">
-                    <EmojiIcon symbol="👶" />
-                    <div>
-                      <p className="font-semibold mb-1">Mabrouk Ma Yak!</p>
-                      <p className="text-slate-600">
-                        We received a birth notification from the hospital for your newborn.
-                        Tap to name your baby and issue all documents in one journey.
-                      </p>
-                      <p className="text-[10px] text-slate-400 mt-1">Just now · from Malafi</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
+    // ------------ Home search ------------
+    function clearHomeSearch() {
+      const input = document.getElementById("home-search");
+      if (input) {
+        input.value = "";
+        handleHomeSearch({ target: input });
+      }
+    }
 
-              <Button
-                className="w-full h-11 bg-white text-slate-900"
-                variant="secondary"
-                onClick={() => setStep(1)}
-              >
-                Start naming journey →
-              </Button>
-            </div>
-          </div>
-        );
+    function handleHomeSearch(event) {
+      const q = (event.target.value || "").toLowerCase();
+      document.querySelectorAll(".service-row").forEach(function (el) {
+        const title = (el.getAttribute("data-service-title") || "").toLowerCase();
+        if (!q || title.indexOf(q) !== -1) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
+        }
+      });
+    }
+
+    function selectServiceNewborn() {
+      showScreen("service");
+    }
+
+    // ------------ Login ------------
+    function loginSuccess() {
+      showScreen("home");
+    }
+
+    // ------------ AI naming helper ------------
+    function updateGenderUI() {
+      document.querySelectorAll(".gender-btn").forEach(function (btn) {
+        const g = btn.getAttribute("data-gender");
+        if (g === selectedGender) {
+          btn.classList.add("bg-violet-600", "text-white");
+        } else {
+          btn.classList.remove("bg-violet-600");
+          btn.classList.add("text-violet-700");
+        }
+      });
+    }
+
+    function updateInitialUI() {
+      document.querySelectorAll(".letter-btn").forEach(function (btn) {
+        const letter = btn.getAttribute("data-letter");
+        if (letter === selectedInitial) {
+          btn.classList.add("bg-violet-600", "text-white", "border-violet-600");
+          btn.classList.remove("bg-white", "text-violet-700");
+        } else {
+          btn.classList.remove("bg-violet-600", "text-white", "border-violet-600");
+          btn.classList.add("bg-white", "text-violet-700", "border-violet-200");
+        }
+      });
+    }
+
+    function setGender(g) {
+      selectedGender = g;
+      selectedInitial = null;
+      updateGenderUI();
+      updateInitialUI();
+      clearAiSuggestions();
+    }
+
+    function setInitial(letter) {
+      if (selectedInitial === letter) {
+        selectedInitial = null;
+      } else {
+        selectedInitial = letter;
+      }
+      updateInitialUI();
+      clearAiSuggestions();
+    }
+
+    function clearAiSuggestions() {
+      const container = document.getElementById("ai-suggestions");
+      if (container) container.innerHTML = "";
+    }
+
+    function generateNameSuggestions() {
+      const container = document.getElementById("ai-suggestions");
+      if (!container) return;
+      container.innerHTML = "";
+
+      let filtered = NAME_LIBRARY.filter(function (n) {
+        if (n.gender !== selectedGender) return false;
+        if (selectedInitial && n.initial !== selectedInitial) return false;
+        return true;
+      });
+
+      if (!filtered.length) {
+        filtered = NAME_LIBRARY.filter(function (n) {
+          return n.gender === selectedGender;
+        });
       }
 
-      // Step 1 – smart naming with gender + initial + meaning
-      if (step === 1) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-emerald-700 font-semibold">
-                  To‑Be · Naming
-                </span>
-                <div className="w-5" />
-              </header>
+      filtered.forEach(function (n) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          "w-full text-left bg-white border border-violet-100 rounded-xl px-3 py-2 mb-2 hover:border-violet-300";
+        btn.innerHTML =
+          '<div class="flex justify-between items-center">' +
+          '<span class="text-sm font-semibold text-slate-900">' +
+          n.en +
+          " / " +
+          n.ar +
+          "</span>" +
+          '<span class="text-[10px] text-violet-600 font-semibold">' +
+          (n.gender === "boy" ? "Boy" : "Girl") +
+          "</span>" +
+          "</div>" +
+          '<p class="text-[10px] text-slate-500 mt-1">Meaning: ' +
+          n.meaning +
+          "</p>";
 
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Name your baby (smart)
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  Choose gender and preferred first letter, then let AI suggest names with
-                  meanings. Arabic and English are checked against ICP rules.
-                </p>
+        btn.addEventListener("click", function () {
+          const enInput = document.getElementById("tobe-name-en");
+          const arInput = document.getElementById("tobe-name-ar");
+          if (enInput) enInput.value = n.en;
+          if (arInput) arInput.value = n.ar;
+          updateNameVerified();
+        });
 
-                <Card className="p-4 mb-3 text-xs">
-                  {/* Manual input */}
-                  <div className="space-y-3 mb-3">
-                    <div>
-                      <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                        Name (English)
-                      </label>
-                      <input
-                        className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm"
-                        placeholder="e.g. Zayed"
-                        value={nameEn}
-                        onChange={(e) => setNameEn(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                        Name (Arabic)
-                      </label>
-                      <input
-                        className="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm text-right"
-                        placeholder="e.g. زايد"
-                        value={nameAr}
-                        onChange={(e) => setNameAr(e.target.value)}
-                      />
-                    </div>
-                  </div>
+        container.appendChild(btn);
+      });
+    }
 
-                  <div className="relative flex py-2 items-center">
-                    <div className="flex-grow border-t border-slate-200" />
-                    <span className="flex-shrink-0 mx-4 text-[10px] text-slate-400 uppercase tracking-wide">
-                      or use AI
-                    </span>
-                    <div className="flex-grow border-t border-slate-200" />
-                  </div>
+    function updateNameVerified() {
+      const enInput = document.getElementById("tobe-name-en");
+      const arInput = document.getElementById("tobe-name-ar");
+      if (!enInput || !arInput) return;
+      const hasBoth =
+        enInput.value.trim() !== "" && arInput.value.trim() !== "";
+      const panel = document.getElementById("name-verified");
+      if (panel) {
+        if (hasBoth) {
+          panel.classList.remove("hidden");
+        } else {
+          panel.classList.add("hidden");
+        }
+      }
+    }
 
-                  {/* AI helper */}
-                  <div className="bg-violet-50 border border-violet-100 rounded-2xl p-3">
-                    {/* Gender toggle */}
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-semibold text-violet-700">
-                        AI name helper
-                      </span>
-                      <div className="flex text-[11px] bg-white rounded-full p-0.5">
-                        <button
-                          className={
-                            "px-2 py-0.5 rounded-full " +
-                            (selectedGender === "boy"
-                              ? "bg-violet-600 text-white"
-                              : "text-violet-700")
-                          }
-                          onClick={() => {
-                            setSelectedGender("boy");
-                            setSelectedInitial(null);
-                            setAiSuggestions([]);
-                          }}
-                        >
-                          Boy
-                        </button>
-                        <button
-                          className={
-                            "px-2 py-0.5 rounded-full " +
-                            (selectedGender === "girl"
-                              ? "bg-violet-600 text-white"
-                              : "text-violet-700")
-                          }
-                          onClick={() => {
-                            setSelectedGender("girl");
-                            setSelectedInitial(null);
-                            setAiSuggestions([]);
-                          }}
-                        >
-                          Girl
-                        </button>
-                      </div>
-                    </div>
+    // ------------ Init on DOM ready ------------
+    document.addEventListener("DOMContentLoaded", function () {
+      // Splash → login
+      showScreen("splash");
+      setTimeout(function () {
+        showScreen("login");
+      }, 1500);
 
-                    {/* First letter row */}
-                    <div className="mb-2">
-                      <p className="text-[10px] text-slate-500 mb-1">
-                        Choose first letter (optional)
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {availableLetters.map((letter) => (
-                          <button
-                            key={letter}
-                            className={
-                              "px-2 py-0.5 rounded-full text-[11px] border " +
-                              (selectedInitial === letter
-                                ? "bg-violet-600 text-white border-violet-600"
-                                : "bg-white text-violet-700 border-violet-200")
-                            }
-                            onClick={() =>
-                              setSelectedInitial((prev) =>
-                                prev === letter ? null : letter
-                              )
-                            }
-                          >
-                            {letter}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <Button
-                      variant="secondary"
-                      className="w-full h-8 text-[11px] mt-1"
-                      onClick={handleSuggest}
-                    >
-                      Generate name suggestions
-                    </Button>
-
-                    {aiSuggestions.length > 0 && (
-                      <div className="mt-3 space-y-2 animate-fade-in">
-                        {aiSuggestions.map((n) => (
-                          <button
-                            key={n.en}
-                            className="w-full text-left bg-white border border-violet-100 rounded-xl px-3 py-2 hover:border-violet-300"
-                            onClick={() => {
-                              setNameEn(n.en);
-                              setNameAr(n.ar);
-                            }}
-                          >
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-semibold text-slate-900">
-                                {n.en} / {n.ar}
-                              </span>
-                              <span className="text-[10px] text-violet-600 font-semibold">
-                                {n.gender === "boy" ? "Boy" : "Girl"}
-                              </span>
-                            </div>
-                            <p className="text-[10px] text-slate-500 mt-1">
-                              Meaning: {n.meaning}
-                            </p>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {isNameConfirmed && (
-                    <div className="mt-3 rounded-2xl bg-emerald-50 border border-emerald-100 p-2.5 text-[11px] text-emerald-800">
-                      <p className="font-semibold mb-1">Name verified</p>
-                      <p>
-                        Arabic and English forms match ICP naming rules. No name mismatch
-                        rejection at issuance.
-                      </p>
-                    </div>
-                  )}
-                </Card>
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  disabled={!isNameConfirmed}
-                  onClick={() => setStep(2)}
-                >
-                  Confirm name and continue →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
+      // Home search
+      const searchInput = document.getElementById("home-search");
+      if (searchInput) {
+        searchInput.addEventListener("input", handleHomeSearch);
       }
 
-      // Step 2 – docs auto fetched
-      if (step === 2) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-emerald-700 font-semibold">
-                  To‑Be · Docs
-                </span>
-                <div className="w-5" />
-              </header>
+      // Gender & letter events
+      document.querySelectorAll("[data-gender]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          setGender(btn.getAttribute("data-gender"));
+        });
+      });
+      document.querySelectorAll("[data-letter]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          setInitial(btn.getAttribute("data-letter"));
+        });
+      });
 
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Documents (auto‑fetched)
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  All required documents are pulled from ICP and back‑end systems. No uploads, no
-                  eligibility surprises.
-                </p>
-
-                <Card className="p-4 text-xs space-y-3">
-                  {[
-                    "Father’s ID & passport – Retrieved from ICP",
-                    "Mother’s ID & passport – Retrieved from ICP",
-                    "Marriage contract – Verified by Ministry of Justice"
-                  ].map((t) => (
-                    <div
-                      key={t}
-                      className="flex items-center justify-between rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-2"
-                    >
-                      <span>{t}</span>
-                      <span>✔</span>
-                    </div>
-                  ))}
-                </Card>
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  onClick={() => setStep(3)}
-                >
-                  Continue →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
+      const genBtn = document.getElementById("btn-generate-names");
+      if (genBtn) {
+        genBtn.addEventListener("click", generateNameSuggestions);
       }
 
-      // Step 3 – bundle
-      if (step === 3) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-emerald-700 font-semibold">
-                  To‑Be · Bundle
-                </span>
-                <div className="w-5" />
-              </header>
+      const enInput = document.getElementById("tobe-name-en");
+      const arInput = document.getElementById("tobe-name-ar");
+      if (enInput) enInput.addEventListener("input", updateNameVerified);
+      if (arInput) arInput.addEventListener("input", updateNameVerified);
 
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Mabrouk Ma Yak bundle
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  Birth certificate, Emirates ID and passport are combined into one bundle with a
-                  clear fee breakdown.
-                </p>
-
-                <Card className="p-4 text-xs">
-                  <div className="bg-slate-50 rounded-2xl p-3 mb-3">
-                    <p className="text-[11px] font-semibold text-slate-500 mb-2">
-                      Fee breakdown
-                    </p>
-                    <div className="flex justify-between mb-1">
-                      <span>Birth certificate</span>
-                      <span className="font-semibold">AED 50.00</span>
-                    </div>
-                    <div className="flex justify-between mb-1">
-                      <span>Emirates ID (newborn)</span>
-                      <span className="font-semibold">AED 170.00</span>
-                    </div>
-                    <div className="flex justify-between mb-1">
-                      <span>Passport issuance</span>
-                      <span className="font-semibold">AED 55.00</span>
-                    </div>
-                    <div className="mt-2 pt-2 border-t border-slate-200 flex justify-between items-center">
-                      <span className="font-semibold">Bundle total</span>
-                      <span className="font-bold text-teal-700">AED 275.00</span>
-                    </div>
-                  </div>
-
-                  <button
-                    className={
-                      "w-full text-left rounded-2xl border px-3 py-3 text-xs " +
-                      (addMofa
-                        ? "border-teal-600 bg-teal-50"
-                        : "border-slate-200 bg-white")
-                    }
-                    onClick={() => setAddMofa((v) => !v)}
-                  >
-                    <p className="font-semibold text-slate-900">
-                      Add MOFA attestation
-                    </p>
-                    <p className="text-[11px] text-slate-500">
-                      Digital attestation from Ministry of Foreign Affairs is added automatically.
-                    </p>
-                    <p className="text-[11px] font-semibold text-teal-700 mt-1">
-                      + AED 150.00
-                    </p>
-                  </button>
-                </Card>
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  onClick={() => setStep(4)}
-                >
-                  Continue to payment →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 4 – payment + recovery
-      if (step === 4) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-emerald-700 font-semibold">
-                  To‑Be · Payment
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto">
-                <h2 className="text-lg font-bold text-slate-900 mb-1">
-                  Pay once
-                </h2>
-                <p className="text-xs text-slate-500 mb-3">
-                  One payment covers the full bundle. A built‑in recovery layer handles CRM payment
-                  issues (“paid but still pending”).
-                </p>
-
-                <Card className="p-4 text-xs">
-                  <div className="mb-3 rounded-2xl bg-slate-900 text-white px-3 py-3 flex justify-between items-center">
-                    <span>Total amount</span>
-                    <span className="text-xl font-semibold">
-                      AED {total.toFixed(2)}
-                    </span>
-                  </div>
-
-                  <Button
-                    className="w-full h-10 mb-2 bg-black text-white"
-                    onClick={() => setStep(5)}
-                  >
-                    <EmojiIcon symbol="" /> Pay with Apple Pay
-                  </Button>
-
-                  <div className="mt-2 p-3 rounded-2xl bg-emerald-50 border border-emerald-100 text-xs text-emerald-800">
-                    <p className="font-semibold mb-1">
-                      Payment recovery
-                    </p>
-                    <p>
-                      If your bank shows the amount as paid but TAMM is still “pending payment”, the
-                      system automatically reconciles the transaction using AD Pay logs and continues
-                      without a new complaint.
-                    </p>
-                  </div>
-                </Card>
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  variant="secondary"
-                  onClick={() => setStep(5)}
-                >
-                  Simulate successful payment →
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      // Step 5 – success & digital locker
-      if (step === 5) {
-        return (
-          <div className="min-h-screen flex items-center justify-center bg-slate-50">
-            <div className="phone-shell h-screen flex flex-col">
-              <header className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <button
-                  onClick={onBack}
-                  className="text-xs text-slate-500 flex items-center gap-1"
-                >
-                  ← Back
-                </button>
-                <span className="text-[11px] text-emerald-700 font-semibold">
-                  To‑Be · Success
-                </span>
-                <div className="w-5" />
-              </header>
-
-              <main className="flex-1 px-4 pb-4 overflow-y-auto text-center">
-                <Card className="p-6 mt-4 text-xs">
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-3">
-                    <EmojiIcon symbol="✅" />
-                  </div>
-                  <h2 className="text-xl font-bold text-slate-900 mb-1">
-                    Documents issued
-                  </h2>
-                  <p className="text-slate-500 mb-3">
-                    Birth certificate, Emirates ID and passport are issued instantly and stored in
-                    your digital locker.
-                  </p>
-
-                  <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 mb-3 text-emerald-800 text-left">
-                    <p className="font-semibold mb-1">
-                      CRM impact
-                    </p>
-                    <p>
-                      Eliminates payment failures, document upload issues, and name mismatch
-                      rejections for this journey.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 mb-3 text-left">
-                    <p className="text-[11px] font-semibold text-slate-500 mb-2">
-                      Digital locker
-                    </p>
-                    <div className="flex items-center justify-between bg-white rounded-xl px-3 py-2 mb-2 border border-slate-200">
-                      <span>Birth certificate (PDF)</span>
-                      <span>⬇️</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-black text-white rounded-xl px-3 py-2">
-                      <span>Add to Apple Wallet</span>
-                      <span>➕</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-900 text-white rounded-2xl p-4 text-left">
-                    <p className="text-sm font-semibold mb-1">
-                      Hospital kiosk pickup
-                    </p>
-                    <p className="text-[11px] text-slate-200 mb-2">
-                      Scan this code at the hospital kiosk to print the newborn’s physical documents.
-                    </p>
-                    <div className="bg-white rounded-xl p-2 w-fit">
-                      <EmojiIcon symbol="🔳" />
-                    </div>
-                  </div>
-                </Card>
-              </main>
-
-              <footer className="px-4 pb-4">
-                <Button
-                  className="w-full h-11"
-                  variant="secondary"
-                  onClick={onBack}
-                >
-                  Back to overview
-                </Button>
-              </footer>
-            </div>
-          </div>
-        );
-      }
-
-      return null;
-    };
-
-    // --------- Root App ---------
-
-    const App = () => {
-      const [view, setView] = useState("splash"); // splash -> login -> home -> service -> asis/tobe
-      const [toBeStep, setToBeStep] = useState(0);
-
-      const jumpToToBe = (step) => {
-        setToBeStep(step || 0);
-        setView("tobe");
-      };
-
-      if (view === "splash") {
-        return <Splash onNext={() => setView("login")} />;
-      }
-      if (view === "login") {
-        return <UAEPassLogin onLogin={() => setView("home")} />;
-      }
-      if (view === "home") {
-        return <Home onSelectService={() => setView("service")} />;
-      }
-      if (view === "service") {
-        return (
-          <ServiceOverview
-            onBack={() => setView("home")}
-            onSelectMode={(mode) => setView(mode)}
-          />
-        );
-      }
-      if (view === "asis") {
-        return (
-          <AsIs
-            onBack={() => setView("service")}
-            onJumpToToBe={jumpToToBe}
-          />
-        );
-      }
-      if (view === "tobe") {
-        return (
-          <ToBe
-            onBack={() => setView("service")}
-            initialStep={toBeStep}
-          />
-        );
-      }
-      return null;
-    };
-
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+      updateInsightsUI();
+      updateAsIsStep();
+      updateToBeStep();
+      updateGenderUI();
+      updateInitialUI();
+    });
   </script>
+
 </body>
 </html>
+
