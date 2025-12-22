@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Newborn Digital Birth Certificate – Story Prototype</title>
+  <title>Newborn Digital Birth Certificate – Strategy Story Prototype</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Tailwind CSS -->
@@ -234,7 +234,7 @@
           <p class="text-xs text-teal-100 mb-1" data-insight>
             Every year, around <span class="font-semibold">45,000 families</span> go through the
             newborn paperwork journey. Today many feel stressed and confused; tomorrow we want
-            everything done in minutes, inside one experience.
+            everything done in minutes, inside one seamless experience.
           </p>
         </div>
 
@@ -261,15 +261,31 @@
           </div>
         </div>
 
+        <!-- Strategy impact card -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-4" data-insight>
+          <p class="font-semibold text-slate-900 mb-1">
+            Why this change is urgent now
+          </p>
+          <ul class="space-y-1 text-slate-600">
+            <li>• <span class="font-semibold">Travel & passports:</span> delays in the certificate mean delays in passports, so families cannot travel for medical treatment or urgent family reasons.</li>
+            <li>• <span class="font-semibold">Medical access:</span> without the certificate and ID, newborns can’t be added to insurance or seen easily by specialists.</li>
+            <li>• <span class="font-semibold">Fees & fairness:</span> parents pay twice for Arabic & English certificates and again for each MOFA attestation, even though it is one birth event.</li>
+            <li>• <span class="font-semibold">Trust in digital government:</span> 3,000 complaints a year from a single service erode confidence in the wider platform.</li>
+          </ul>
+        </div>
+
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-4" data-insight>
           <p class="font-semibold text-slate-900 mb-1">
             What this prototype shows
           </p>
-          <p class="text-slate-600">
-            You can walk through the current TAMM journey as parents see it, then switch to the
-            redesigned experience. At each step, story & CRM insights explain what families feel
-            today and how the new journey fixes it.
+          <p class="text-slate-600 mb-2">
+            We walk from As‑Is to To‑Be step‑by‑step. At each step you see:
           </p>
+          <ul class="list-disc list-inside space-y-1 text-slate-600">
+            <li>How parents feel.</li>
+            <li>How CRM complaints translate into real harm (fees, delays, missed travel or care).</li>
+            <li>Exactly how the To‑Be journey removes that harm.</li>
+          </ul>
         </div>
       </main>
 
@@ -290,7 +306,7 @@
                 onclick="showScreen('service')"
                 class="w-full h-9 rounded-xl bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold flex items-center justify-center gap-2">
           <span>📊</span>
-          <span>View service details & dashboard</span>
+          <span>View service details & fees ask</span>
         </button>
       </footer>
     </div>
@@ -363,6 +379,26 @@
           </div>
         </div>
 
+        <!-- Strategy impact for leadership -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs" data-insight>
+          <p class="text-[11px] font-semibold text-slate-500 mb-1">
+            Strategic impact for leadership
+          </p>
+          <ul class="space-y-1 text-slate-600">
+            <li>• <span class="font-semibold">Citizen experience:</span> every complaint is a family stuck without documents, often delaying travel and medical care for their newborn.</li>
+            <li>• <span class="font-semibold">Financial fairness:</span> today parents pay separate fees for Arabic & English certificates and repeat MOFA attestation per copy. The To‑Be journey supports a single bilingual certificate and a single issuance fee.</li>
+            <li>• <span class="font-semibold">Operational load:</span> 3,000 avoidable complaints per year absorb call‑center and back‑office capacity that could focus on complex cases.</li>
+          </ul>
+          <div class="mt-2 border-t border-slate-200 pt-2">
+            <p class="text-[11px] font-semibold text-slate-900">
+              Key ask
+            </p>
+            <p class="text-[11px] text-slate-600">
+              Consolidate the dual issuance fees into a single <span class="font-semibold">50 AED</span> fee for a bilingual certificate, aligned with the new, combined journey. :contentReference[oaicite:1]{index=1}
+            </p>
+          </div>
+        </div>
+
         <!-- Service description -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4">
           <h1 class="text-lg font-bold text-slate-900 mb-1">
@@ -393,7 +429,7 @@
         <!-- Costs -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs">
           <h2 class="text-sm font-semibold text-slate-900 mb-2">
-            Costs
+            Costs (current As‑Is)
           </h2>
           <p class="text-[11px] text-slate-500 mb-2">
             Payment methods: AD Pay, debit / credit card
@@ -408,10 +444,13 @@
               <span class="font-semibold">AED 50.00</span>
             </div>
             <div class="flex justify-between">
-              <span>Attestation fee by Ministry of Foreign Affairs (optional)</span>
+              <span>Attestation fee by Ministry of Foreign Affairs (per copy, optional)</span>
               <span class="font-semibold">AED 150.00</span>
             </div>
           </div>
+          <p class="text-[11px] text-rose-600 mt-2" data-insight>
+            Impact: families often pay double language fees and repeated MOFA attestation, even though it is one birth event.
+          </p>
         </div>
 
         <!-- Process -->
@@ -515,8 +554,12 @@
               Parents must find and select the correct birth notification number before they can
               continue the service.
             </p>
-            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+            <p class="text-[11px] text-slate-500 italic mb-1" data-insight>
               How parents feel now: anxious about picking the wrong number and getting stuck.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              Impact on families: when the notification step fails, the whole journey stalls and
+              parents lose days before even beginning the application.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
@@ -577,9 +620,12 @@
             <p class="text-xs text-slate-500 mb-1">
               Parents re‑upload documents that already exist in Malaffi and ICP.
             </p>
-            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+            <p class="text-[11px] text-slate-500 italic mb-1" data-insight>
               How parents feel now: exhausted and frustrated re‑uploading documents the
               government already has.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              Impact on families: parents juggle newborn care, hospital visits and work, while scanning and uploading multiple documents on weak home Wi‑Fi.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
@@ -641,8 +687,11 @@
             <p class="text-xs text-slate-500 mb-1">
               Names are typed manually in English and Arabic with no validation.
             </p>
-            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+            <p class="text-[11px] text-slate-500 italic mb-1" data-insight>
               How parents feel now: worried that a small spelling mistake will cause rejection.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              Impact on families: if the name is rejected days later, parents must restart and pay again, delaying passports and insurance.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
@@ -718,9 +767,12 @@
               Parents pay separately for Arabic and English certificates, increasing cost and
               complexity.
             </p>
-            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+            <p class="text-[11px] text-slate-500 italic mb-1" data-insight>
               How parents feel now: relieved to pay, then panicked when the status is still
               “pending”.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              Impact on families: payment stuck means they cannot move to issuance. Without the certificate, they cannot get a passport, which delays travel and sometimes treatment abroad.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
@@ -780,9 +832,12 @@
               Requests can remain “in progress” for days and may be rejected later due to name
               mismatches.
             </p>
-            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+            <p class="text-[11px] text-slate-500 italic mb-1" data-insight>
               How parents feel now: waiting in the dark, then powerless when they see a late
               rejection.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              Impact on families: while the request is stuck, they cannot get passports, cannot add the newborn to insurance and may postpone urgent medical appointments.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
@@ -1273,6 +1328,8 @@
                     <li>• 10–23 touchpoints</li>
                     <li>• 3–4 days processing</li>
                     <li>• ~3,000 complaints per year</li>
+                    <li>• Families pay separate language fees + repeated MOFA attestation</li>
+                    <li>• Delayed passports, travel and medical access</li>
                   </ul>
                 </div>
                 <div>
@@ -1282,14 +1339,29 @@
                     <li>• ~4 touchpoints</li>
                     <li>• Instant certificate issuance</li>
                     <li>• ~3,000 complaints removed</li>
-                    <li>• Satisfaction above 87%</li>
+                    <li>• Single bilingual certificate · 50 AED issuance fee (ask)</li>
+                    <li>• Passports and care can proceed without delay</li>
                   </ul>
                 </div>
               </div>
               <p class="text-[11px] text-slate-500 mt-2">
-                Emotionally: parents move from anxious and confused to calm, informed and in
-                control during one of the most important moments of their lives.
+                Emotionally: parents move from anxious and blocked – unable to travel or access care
+                – to calm and ready, with documents in hand within minutes.
               </p>
+            </div>
+
+            <!-- Why now card -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3"
+                 data-insight>
+              <p class="text-[11px] font-semibold text-slate-900 mb-1">
+                Why the chairman should support this now
+              </p>
+              <ul class="space-y-1 text-slate-600">
+                <li>• Converts a painful, high‑complaint journey into a flagship example of “seamless government”.</li>
+                <li>• Directly protects families at a vulnerable moment, ensuring no child’s care or travel is delayed because of paperwork.</li>
+                <li>• Aligns fees with the new journey (single 50 AED bilingual certificate) and eliminates repeated MOFA charges per copy.</li>
+                <li>• Reduces pressure on call centers and back‑office teams, freeing capacity for complex medical and social cases.</li>
+              </ul>
             </div>
 
             <div class="mt-4 flex flex-col gap-2">
