@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Newborn Digital Birth Certificate – Prototype</title>
+  <title>Newborn Digital Birth Certificate – Story Prototype</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Tailwind CSS -->
@@ -207,9 +207,9 @@
     </div>
   </section>
 
-  <!-- SERVICE DETAILS / AS-IS BASE --------------------------------->
+  <!-- INTRO / A SEAMLESS START TO LIFE ------------------------------>
   <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
-           data-screen="service">
+           data-screen="intro">
     <div class="phone-shell h-screen flex flex-col">
       <header class="px-4 pt-4 pb-3 flex items-center justify-between">
         <button type="button"
@@ -218,42 +218,148 @@
           ← Home
         </button>
         <span class="text-[11px] text-slate-500 font-semibold">
+          Newborn Journey Story
+        </span>
+        <div class="w-5"></div>
+      </header>
+
+      <main class="flex-1 px-4 pb-5 overflow-y-auto">
+        <div class="bg-gradient-to-br from-teal-800 to-slate-900 text-white rounded-3xl p-4 mb-4">
+          <p class="text-[11px] uppercase tracking-wide text-teal-200 mb-1">
+            A Seamless Start to Life
+          </p>
+          <h1 class="text-xl font-bold mb-2">
+            One journey for every newborn in Abu Dhabi
+          </h1>
+          <p class="text-xs text-teal-100 mb-1" data-insight>
+            Every year, around <span class="font-semibold">45,000 families</span> go through the
+            newborn paperwork journey. Today many feel stressed and confused; tomorrow we want
+            everything done in minutes, inside one experience.
+          </p>
+        </div>
+
+        <!-- Before / After tiles -->
+        <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
+          <div class="bg-white rounded-3xl border border-rose-100 shadow-sm p-3" data-insight>
+            <p class="text-[11px] font-semibold text-rose-600 mb-1">As‑Is today</p>
+            <ul class="space-y-1 text-slate-600">
+              <li>• 3 different platforms</li>
+              <li>• 10–23 touchpoints</li>
+              <li>• 3–4 days processing</li>
+              <li>• ~3,000 complaints / year</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-3" data-insight>
+            <p class="text-[11px] font-semibold text-emerald-600 mb-1">To‑Be vision</p>
+            <ul class="space-y-1 text-slate-600">
+              <li>• 1 seamless journey</li>
+              <li>• ~4 touchpoints</li>
+              <li>• Instant issuance</li>
+              <li>• Removes ~3,000 complaints</li>
+              <li>• Satisfaction &gt; 87%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-4" data-insight>
+          <p class="font-semibold text-slate-900 mb-1">
+            What this prototype shows
+          </p>
+          <p class="text-slate-600">
+            You can walk through the current TAMM journey as parents see it, then switch to the
+            redesigned experience. At each step, story & CRM insights explain what families feel
+            today and how the new journey fixes it.
+          </p>
+        </div>
+      </main>
+
+      <footer class="px-4 pb-4 flex flex-col gap-2">
+        <button type="button"
+                onclick="startAsIsJourney()"
+                class="w-full h-11 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold flex items-center justify-center gap-2">
+          <span>⏳</span>
+          <span>Walk the As‑Is journey</span>
+        </button>
+        <button type="button"
+                onclick="startToBeJourney()"
+                class="w-full h-11 rounded-xl bg-white text-teal-700 border border-teal-600 text-sm font-semibold flex items-center justify-center gap-2">
+          <span>⚡️</span>
+          <span>Jump to To‑Be experience</span>
+        </button>
+        <button type="button"
+                onclick="showScreen('service')"
+                class="w-full h-9 rounded-xl bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold flex items-center justify-center gap-2">
+          <span>📊</span>
+          <span>View service details & dashboard</span>
+        </button>
+      </footer>
+    </div>
+  </section>
+
+  <!-- SERVICE DETAILS / DASHBOARD ---------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="service">
+    <div class="phone-shell h-screen flex flex-col">
+      <header class="px-4 pt-4 pb-3 flex items-center justify-between">
+        <button type="button"
+                onclick="showScreen('intro')"
+                class="text-xs text-slate-500 flex items-center gap-1">
+          ← Story
+        </button>
+        <span class="text-[11px] text-slate-500 font-semibold">
           Newborn Digital Birth Certificate
         </span>
         <div class="w-5"></div>
       </header>
 
       <main class="flex-1 px-4 pb-5 overflow-y-auto">
-        <!-- Insights toggle -->
+        <!-- Story & Insights toggle -->
         <div class="flex items-center justify-between mb-3">
           <p class="text-xs text-slate-500">
-            CRM & KPI overlays
+            Story & Insights
           </p>
           <button id="insights-toggle"
                   type="button"
                   onclick="toggleInsights()"
                   class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-teal-600 text-white text-[11px] font-medium">
-            <span>Insights</span>
+            <span>On</span>
             <span id="insights-toggle-text">On</span>
           </button>
         </div>
 
-        <!-- Global CRM card -->
+        <!-- Global CRM / story card -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 mb-3 text-xs flex justify-between items-center"
              data-insight>
           <div>
             <p class="text-[11px] uppercase font-semibold text-slate-400">
-              CRM for this service
+              CRM & story for this service
             </p>
             <p class="text-slate-700">
-              762 complaints analysed (Jan–Sep)
+              Newborn digital birth certificate · ~45,000 families / year
             </p>
             <p class="text-slate-500">
-              198 payment issues (26%) · 396 technical (52%)
+              762 CRM complaints analysed · 198 payment (26%) · 396 technical (52%)
             </p>
           </div>
           <div class="text-[10px] text-rose-600 font-semibold text-right">
-            ⚠️ Very high friction
+            ⚠️ High friction today
+          </div>
+        </div>
+
+        <!-- Mini before/after bar -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 mb-4 text-xs grid grid-cols-2 gap-3"
+             data-insight>
+          <div>
+            <p class="text-[11px] font-semibold text-rose-600 mb-1">As‑Is snapshot</p>
+            <p class="text-[11px] text-slate-600">3 platforms</p>
+            <p class="text-[11px] text-slate-600">10–23 touchpoints</p>
+            <p class="text-[11px] text-slate-600">3–4 days processing</p>
+          </div>
+          <div>
+            <p class="text-[11px] font-semibold text-emerald-600 mb-1">To‑Be snapshot</p>
+            <p class="text-[11px] text-slate-600">1 journey</p>
+            <p class="text-[11px] text-slate-600">~4 touchpoints</p>
+            <p class="text-[11px] text-slate-600">Instant issuance</p>
           </div>
         </div>
 
@@ -323,7 +429,7 @@
         </div>
 
         <div class="text-[11px] text-slate-400 mb-3" data-insight>
-          Tip: Turn insights off to see the pure TAMM journey without CRM overlays.
+          Toggle Story & Insights off to see only the pure TAMM screens as parents see them today.
         </div>
       </main>
 
@@ -358,7 +464,7 @@
           As‑Is journey
         </span>
         <span class="text-[10px] text-rose-600 font-semibold" data-insight>
-          ⚠️ CRM issues visible
+          ⚠️ Parents & doctors struggle here
         </span>
       </header>
 
@@ -405,14 +511,17 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 1 · Select birth notification
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
+            <p class="text-xs text-slate-500 mb-1">
               Parents must find and select the correct birth notification number before they can
               continue the service.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How parents feel now: anxious about picking the wrong number and getting stuck.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
                  data-insight>
-              <span>7 CRM cases · 1% · Notification errors</span>
+              <span>7 CRM cases · 1% – Notification selection errors</span>
               <span>⚠️</span>
             </div>
 
@@ -437,7 +546,7 @@
 
               <div class="mt-3 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
                    data-insight>
-                <p class="font-semibold mb-1">Example CRM complaints</p>
+                <p class="font-semibold mb-1">What parents say</p>
                 <ul class="list-disc list-inside space-y-1">
                   <li>“When I select the birth notification number an error appears and I cannot move to the next step.”</li>
                   <li>“I tried to apply using the birth notification but the system keeps showing an error.”</li>
@@ -465,13 +574,17 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 2 · Upload documents
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
-              Parents re‑upload documents that already exist in ICP and Malafi.
+            <p class="text-xs text-slate-500 mb-1">
+              Parents re‑upload documents that already exist in Malaffi and ICP.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How parents feel now: exhausted and frustrated re‑uploading documents the
+              government already has.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
                  data-insight>
-              <span>41 CRM cases · 5% · Upload & eligibility issues</span>
+              <span>41 CRM cases · 5% – Upload & eligibility issues</span>
               <span>⚠️</span>
             </div>
 
@@ -525,13 +638,16 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 3 · Baby details
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
+            <p class="text-xs text-slate-500 mb-1">
               Names are typed manually in English and Arabic with no validation.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How parents feel now: worried that a small spelling mistake will cause rejection.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
                  data-insight>
-              <span>5 CRM cases · 1% · Name & freezing issues</span>
+              <span>5 CRM cases · 1% – Name & freezing issues</span>
               <span>⚠️</span>
             </div>
 
@@ -598,14 +714,18 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 4 · Pay for certificates
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
+            <p class="text-xs text-slate-500 mb-1">
               Parents pay separately for Arabic and English certificates, increasing cost and
               complexity.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How parents feel now: relieved to pay, then panicked when the status is still
+              “pending”.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
                  data-insight>
-              <span>198 CRM cases · 26% · Payment captured / status pending</span>
+              <span>198 CRM cases · 26% – Payment captured / status pending</span>
               <span>⚠️</span>
             </div>
 
@@ -656,14 +776,18 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 5 · Processing & issuance
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
+            <p class="text-xs text-slate-500 mb-1">
               Requests can remain “in progress” for days and may be rejected later due to name
               mismatches.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How parents feel now: waiting in the dark, then powerless when they see a late
+              rejection.
             </p>
 
             <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
                  data-insight>
-              <span>57 CRM cases · 7% · Stuck or late rejection</span>
+              <span>57 CRM cases · 7% – Stuck or late rejection</span>
               <span>⚠️</span>
             </div>
 
@@ -728,7 +852,7 @@
           To‑Be journey
         </span>
         <span class="text-[10px] text-emerald-600 font-semibold" data-insight>
-          ✅ CRM issues addressed
+          ✅ Designed to remove CRM pain
         </span>
       </header>
 
@@ -775,9 +899,13 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 1 · Proactive notification
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
-              Parents receive a Mabrouk Ma Yak notification directly from the hospital record. No
-              need to search or select a notification number.
+            <p class="text-xs text-slate-500 mb-1">
+              Birth notification completion in the hospital triggers the Mabrouk Ma Yak journey –
+              no need to search or type numbers.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How it will feel: parents are surprised in a good way – “The government already
+              knows; they’re helping us.”
             </p>
 
             <div class="bg-slate-900 text-white rounded-3xl p-4 mb-3">
@@ -789,7 +917,7 @@
                     We received a birth notification for your newborn. Tap to name your baby and
                     issue all documents in one journey.
                   </p>
-                  <p class="text-[10px] text-slate-400 mt-1">Just now · from Malafi</p>
+                  <p class="text-[10px] text-slate-400 mt-1">Just now · from Malaffi</p>
                 </div>
               </div>
             </div>
@@ -820,9 +948,13 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 2 · Smart naming with AI
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
-              Choose gender and first letter, then let AI suggest names with meanings. Arabic and
-              English are checked against ICP rules.
+            <p class="text-xs text-slate-500 mb-1">
+              Parents choose gender and first letter, then get AI‑suggested Arabic / English names
+              with meanings and ICP validation.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How it will feel: choosing a name becomes a guided, joyful step instead of a risk of
+              rejection.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-3 text-xs space-y-3">
@@ -951,9 +1083,11 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 3 · Documents auto‑fetched
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
-              All required documents are pulled from ICP and back‑end systems. No uploads, no
-              eligibility surprises.
+            <p class="text-xs text-slate-500 mb-1">
+              All required documents are pulled automatically from ICP, Malaffi and Usrati.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How it will feel: parents barely touch paperwork – everything is already there.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs space-y-3">
@@ -997,9 +1131,13 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 4 · Single payment for bundle
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
-              One payment covers birth certificate + Emirates ID + passport, with payment recovery
+            <p class="text-xs text-slate-500 mb-1">
+              One payment covers birth certificate + Emirates ID + passport, with a recovery layer
               to fix “paid but pending” issues.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How it will feel: parents pay once and move on – no more fear of money “stuck” in
+              the system.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3">
@@ -1035,8 +1173,8 @@
                 <p class="font-semibold mb-1">Payment recovery</p>
                 <p>
                   If the bank shows the amount as paid but TAMM is still “pending payment”, the
-                  system automatically reconciles with AD Pay logs and continues the journey without
-                  a new complaint.
+                  system automatically reconciles with AD Pay logs and continues the journey
+                  without a new complaint.
                 </p>
               </div>
             </div>
@@ -1062,14 +1200,17 @@
             </div>
           </div>
 
-          <!-- STEP 5: Issued + digital locker -->
+          <!-- STEP 5: Issued + digital locker + summary dashboard -->
           <div data-step="5" class="hidden">
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 5 · Documents issued instantly
             </h2>
-            <p class="text-xs text-slate-500 mb-2">
+            <p class="text-xs text-slate-500 mb-1">
               Birth certificate, Emirates ID and passport are issued in one go and stored in the
               digital locker.
+            </p>
+            <p class="text-[11px] text-slate-500 italic mb-2" data-insight>
+              How it will feel: one calm moment of “Mabrouk, everything is ready for your baby.”
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 text-xs text-center mb-3">
@@ -1109,12 +1250,45 @@
               </div>
             </div>
 
-            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px]"
+            <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px] mb-3"
                  data-insight>
               <p class="font-semibold mb-1">Overall CRM impact</p>
               <p>
                 Combining early validation, auto‑fetched data and single payment removes the
                 majority of complaints along this journey.
+              </p>
+            </div>
+
+            <!-- Before / after dashboard -->
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3"
+                 data-insight>
+              <p class="text-[11px] font-semibold text-slate-500 mb-2">
+                Before vs After – at a glance
+              </p>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <p class="text-[11px] font-semibold text-rose-600 mb-1">As‑Is today</p>
+                  <ul class="space-y-1 text-slate-600">
+                    <li>• 3 different platforms</li>
+                    <li>• 10–23 touchpoints</li>
+                    <li>• 3–4 days processing</li>
+                    <li>• ~3,000 complaints per year</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-[11px] font-semibold text-emerald-600 mb-1">To‑Be journey</p>
+                  <ul class="space-y-1 text-slate-600">
+                    <li>• 1 integrated journey</li>
+                    <li>• ~4 touchpoints</li>
+                    <li>• Instant certificate issuance</li>
+                    <li>• ~3,000 complaints removed</li>
+                    <li>• Satisfaction above 87%</li>
+                  </ul>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-2">
+                Emotionally: parents move from anxious and confused to calm, informed and in
+                control during one of the most important moments of their lives.
               </p>
             </div>
 
@@ -1218,6 +1392,7 @@
       if (toggle) {
         if (insightsOn) {
           toggle.classList.add("bg-teal-600", "text-white");
+          toggle.classList.remove("bg-slate-300");
         } else {
           toggle.classList.remove("bg-teal-600");
           toggle.classList.add("bg-slate-300");
@@ -1348,7 +1523,7 @@
     }
 
     function selectServiceNewborn() {
-      showScreen("service");
+      showScreen("intro");
     }
 
     // ------------ Login ------------
@@ -1362,8 +1537,9 @@
         const g = btn.getAttribute("data-gender");
         if (g === selectedGender) {
           btn.classList.add("bg-violet-600", "text-white");
+          btn.classList.remove("text-violet-700");
         } else {
-          btn.classList.remove("bg-violet-600");
+          btn.classList.remove("bg-violet-600", "text-white");
           btn.classList.add("text-violet-700");
         }
       });
@@ -1374,7 +1550,7 @@
         const letter = btn.getAttribute("data-letter");
         if (letter === selectedInitial) {
           btn.classList.add("bg-violet-600", "text-white", "border-violet-600");
-          btn.classList.remove("bg-white", "text-violet-700");
+          btn.classList.remove("bg-white", "text-violet-700", "border-violet-200");
         } else {
           btn.classList.remove("bg-violet-600", "text-white", "border-violet-600");
           btn.classList.add("bg-white", "text-violet-700", "border-violet-200");
@@ -1516,4 +1692,5 @@
 
 </body>
 </html>
+
 
