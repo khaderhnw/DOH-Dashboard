@@ -232,8 +232,8 @@
             One journey for every newborn in Abu Dhabi
           </h1>
           <p class="text-xs text-teal-100 mb-1" data-insight>
-            Every year around <span class="font-semibold">45,000 families</span> in Abu Dhabi go through the newborn paperwork journey. 
-            Today it is scattered and stressful; our goal is to complete everything in minutes, in one seamless experience.
+            Each year around <span class="font-semibold">45,000 families</span> in Abu Dhabi go through this newborn paperwork journey.
+            Today it is scattered and stressful; our aim is to finish everything in minutes, in one simple path.
           </p>
         </div>
 
@@ -268,8 +268,8 @@
           <ul class="space-y-1 text-slate-600">
             <li>• <span class="font-semibold">Travel & passports:</span> certificate delays block passports and urgent travel.</li>
             <li>• <span class="font-semibold">Medical access:</span> without the certificate and ID, newborns can’t be insured or seen easily by specialists.</li>
-            <li>• <span class="font-semibold">Fees & fairness:</span> parents pay double language fees and repeated MOFA attestation for one birth.</li>
-            <li>• <span class="font-semibold">Trust in digital government:</span> thousands of complaints from one service weaken confidence in the wider platform.</li>
+            <li>• <span class="font-semibold">Fees & fairness:</span> parents pay double language fees and repeated MOFA for one birth.</li>
+            <li>• <span class="font-semibold">Trust in digital government:</span> one service generates ~3,000 complaints a year.</li>
           </ul>
         </div>
 
@@ -278,12 +278,12 @@
             What this prototype shows
           </p>
           <p class="text-slate-600 mb-2">
-            This prototype walks from today’s journey to the future one. At each step you see:
+            We walk from today’s journey to the future one. At each step you see:
           </p>
           <ul class="list-disc list-inside space-y-1 text-slate-600">
-            <li>What parents do in the service.</li>
-            <li>How that step affects their life (travel, medical care, money).</li>
-            <li>How the To‑Be design removes that harm.</li>
+            <li>What parents do in that step.</li>
+            <li>How it affects travel, care and money.</li>
+            <li>How the To‑Be journey fixes that impact.</li>
           </ul>
         </div>
       </main>
@@ -1380,48 +1380,12 @@
   <script>
     // ------------ Data for AI naming ------------
     const NAME_LIBRARY = [
-      {
-        en: "Zayed",
-        ar: "زايد",
-        gender: "boy",
-        initial: "Z",
-        meaning: "Growth; one who increases in goodness."
-      },
-      {
-        en: "Khalifa",
-        ar: "خليفة",
-        gender: "boy",
-        initial: "K",
-        meaning: "Successor; leader."
-      },
-      {
-        en: "Hamdan",
-        ar: "حمدان",
-        gender: "boy",
-        initial: "H",
-        meaning: "One who gives thanks often."
-      },
-      {
-        en: "Maryam",
-        ar: "مريم",
-        gender: "girl",
-        initial: "M",
-        meaning: "Beloved; virtuous and devout."
-      },
-      {
-        en: "Fatima",
-        ar: "فاطمة",
-        gender: "girl",
-        initial: "F",
-        meaning: "Pure; one who abstains from what is wrong."
-      },
-      {
-        en: "Lana",
-        ar: "لانا",
-        gender: "girl",
-        initial: "L",
-        meaning: "Gentle; soft and kind."
-      }
+      { en: "Zayed",  ar: "زايد",   gender: "boy",  initial: "Z", meaning: "Growth; one who increases in goodness." },
+      { en: "Khalifa",ar: "خليفة", gender: "boy",  initial: "K", meaning: "Successor; leader." },
+      { en: "Hamdan", ar: "حمدان", gender: "boy",  initial: "H", meaning: "One who gives thanks often." },
+      { en: "Maryam", ar: "مريم",  gender: "girl", initial: "M", meaning: "Beloved; virtuous and devout." },
+      { en: "Fatima", ar: "فاطمة", gender: "girl", initial: "F", meaning: "Pure; one who abstains from what is wrong." },
+      { en: "Lana",   ar: "لانا",  gender: "girl", initial: "L", meaning: "Gentle; soft and kind." }
     ];
 
     // ------------ Global state ------------
@@ -1434,11 +1398,7 @@
     // ------------ Helpers ------------
     function showScreen(key) {
       document.querySelectorAll(".screen").forEach(function (el) {
-        if (el.getAttribute("data-screen") === key) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
+        el.classList.toggle("hidden", el.getAttribute("data-screen") !== key);
       });
     }
 
@@ -1449,11 +1409,9 @@
 
     function updateInsightsUI() {
       const toggleText = document.getElementById("insights-toggle-text");
-      if (toggleText) {
-        toggleText.textContent = insightsOn ? "On" : "Off";
-      }
       const toggle = document.getElementById("insights-toggle");
-      if (toggle) {
+      if (toggleText && toggle) {
+        toggleText.textContent = insightsOn ? "On" : "Off";
         if (insightsOn) {
           toggle.classList.add("bg-teal-600", "text-white");
           toggle.classList.remove("bg-slate-300");
@@ -1463,11 +1421,7 @@
         }
       }
       document.querySelectorAll("[data-insight]").forEach(function (el) {
-        if (insightsOn) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
+        el.classList.toggle("hidden", !insightsOn);
       });
     }
 
@@ -1495,38 +1449,32 @@
 
     function showToBeFromAsIs(asisStep) {
       const mapping = { 1: 1, 2: 3, 3: 2, 4: 4, 5: 5 };
-      const target = mapping[asisStep] || 1;
-      tobeCurrentStep = target;
+      tobeCurrentStep = mapping[asisStep] || 1;
       updateToBeStep();
       showScreen("tobe");
     }
 
     function showAsIsFromToBe(tobeStep) {
       const mapping = { 1: 1, 2: 3, 3: 2, 4: 4, 5: 5 };
-      const target = mapping[tobeStep] || 1;
-      asisCurrentStep = target;
+      asisCurrentStep = mapping[tobeStep] || 1;
       updateAsIsStep();
       showScreen("asis");
     }
 
     function updateAsIsStep() {
       const container = document.getElementById("asis-steps");
-      if (!container) return;
+      const stepper = document.getElementById("asis-stepper");
+      if (!container || !stepper) return;
+
       container.querySelectorAll("[data-step]").forEach(function (el) {
         const step = parseInt(el.getAttribute("data-step"), 10);
-        if (step === asisCurrentStep) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
+        el.classList.toggle("hidden", step !== asisCurrentStep);
       });
 
-      const stepper = document.getElementById("asis-stepper");
-      if (!stepper) return;
       stepper.querySelectorAll("[data-step]").forEach(function (el) {
         const circle = el.querySelector(".step-circle");
-        if (!circle) return;
         const step = parseInt(el.getAttribute("data-step"), 10);
+        if (!circle) return;
         if (step === asisCurrentStep) {
           circle.classList.add("bg-teal-700", "text-white", "border-teal-700");
           circle.classList.remove("bg-slate-50", "text-slate-500", "border-slate-300");
@@ -1539,22 +1487,18 @@
 
     function updateToBeStep() {
       const container = document.getElementById("tobe-steps");
-      if (!container) return;
+      const stepper = document.getElementById("tobe-stepper");
+      if (!container || !stepper) return;
+
       container.querySelectorAll("[data-step]").forEach(function (el) {
         const step = parseInt(el.getAttribute("data-step"), 10);
-        if (step === tobeCurrentStep) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
+        el.classList.toggle("hidden", step !== tobeCurrentStep);
       });
 
-      const stepper = document.getElementById("tobe-stepper");
-      if (!stepper) return;
       stepper.querySelectorAll("[data-step]").forEach(function (el) {
         const circle = el.querySelector(".step-circle");
-        if (!circle) return;
         const step = parseInt(el.getAttribute("data-step"), 10);
+        if (!circle) return;
         if (step === tobeCurrentStep) {
           circle.classList.add("bg-emerald-700", "text-white", "border-emerald-700");
           circle.classList.remove("bg-slate-50", "text-slate-500", "border-slate-300");
@@ -1578,11 +1522,7 @@
       const q = (event.target.value || "").toLowerCase();
       document.querySelectorAll(".service-row").forEach(function (el) {
         const title = (el.getAttribute("data-service-title") || "").toLowerCase();
-        if (!q || title.indexOf(q) !== -1) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
+        el.classList.toggle("hidden", q && !title.includes(q));
       });
     }
 
@@ -1631,11 +1571,7 @@
     }
 
     function setInitial(letter) {
-      if (selectedInitial === letter) {
-        selectedInitial = null;
-      } else {
-        selectedInitial = letter;
-      }
+      selectedInitial = (selectedInitial === letter) ? null : letter;
       updateInitialUI();
       clearAiSuggestions();
     }
@@ -1657,9 +1593,7 @@
       });
 
       if (!filtered.length) {
-        filtered = NAME_LIBRARY.filter(function (n) {
-          return n.gender === selectedGender;
-        });
+        filtered = NAME_LIBRARY.filter(n => n.gender === selectedGender);
       }
 
       filtered.forEach(function (n) {
@@ -1670,17 +1604,11 @@
         btn.innerHTML =
           '<div class="flex justify-between items-center">' +
           '<span class="text-sm font-semibold text-slate-900">' +
-          n.en +
-          " / " +
-          n.ar +
-          "</span>" +
+          n.en + " / " + n.ar + "</span>" +
           '<span class="text-[10px] text-violet-600 font-semibold">' +
           (n.gender === "boy" ? "Boy" : "Girl") +
-          "</span>" +
-          "</div>" +
-          '<p class="text-[10px] text-slate-500 mt-1">Meaning: ' +
-          n.meaning +
-          "</p>";
+          "</span></div>" +
+          '<p class="text-[10px] text-slate-500 mt-1">Meaning: ' + n.meaning + "</p>";
 
         btn.addEventListener("click", function () {
           const enInput = document.getElementById("tobe-name-en");
@@ -1697,39 +1625,29 @@
     function updateNameVerified() {
       const enInput = document.getElementById("tobe-name-en");
       const arInput = document.getElementById("tobe-name-ar");
-      if (!enInput || !arInput) return;
-      const hasBoth =
-        enInput.value.trim() !== "" && arInput.value.trim() !== "";
       const panel = document.getElementById("name-verified");
-      if (panel) {
-        if (hasBoth) {
-          panel.classList.remove("hidden");
-        } else {
-          panel.classList.add("hidden");
-        }
-      }
+      if (!enInput || !arInput || !panel) return;
+
+      const hasBoth = enInput.value.trim() && arInput.value.trim();
+      panel.classList.toggle("hidden", !hasBoth);
     }
 
     // ------------ Init on DOM ready ------------
     document.addEventListener("DOMContentLoaded", function () {
-      // Splash → login
       showScreen("splash");
       setTimeout(function () {
         showScreen("login");
       }, 1500);
 
-      // Home search
       const searchInput = document.getElementById("home-search");
-      if (searchInput) {
-        searchInput.addEventListener("input", handleHomeSearch);
-      }
+      if (searchInput) searchInput.addEventListener("input", handleHomeSearch);
 
-      // Gender & letter events
       document.querySelectorAll("[data-gender]").forEach(function (btn) {
         btn.addEventListener("click", function () {
           setGender(btn.getAttribute("data-gender"));
         });
       });
+
       document.querySelectorAll("[data-letter]").forEach(function (btn) {
         btn.addEventListener("click", function () {
           setInitial(btn.getAttribute("data-letter"));
@@ -1737,9 +1655,7 @@
       });
 
       const genBtn = document.getElementById("btn-generate-names");
-      if (genBtn) {
-        genBtn.addEventListener("click", generateNameSuggestions);
-      }
+      if (genBtn) genBtn.addEventListener("click", generateNameSuggestions);
 
       const enInput = document.getElementById("tobe-name-en");
       const arInput = document.getElementById("tobe-name-ar");
@@ -1756,5 +1672,6 @@
 
 </body>
 </html>
+
 
 
