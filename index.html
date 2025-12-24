@@ -1316,35 +1316,6 @@
       });
     }
 
-    function toggleInsights() {
-      insightsOn = !insightsOn;
-      updateInsightsUI();
-    }
-
-    function updateInsightsUI() {
-      const toggleText = document.getElementById("insights-toggle-text");
-      if (toggleText) {
-        toggleText.textContent = insightsOn ? "On" : "Off";
-      }
-      const toggle = document.getElementById("insights-toggle");
-      if (toggle) {
-        if (insightsOn) {
-          toggle.classList.add("bg-teal-600", "text-white");
-          toggle.classList.remove("bg-slate-300");
-        } else {
-          toggle.classList.remove("bg-teal-600");
-          toggle.classList.add("bg-slate-300");
-        }
-      }
-      document.querySelectorAll("[data-insight]").forEach(function (el) {
-        if (insightsOn) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
-      });
-    }
-
     function startAsIsJourney() {
       asisCurrentStep = 1;
       updateAsIsStep();
@@ -1519,23 +1490,32 @@
       if (container) container.innerHTML = "";
     }
 
+    // *** FIXED LOGIC HERE ***
     function generateNameSuggestions() {
       const container = document.getElementById("ai-suggestions");
       if (!container) return;
       container.innerHTML = "";
 
+      // Filter strictly by gender and, if chosen, by initial
       let filtered = NAME_LIBRARY.filter(function (n) {
         if (n.gender !== selectedGender) return false;
         if (selectedInitial && n.initial !== selectedInitial) return false;
         return true;
       });
 
+      // If a letter is selected but no names match it, show a clear message
       if (!filtered.length) {
-        filtered = NAME_LIBRARY.filter(function (n) {
-          return n.gender === selectedGender;
-        });
+        if (selectedInitial) {
+          const msg = document.createElement("p");
+          msg.className = "text-[11px] text-slate-500 mt-2";
+          msg.textContent =
+            "No suggestions for this letter yet. Try a different letter or remove the filter.";
+          container.appendChild(msg);
+        }
+        return;
       }
 
+      // Render only the matching names
       filtered.forEach(function (n) {
         const btn = document.createElement("button");
         btn.type = "button";
@@ -1620,7 +1600,6 @@
       if (enInput) enInput.addEventListener("input", updateNameVerified);
       if (arInput) arInput.addEventListener("input", updateNameVerified);
 
-      updateInsightsUI();
       updateAsIsStep();
       updateToBeStep();
       updateGenderUI();
@@ -1630,4 +1609,3 @@
 
 </body>
 </html>
-
