@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Newborn Digital Birth Certificate – Strategy Story Prototype</title>
+  <title>Newborn Digital Birth Certificate – Journey Story Prototype</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Tailwind CSS -->
@@ -207,9 +207,9 @@
     </div>
   </section>
 
-  <!-- INTRO / A SEAMLESS START TO LIFE ------------------------------>
+  <!-- JOURNEY MENU (AS-IS / TO-BE / OVERVIEW) ---------------------->
   <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
-           data-screen="intro">
+           data-screen="journey-menu">
     <div class="phone-shell h-screen flex flex-col">
       <header class="px-4 pt-4 pb-3 flex items-center justify-between">
         <button type="button"
@@ -218,29 +218,108 @@
           ← Home
         </button>
         <span class="text-[11px] text-slate-500 font-semibold">
+          Newborn birth certificate
+        </span>
+        <div class="w-5"></div>
+      </header>
+
+      <main class="flex-1 px-4 pb-5 overflow-y-auto">
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4">
+          <p class="text-[11px] uppercase tracking-wide text-teal-700 mb-1">
+            Choose how to view
+          </p>
+          <h1 class="text-lg font-bold text-slate-900 mb-1">
+            Issue a Newborn Digital Birth Certificate
+          </h1>
+          <p class="text-xs text-slate-600">
+            See today’s journey with pain points, the redesigned future journey,
+            or a short strategy overview with the fees ask.
+          </p>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <button type="button"
+                  onclick="startAsIsJourney()"
+                  class="w-full text-left bg-teal-700 hover:bg-teal-800 text-white rounded-3xl p-4 shadow-sm flex flex-col gap-1">
+            <p class="text-[11px] font-semibold uppercase tracking-wide text-teal-100">
+              Today
+            </p>
+            <p class="text-sm font-semibold">
+              Walk the As-Is journey
+            </p>
+            <p class="text-[11px] text-teal-100">
+              See where parents get blocked and how it affects travel, care and costs.
+            </p>
+          </button>
+
+          <button type="button"
+                  onclick="startToBeJourney()"
+                  class="w-full text-left bg-white border border-emerald-600 text-emerald-700 rounded-3xl p-4 shadow-sm flex flex-col gap-1">
+            <p class="text-[11px] font-semibold uppercase tracking-wide">
+              Future
+            </p>
+            <p class="text-sm font-semibold">
+              View the To-Be experience
+            </p>
+            <p class="text-[11px] text-slate-600">
+              See the redesigned journey that removes complaints and issues documents in minutes.
+            </p>
+          </button>
+
+          <button type="button"
+                  onclick="showScreen('intro')"
+                  class="w-full text-left bg-white border border-slate-200 text-slate-700 rounded-3xl p-4 shadow-sm flex flex-col gap-1">
+            <p class="text-[11px] font-semibold uppercase tracking-wide">
+              Overview
+            </p>
+            <p class="text-sm font-semibold">
+              Story & strategy overview
+            </p>
+            <p class="text-[11px] text-slate-600">
+              One page that summarises the scale of the problem and the 50 AED bilingual certificate ask.
+            </p>
+          </button>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- INTRO / STORY OVERVIEW --------------------------------------->
+  <section class="screen hidden min-h-screen flex items-center justify-center bg-slate-50"
+           data-screen="intro">
+    <div class="phone-shell h-screen flex flex-col">
+      <header class="px-4 pt-4 pb-3 flex items-center justify-between">
+        <button type="button"
+                onclick="showScreen('journey-menu')"
+                class="text-xs text-slate-500 flex items-center gap-1">
+          ← Options
+        </button>
+        <span class="text-[11px] text-slate-500 font-semibold">
           Newborn Journey Story
         </span>
         <div class="w-5"></div>
       </header>
 
       <main class="flex-1 px-4 pb-5 overflow-y-auto">
+        <!-- Hero -->
         <div class="bg-gradient-to-br from-teal-800 to-slate-900 text-white rounded-3xl p-4 mb-4">
           <p class="text-[11px] uppercase tracking-wide text-teal-200 mb-1">
-            A Seamless Start to Life
+            A seamless start to life
           </p>
           <h1 class="text-xl font-bold mb-2">
             One journey for every newborn in Abu Dhabi
           </h1>
           <p class="text-xs text-teal-100 mb-1" data-insight>
-            Every year around <span class="font-semibold">45,000 families</span> in Abu Dhabi go through the newborn paperwork journey. 
-            Today it is scattered and stressful; our goal is to complete everything in minutes, in one seamless experience.
+            Every year about <span class="font-semibold">45,000 families</span> go through the newborn
+            paperwork journey. Today it is scattered and stressful; our goal is to finish everything
+            in minutes, in one seamless experience.
           </p>
         </div>
 
         <!-- Before / After tiles -->
         <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
           <div class="bg-white rounded-3xl border border-rose-100 shadow-sm p-3" data-insight>
-            <p class="text-[11px] font-semibold text-rose-600 mb-1">As‑Is today</p>
+            <p class="text-[11px] font-semibold text-rose-600 mb-1">As-Is today</p>
             <ul class="space-y-1 text-slate-600">
               <li>• 3 different platforms</li>
               <li>• 10–23 touchpoints</li>
@@ -249,18 +328,17 @@
             </ul>
           </div>
           <div class="bg-white rounded-3xl border border-emerald-100 shadow-sm p-3" data-insight>
-            <p class="text-[11px] font-semibold text-emerald-600 mb-1">To‑Be vision</p>
+            <p class="text-[11px] font-semibold text-emerald-600 mb-1">To-Be vision</p>
             <ul class="space-y-1 text-slate-600">
               <li>• 1 seamless journey</li>
               <li>• ~4 touchpoints</li>
               <li>• Instant issuance</li>
               <li>• Removes ~3,000 complaints</li>
-              <li>• Satisfaction &gt; 87%</li>
             </ul>
           </div>
         </div>
 
-        <!-- Strategy impact card -->
+        <!-- Why urgent -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-4" data-insight>
           <p class="font-semibold text-slate-900 mb-1">
             Why this change is urgent now
@@ -268,22 +346,35 @@
           <ul class="space-y-1 text-slate-600">
             <li>• <span class="font-semibold">Travel & passports:</span> certificate delays block passports and urgent travel.</li>
             <li>• <span class="font-semibold">Medical access:</span> without the certificate and ID, newborns can’t be insured or seen easily by specialists.</li>
-            <li>• <span class="font-semibold">Fees & fairness:</span> parents pay double language fees and repeated MOFA attestation for one birth.</li>
-            <li>• <span class="font-semibold">Trust in digital government:</span> thousands of complaints from one service weaken confidence in the wider platform.</li>
+            <li>• <span class="font-semibold">Fees & fairness:</span> parents pay twice for Arabic & English certificates and repeated MOFA attestation.</li>
+            <li>• <span class="font-semibold">Trust in digital government:</span> thousands of complaints from one journey weaken confidence in the wider platform.</li>
           </ul>
         </div>
 
+        <!-- How to use this prototype -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-4" data-insight>
+          <p class="font-semibold text-slate-900 mb-1">
+            How to use this prototype
+          </p>
+          <ul class="space-y-1 text-slate-600">
+            <li>• The screen mirrors a phone, just like parents see TAMM today.</li>
+            <li>• We focus on one service: <span class="font-semibold">Issue a Newborn Digital Birth Certificate</span>.</li>
+            <li>• You can move between the <span class="font-semibold">As-Is</span> journey, the <span class="font-semibold">To-Be</span> journey, and this overview at any time.</li>
+          </ul>
+        </div>
+
+        <!-- What this prototype shows -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-4" data-insight>
           <p class="font-semibold text-slate-900 mb-1">
             What this prototype shows
           </p>
           <p class="text-slate-600 mb-2">
-            This prototype walks from today’s journey to the future one. At each step you see:
+            We move from today’s journey to the future one. At each step you see:
           </p>
           <ul class="list-disc list-inside space-y-1 text-slate-600">
             <li>What parents do in the service.</li>
             <li>How that step affects their life (travel, medical care, money).</li>
-            <li>How the To‑Be design removes that harm.</li>
+            <li>Exactly how the To-Be journey removes that harm.</li>
           </ul>
         </div>
       </main>
@@ -293,13 +384,13 @@
                 onclick="startAsIsJourney()"
                 class="w-full h-11 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold flex items-center justify-center gap-2">
           <span>⏳</span>
-          <span>Walk the As‑Is journey</span>
+          <span>Walk the As-Is journey</span>
         </button>
         <button type="button"
                 onclick="startToBeJourney()"
                 class="w-full h-11 rounded-xl bg-white text-teal-700 border border-teal-600 text-sm font-semibold flex items-center justify-center gap-2">
           <span>⚡️</span>
-          <span>Jump to To‑Be experience</span>
+          <span>Jump to To-Be experience</span>
         </button>
         <button type="button"
                 onclick="showScreen('service')"
@@ -337,7 +428,6 @@
                   type="button"
                   onclick="toggleInsights()"
                   class="flex items-center gap-2 px-2.5 py-1 rounded-full bg-teal-600 text-white text-[11px] font-medium">
-            <span>On</span>
             <span id="insights-toggle-text">On</span>
           </button>
         </div>
@@ -349,12 +439,12 @@
             <p class="text-[11px] uppercase font-semibold text-slate-400">
               What CRM is telling us
             </p>
-            <p class="text-slate-700">
-              Feedback from thousands of parents highlights two main clusters of pain:
+            <p class="text-slate-700 mb-1">
+              Complaints from parents concentrate in two places:
             </p>
             <ul class="text-slate-600 list-disc list-inside">
               <li>Breakdowns in the journey (errors, freezes, late rejections).</li>
-              <li>Payments captured by the bank but still “pending” in the system.</li>
+              <li>Payments taken by the bank but still “pending” in the system.</li>
             </ul>
           </div>
           <div class="text-[10px] text-rose-600 font-semibold text-right">
@@ -366,13 +456,13 @@
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 mb-4 text-xs grid grid-cols-2 gap-3"
              data-insight>
           <div>
-            <p class="text-[11px] font-semibold text-rose-600 mb-1">As‑Is snapshot</p>
+            <p class="text-[11px] font-semibold text-rose-600 mb-1">As-Is snapshot</p>
             <p class="text-[11px] text-slate-600">3 platforms</p>
             <p class="text-[11px] text-slate-600">10–23 touchpoints</p>
             <p class="text-[11px] text-slate-600">3–4 days processing</p>
           </div>
           <div>
-            <p class="text-[11px] font-semibold text-emerald-600 mb-1">To‑Be snapshot</p>
+            <p class="text-[11px] font-semibold text-emerald-600 mb-1">To-Be snapshot</p>
             <p class="text-[11px] text-slate-600">1 journey</p>
             <p class="text-[11px] text-slate-600">~4 touchpoints</p>
             <p class="text-[11px] text-slate-600">Instant issuance</p>
@@ -384,10 +474,10 @@
           <p class="text-[11px] font-semibold text-slate-500 mb-1">
             Strategic impact for leadership
           </p>
-          <ul class="space-y-1 text-slate-600">
-            <li>• <span class="font-semibold">Citizen experience:</span> every failure in this journey is a family stuck without documents, often delaying travel and medical care for their newborn.</li>
-            <li>• <span class="font-semibold">Financial fairness:</span> today parents pay separate Arabic and English fees and repeated MOFA attestation per copy; the new journey uses one bilingual certificate and one issuance fee.</li>
-            <li>• <span class="font-semibold">Operational load:</span> thousands of avoidable complaints absorb call‑center and back‑office capacity that could focus on complex cases.</li>
+          <ul class="space-y-1 text-slate-600 mb-2">
+            <li>• <span class="font-semibold">Citizen experience:</span> every failure in this journey is a family stuck without documents, delaying travel and medical care.</li>
+            <li>• <span class="font-semibold">Financial fairness:</span> today parents pay separate fees for Arabic & English certificates and repeat MOFA attestation.</li>
+            <li>• <span class="font-semibold">Operational load:</span> avoidable complaints absorb call-center and back-office capacity.</li>
           </ul>
           <div class="mt-2 border-t border-slate-200 pt-2">
             <p class="text-[11px] font-semibold text-slate-900">
@@ -405,8 +495,8 @@
             Issue a Newborn Digital Birth Certificate
           </h1>
           <p class="text-xs text-slate-600">
-            Through this service, you can request the issuance of a digital birth certificate
-            for a newborn. If desired, the certificate can be attested for international use.
+            Through this service, parents can request a digital birth certificate for their newborn.
+            If needed, the certificate can be attested for international use.
           </p>
         </div>
 
@@ -416,11 +506,11 @@
             Required documents
           </h2>
           <p class="text-[11px] text-slate-500 mb-2">
-            These are available in My TAMM:
+            Already available in My TAMM:
           </p>
-          <p class="mb-2">• Emirates ID (Parents’ Emirates Identity)</p>
-          <p class="text-[11px] text-slate-500 mb-1">
-            The following must be submitted during the application process:
+          <p>• Parents’ Emirates ID</p>
+          <p class="text-[11px] text-slate-500 mt-2 mb-1">
+            To be uploaded or confirmed during the application:
           </p>
           <p>• Parents’ passports</p>
           <p>• Marriage contract</p>
@@ -429,10 +519,10 @@
         <!-- Costs -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs">
           <h2 class="text-sm font-semibold text-slate-900 mb-2">
-            Costs (current As‑Is)
+            Costs (current As-Is)
           </h2>
           <p class="text-[11px] text-slate-500 mb-2">
-            Payment methods: AD Pay, debit / credit card
+            Payment methods: AD Pay, debit / credit card.
           </p>
           <div class="space-y-1">
             <div class="flex justify-between">
@@ -449,14 +539,14 @@
             </div>
           </div>
           <p class="text-[11px] text-rose-600 mt-2" data-insight>
-            Impact: families often pay double language fees and repeated MOFA attestation for a single birth event.
+            Impact: families often pay double language fees and repeated MOFA attestation, even though it is one birth event.
           </p>
         </div>
 
         <!-- Process -->
         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-4 text-xs">
           <h2 class="text-sm font-semibold text-slate-900 mb-2">
-            The process (As‑Is)
+            The process (As-Is)
           </h2>
           <ol class="space-y-1 text-slate-700">
             <li>1. Log in using UAE PASS.</li>
@@ -468,7 +558,7 @@
         </div>
 
         <div class="text-[11px] text-slate-400 mb-3" data-insight>
-          Toggle Story & Insights off to see only the pure TAMM screens as parents see them today.
+          Toggle Story & Insights off to see only the core TAMM screens, without commentary.
         </div>
       </main>
 
@@ -477,13 +567,13 @@
                 onclick="startAsIsJourney()"
                 class="w-full h-11 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold flex items-center justify-center gap-2">
           <span>⏳</span>
-          <span>View As‑Is journey</span>
+          <span>View As-Is journey</span>
         </button>
         <button type="button"
                 onclick="startToBeJourney()"
                 class="w-full h-11 rounded-xl bg-white text-teal-700 border border-teal-600 text-sm font-semibold flex items-center justify-center gap-2">
           <span>⚡️</span>
-          <span>View To‑Be journey</span>
+          <span>View To-Be journey</span>
         </button>
       </footer>
     </div>
@@ -500,7 +590,7 @@
           ← Service
         </button>
         <span class="text-[11px] text-slate-500 font-semibold">
-          As‑Is journey
+          As-Is journey
         </span>
         <span class="text-[10px] text-rose-600 font-semibold" data-insight>
           ⚠️ Parents & doctors struggle here
@@ -551,21 +641,11 @@
               Step 1 · Select birth notification
             </h2>
             <p class="text-xs text-slate-500 mb-1">
-              Parents must find and select the correct birth notification number before they can
-              continue the service.
+              Parents must find and select the correct birth notification number before they can continue.
             </p>
-            <p class="text-[11px] text-slate-500 mb-1" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> parents are anxious about choosing the wrong number and getting stuck.
+            <p class="text-[11px] text-rose-700 mb-3" data-insight>
+              <span class="font-semibold">Family impact:</span> if the system errors here, the whole journey stops and parents lose days before they can even start.
             </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">Impact:</span> if this step fails, the whole journey stalls and families lose days before they can even start the application.
-            </p>
-
-            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
-                 data-insight>
-              <span>Pain point: families get blocked on the very first screen.</span>
-              <span>⚠️</span>
-            </div>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 space-y-2">
               <p class="text-[11px] text-slate-500 mb-1">
@@ -573,11 +653,11 @@
               </p>
               <div class="space-y-2">
                 <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
-                  <span>AD/BTH‑NC/0030214/2024</span>
+                  <span>AD/BTH-NC/0030214/2024</span>
                   <input type="radio" name="asis-notif" />
                 </label>
                 <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
-                  <span>AD/BTH‑NC/0031020/2024</span>
+                  <span>AD/BTH-NC/0031020/2024</span>
                   <input type="radio" name="asis-notif" />
                 </label>
                 <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2">
@@ -589,10 +669,7 @@
               <div class="mt-3 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
                    data-insight>
                 <p class="font-semibold mb-1">What parents say</p>
-                <ul class="list-disc list-inside space-y-1">
-                  <li>“When I select the birth notification number an error appears and I cannot move to the next step.”</li>
-                  <li>“I tried to apply using the birth notification but the system keeps showing an error.”</li>
-                </ul>
+                <p>“When I select the birth notification number an error appears and I cannot move to the next step.”</p>
               </div>
             </div>
 
@@ -606,7 +683,7 @@
               <button type="button"
                       onclick="showToBeFromAsIs(1)"
                       class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
-                See To‑Be version of this step
+                See To-Be version of this step
               </button>
             </div>
           </div>
@@ -617,20 +694,11 @@
               Step 2 · Upload documents
             </h2>
             <p class="text-xs text-slate-500 mb-1">
-              Parents re‑upload documents that already exist in Malaffi and ICP.
+              Parents re-upload documents that already exist in Malaffi and ICP.
             </p>
-            <p class="text-[11px] text-slate-500 mb-1" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> exhausting and frustrating to repeat paperwork the government already holds.
+            <p class="text-[11px] text-rose-700 mb-3" data-insight>
+              <span class="font-semibold">Family impact:</span> parents juggle newborn care, hospital visits and work while repeating paperwork the government already holds.
             </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">Impact:</span> parents juggle newborn care, hospital visits and work while scanning and uploading multiple documents.
-            </p>
-
-            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
-                 data-insight>
-              <span>Pain point: journey breaks when uploads fail or eligibility rules are unclear.</span>
-              <span>⚠️</span>
-            </div>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 space-y-2">
               <p class="text-[11px] text-slate-500 mb-1">
@@ -657,8 +725,7 @@
 
               <div class="mt-3 bg-amber-50 border border-amber-100 rounded-2xl p-2.5 text-amber-800"
                    data-insight>
-                “Once I submit all required documents I get an error and the page does not move
-                forward in the newborn digital birth certificate service.”
+                “Why do I have to re-upload these? ICP already has my data.”
               </div>
             </div>
 
@@ -672,7 +739,7 @@
               <button type="button"
                       onclick="showToBeFromAsIs(2)"
                       class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
-                See To‑Be version of this step
+                See To-Be version of this step
               </button>
             </div>
           </div>
@@ -683,20 +750,11 @@
               Step 3 · Baby details
             </h2>
             <p class="text-xs text-slate-500 mb-1">
-              Names are typed manually in English and Arabic with no validation.
+              Names are typed manually in English and Arabic with no early validation.
             </p>
-            <p class="text-[11px] text-slate-500 mb-1" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> parents worry that one small spelling mistake will cause rejection.
+            <p class="text-[11px] text-rose-700 mb-3" data-insight>
+              <span class="font-semibold">Family impact:</span> a small spelling mismatch can reject the request days later, forcing parents to start again and repay.
             </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">Impact:</span> if the name is rejected days later, they must restart and pay again, delaying passports and insurance for the newborn.
-            </p>
-
-            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
-                 data-insight>
-              <span>Pain point: name rules are invisible until a late rejection.</span>
-              <span>⚠️</span>
-            </div>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 space-y-3">
               <div>
@@ -729,15 +787,10 @@
                   <option>Islam</option>
                 </select>
               </div>
-              <p class="text-[10px] text-slate-400" data-insight>
-                * If the Arabic and English spelling do not match ICP rules, the request may be
-                rejected after several days.
-              </p>
 
               <div class="mt-2 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
                    data-insight>
-                “I tried to complete the newborn details but the form freezes and I cannot reach
-                the payment step or correct the name.”
+                “My newborn’s request stayed in progress for many days then was rejected because of a name issue.”
               </div>
             </div>
 
@@ -751,7 +804,7 @@
               <button type="button"
                       onclick="showToBeFromAsIs(3)"
                       class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
-                See To‑Be version of this step
+                See To-Be version of this step
               </button>
             </div>
           </div>
@@ -762,21 +815,11 @@
               Step 4 · Pay for certificates
             </h2>
             <p class="text-xs text-slate-500 mb-1">
-              Parents pay separately for Arabic and English certificates, increasing cost and
-              complexity.
+              Parents pay separately for Arabic and English certificates, increasing cost and complexity.
             </p>
-            <p class="text-[11px] text-slate-500 mb-1" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> relieved to pay, then panicked when the status still shows “pending”.
+            <p class="text-[11px] text-rose-700 mb-3" data-insight>
+              <span class="font-semibold">Family impact:</span> money leaves the bank but the status can stay “pending”, blocking issuance and travel plans.
             </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">Impact:</span> money leaves the bank but issuance does not move, so passports and travel plans are blocked.
-            </p>
-
-            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
-                 data-insight>
-              <span>Pain point: money leaves the bank, but the journey does not move.</span>
-              <span>⚠️</span>
-            </div>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs">
               <label class="flex items-center justify-between border border-slate-200 rounded-xl px-3 py-2 mb-2">
@@ -800,8 +843,7 @@
 
               <div class="mt-3 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
                    data-insight>
-                “I already paid but the application still shows pending payment and I cannot get
-                the certificate.”
+                “I already paid but the application still shows pending payment and I cannot get the certificate.”
               </div>
             </div>
 
@@ -815,7 +857,7 @@
               <button type="button"
                       onclick="showToBeFromAsIs(4)"
                       class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
-                See To‑Be version of this step
+                See To-Be version of this step
               </button>
             </div>
           </div>
@@ -826,21 +868,11 @@
               Step 5 · Processing & issuance
             </h2>
             <p class="text-xs text-slate-500 mb-1">
-              Requests can remain “in progress” for days and may be rejected later due to name
-              mismatches.
+              Requests can stay “in progress” for days and then be rejected due to name mismatches.
             </p>
-            <p class="text-[11px] text-slate-500 mb-1" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> families wait in the dark, then suddenly see a late rejection.
+            <p class="text-[11px] text-rose-700 mb-3" data-insight>
+              <span class="font-semibold">Family impact:</span> parents wait in the dark while passports, insurance and specialist visits are all delayed.
             </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">Impact:</span> while the request is stuck, they cannot get passports, add the newborn to insurance or attend important medical appointments.
-            </p>
-
-            <div class="mb-3 text-[11px] text-rose-700 bg-rose-50 border border-rose-100 rounded-2xl px-3 py-2 flex items-center justify-between"
-                 data-insight>
-              <span>Pain point: families wait days with no visibility, then face a late rejection.</span>
-              <span>⚠️</span>
-            </div>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs space-y-3">
               <div class="flex items-center justify-between">
@@ -858,15 +890,14 @@
                   Application rejected
                 </p>
                 <p class="text-[11px] text-slate-600">
-                  Name mismatch. The Arabic name does not match the English spelling as per ICP
-                  naming rules. A new application with new fees is required.
+                  Name mismatch. The Arabic name does not match the English spelling as per ICP naming rules.
+                  A new application with new fees is required.
                 </p>
               </div>
 
               <div class="mt-2 bg-rose-50 border border-rose-100 rounded-2xl p-2.5 text-rose-700"
                    data-insight>
-                “My newborn’s certificate request stayed in progress for many days then was rejected
-                because of a name issue and I had to start again.”
+                “My newborn’s certificate request stayed in progress for many days then was rejected because of a name issue and I had to start again.”
               </div>
             </div>
 
@@ -880,7 +911,7 @@
               <button type="button"
                       onclick="showToBeFromAsIs(5)"
                       class="w-full h-9 rounded-xl bg-white border border-teal-600 text-teal-700 font-semibold flex items-center justify-center text-[11px]">
-                See To‑Be version of this step
+                See To-Be version of this step
               </button>
             </div>
           </div>
@@ -900,7 +931,7 @@
           ← Service
         </button>
         <span class="text-[11px] text-emerald-700 font-semibold">
-          To‑Be journey
+          To-Be journey
         </span>
         <span class="text-[10px] text-emerald-600 font-semibold" data-insight>
           ✅ Designed to remove CRM pain
@@ -950,12 +981,8 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 1 · Proactive notification
             </h2>
-            <p class="text-xs text-slate-500 mb-1">
-              Birth notification completion in the hospital triggers the Mabrouk Ma Yak journey –
-              no need to search or type numbers.
-            </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> parents are pleasantly surprised — “the system already knows and is helping us.”
+            <p class="text-xs text-slate-500 mb-2">
+              When the birth notification is completed in the hospital, the Mabrouk Ma Yak journey starts automatically.
             </p>
 
             <div class="bg-slate-900 text-white rounded-3xl p-4 mb-3">
@@ -964,8 +991,7 @@
                 <div>
                   <p class="font-semibold mb-1">Mabrouk Ma Yak!</p>
                   <p class="text-slate-200">
-                    We received a birth notification for your newborn. Tap to name your baby and
-                    issue all documents in one journey.
+                    We received a birth notification for your newborn. Tap to name your baby and issue all documents in one journey.
                   </p>
                   <p class="text-[10px] text-slate-400 mt-1">Just now · from Malaffi</p>
                 </div>
@@ -988,7 +1014,7 @@
               <button type="button"
                       onclick="showAsIsFromToBe(1)"
                       class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
-                Compare with As‑Is step
+                Compare with As-Is step
               </button>
             </div>
           </div>
@@ -998,12 +1024,8 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 2 · Smart naming with AI
             </h2>
-            <p class="text-xs text-slate-500 mb-1">
-              Parents choose gender and first letter, then get AI‑suggested Arabic / English names
-              with meanings and ICP validation.
-            </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> choosing a name becomes a guided, joyful step instead of a risk of rejection.
+            <p class="text-xs text-slate-500 mb-2">
+              Parents can type a name or use AI suggestions, with instant ICP validation before they move on.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 mb-3 text-xs space-y-3">
@@ -1108,7 +1130,7 @@
             <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px] mb-3"
                  data-insight>
               <p class="font-semibold mb-1">Expected impact</p>
-              <p>Parents see naming rules up front, avoiding late rejections and repeat fees.</p>
+              <p>Parents see naming rules up front and avoid late rejections and repeat fees.</p>
             </div>
 
             <div class="mt-4 flex flex-col gap-2">
@@ -1122,7 +1144,7 @@
               <button type="button"
                       onclick="showAsIsFromToBe(3)"
                       class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
-                Compare with As‑Is step
+                Compare with As-Is step
               </button>
             </div>
           </div>
@@ -1132,11 +1154,8 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 3 · Documents auto‑fetched
             </h2>
-            <p class="text-xs text-slate-500 mb-1">
+            <p class="text-xs text-slate-500 mb-2">
               All required documents are pulled automatically from ICP, Malaffi and Usrati.
-            </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> parents barely touch paperwork — everything they expect government to know is already there.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs space-y-3">
@@ -1157,7 +1176,7 @@
             <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-3 text-emerald-800 text-[11px] mt-3"
                  data-insight>
               <p class="font-semibold mb-1">Expected impact</p>
-              <p>Parents are no longer asked to upload what government already knows; errors and eligibility confusion drop sharply.</p>
+              <p>Parents are no longer asked to upload what government already knows; errors and confusion drop sharply.</p>
             </div>
 
             <div class="mt-4 flex flex-col gap-2">
@@ -1170,7 +1189,7 @@
               <button type="button"
                       onclick="showAsIsFromToBe(2)"
                       class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
-                Compare with As‑Is step
+                Compare with As-Is step
               </button>
             </div>
           </div>
@@ -1180,12 +1199,8 @@
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 4 · Single payment for bundle
             </h2>
-            <p class="text-xs text-slate-500 mb-1">
-              One payment covers birth certificate + Emirates ID + passport, with a recovery layer
-              to fix “paid but pending” issues.
-            </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> parents pay once and move on, without worrying that money is “stuck” in the system.
+            <p class="text-xs text-slate-500 mb-2">
+              One payment covers birth certificate, Emirates ID and passport, with an automated recovery layer.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3">
@@ -1243,22 +1258,18 @@
               <button type="button"
                       onclick="showAsIsFromToBe(4)"
                       class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
-                Compare with As‑Is step
+                Compare with As-Is step
               </button>
             </div>
           </div>
 
-          <!-- STEP 5: Issued + digital locker + summary dashboard -->
+          <!-- STEP 5: Issued + summary -->
           <div data-step="5" class="hidden">
             <h2 class="text-lg font-bold text-slate-900 mb-1">
               Step 5 · Documents issued instantly
             </h2>
-            <p class="text-xs text-slate-500 mb-1">
-              Birth certificate, Emirates ID and passport are issued in one go and stored in the
-              digital locker.
-            </p>
-            <p class="text-[11px] text-slate-500 mb-2" data-insight>
-              <span class="font-semibold text-slate-600">How it feels:</span> one calm moment of “Mabrouk — everything is ready for our baby.”
+            <p class="text-xs text-slate-500 mb-2">
+              Birth certificate, Emirates ID and passport are issued together and stored in the digital locker.
             </p>
 
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 text-xs text-center mb-3">
@@ -1302,11 +1313,11 @@
                  data-insight>
               <p class="font-semibold mb-1">Overall impact</p>
               <p>
-                Early validation, auto‑fetched data and single payment remove most complaints in this journey and protect families at a vulnerable moment.
+                Combining early validation, auto‑fetched data and single payment removes the
+                majority of complaints and protects families at a vulnerable moment.
               </p>
             </div>
 
-            <!-- Before / after dashboard -->
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3"
                  data-insight>
               <p class="text-[11px] font-semibold text-slate-500 mb-2">
@@ -1314,7 +1325,7 @@
               </p>
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <p class="text-[11px] font-semibold text-rose-600 mb-1">As‑Is today</p>
+                  <p class="text-[11px] font-semibold text-rose-600 mb-1">As-Is today</p>
                   <ul class="space-y-1 text-slate-600">
                     <li>• 3 different platforms</li>
                     <li>• 10–23 touchpoints</li>
@@ -1325,7 +1336,7 @@
                   </ul>
                 </div>
                 <div>
-                  <p class="text-[11px] font-semibold text-emerald-600 mb-1">To‑Be journey</p>
+                  <p class="text-[11px] font-semibold text-emerald-600 mb-1">To-Be journey</p>
                   <ul class="space-y-1 text-slate-600">
                     <li>• 1 integrated journey</li>
                     <li>• ~4 touchpoints</li>
@@ -1336,37 +1347,19 @@
                   </ul>
                 </div>
               </div>
-              <p class="text-[11px] text-slate-500 mt-2">
-                Emotionally: parents move from anxious and blocked – unable to travel or access care
-                – to calm and ready, with documents in hand within minutes.
-              </p>
-            </div>
-
-            <!-- Why now card -->
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-4 text-xs mb-3"
-                 data-insight>
-              <p class="text-[11px] font-semibold text-slate-900 mb-1">
-                Why the chairman should support this now
-              </p>
-              <ul class="space-y-1 text-slate-600">
-                <li>• Converts a painful, high‑complaint journey into a flagship example of “seamless government”.</li>
-                <li>• Directly protects families at a vulnerable moment, ensuring no child’s care or travel is delayed because of paperwork.</li>
-                <li>• Aligns fees with the new journey (single 50 AED bilingual certificate) and eliminates repeated MOFA charges per copy.</li>
-                <li>• Reduces pressure on call centers and back‑office teams, freeing capacity for complex medical and social cases.</li>
-              </ul>
             </div>
 
             <div class="mt-4 flex flex-col gap-2">
               <button type="button"
-                      onclick="showScreen('service')"
+                      onclick="showScreen('journey-menu')"
                       class="w-full h-10 rounded-xl bg-slate-900 text-white font-semibold flex items-center justify-center gap-2">
                 <span>←</span>
-                <span>Back to service overview</span>
+                <span>Back to options</span>
               </button>
               <button type="button"
                       onclick="showAsIsFromToBe(5)"
                       class="w-full h-9 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold flex items-center justify-center text-[11px]">
-                Compare with As‑Is step
+                Compare with As-Is step
               </button>
             </div>
           </div>
@@ -1587,7 +1580,7 @@
     }
 
     function selectServiceNewborn() {
-      showScreen("intro");
+      showScreen("journey-menu");
     }
 
     // ------------ Login ------------
@@ -1712,11 +1705,11 @@
 
     // ------------ Init on DOM ready ------------
     document.addEventListener("DOMContentLoaded", function () {
-      // Splash → login
+      // Splash → Login
       showScreen("splash");
       setTimeout(function () {
         showScreen("login");
-      }, 1500);
+      }, 1600);
 
       // Home search
       const searchInput = document.getElementById("home-search");
@@ -1756,5 +1749,6 @@
 
 </body>
 </html>
+
 
 
